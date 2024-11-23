@@ -832,6 +832,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cmd_console_tools.cpp" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="C:\Users\LENOVO\Projects\MyGame\Classes\AppDelegate.h" />
     <ClInclude Include="C:\Users\LENOVO\Projects\MyGame\Classes\HelloWorldScene.h" />
@@ -840,6 +841,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\LENOVO\Projects\MyGame\Classes\AppDelegate.cpp" />
     <ClCompile Include="C:\Users\LENOVO\Projects\MyGame\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="C:\Users\LENOVO\Projects\MyGame\proj.win32\main.cpp" />
+    <ClInclude Include="cmd_console_tools.h" />
     <ResourceCompile Include="C:\Users\LENOVO\Projects\MyGame\proj.win32\game.rc" />
     <ClInclude Include="C:\Users\LENOVO\Projects\MyGame\Resources\CloseNormal.png" />
     <ClInclude Include="C:\Users\LENOVO\Projects\MyGame\Resources\CloseSelected.png" />
