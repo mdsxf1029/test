@@ -1,22 +1,14 @@
-﻿# 忽略编译文件和临时文件
-*.pch
-*.db
-*.log
-
-# 忽略 Visual Studio 相关的目录
-.vs/
-CMakeFiles/
-win32-build/
-n32-build/
-*.obj
-*.tlog
-
-# 忽略 Cocos2d 目录
-Cocos2d/
-cocos2d/
-
-# 忽略 cocos2d-x 文件夹
-cocos2d-x/
-
-# 特定文件
-track.pch
+﻿Binaries
+DerivedDataCache
+Intermediate
+Saved
+.vscode
+.vs
+*.VC.db
+*.opensdf
+*.opendb
+*.sdf
+*.sln
+*.suo
+*.xcodeproj
+*.xcworkspace
