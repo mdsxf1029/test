@@ -1,2 +1,6 @@
 *.db filter=lfs diff=lfs merge=lfs -text
 *.pch filter=lfs diff=lfs merge=lfs -text
+
+# 忽略 CMakeFiles 和 .vs 目录
+CMakeFiles/
+.vs/
