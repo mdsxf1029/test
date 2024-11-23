@@ -1,0 +1,20 @@
+^C:\USERS\LENOVO\PROJECTS\MYGAME\WIN32-BUILD\CMAKEFILES\1D17ED8289C0101D472CB42C670D17AD\SYNC_RESOURCE-MYGAME.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E echo "Copying resources for MyGame ..."
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\LENOVO\PROJECTS\MYGAME\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/LENOVO/Projects/MyGame -BC:/Users/LENOVO/Projects/MyGame/win32-build --check-stamp-file C:/Users/LENOVO/Projects/MyGame/win32-build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,17 @@
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\DebugUtils\DebugDraw.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DebugDraw.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\DebugUtils\DetourDebugDraw.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourDebugDraw.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\Detour\DetourAlloc.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourAlloc.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\Detour\DetourCommon.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourCommon.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\Detour\DetourNavMesh.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourNavMesh.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\Detour\DetourNavMeshBuilder.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourNavMeshBuilder.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\Detour\DetourNavMeshQuery.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourNavMeshQuery.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\Detour\DetourNode.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourNode.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\DetourCrowd\DetourCrowd.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourCrowd.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\DetourCrowd\DetourLocalBoundary.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourLocalBoundary.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\DetourCrowd\DetourObstacleAvoidance.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourObstacleAvoidance.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\DetourCrowd\DetourPathCorridor.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourPathCorridor.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\DetourCrowd\DetourPathQueue.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourPathQueue.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\DetourCrowd\DetourProximityGrid.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourProximityGrid.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\DetourTileCache\DetourTileCache.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourTileCache.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\DetourTileCache\DetourTileCacheBuilder.cpp;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\DetourTileCacheBuilder.obj
+C:\Users\LENOVO\Projects\MyGame\cocos2d\external\recast\fastlz\fastlz.c;C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.dir\Debug\fastlz.obj
