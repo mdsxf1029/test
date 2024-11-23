@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{274434C5-EB03-3312-9C7B-335E268CF1FB}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/LENOVO/Projects/MyGame/cocos2d/cocos/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/LENOVO/Projects/MyGame -BC:/Users/LENOVO/Projects/MyGame/win32-build --check-stamp-file C:/Users/LENOVO/Projects/MyGame/win32-build/engine/cocos/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\2d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\3d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\audio\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\base\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\editor-support\cocostudio\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\math\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\navmesh\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\network\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\physics\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\physics3d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\platform\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\renderer\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\ui\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\extensions\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\LENOVO\Projects\MyGame\win32-build\engine\cocos\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/LENOVO/Projects/MyGame/cocos2d/cocos/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/LENOVO/Projects/MyGame -BC:/Users/LENOVO/Projects/MyGame/win32-build --check-stamp-file C:/Users/LENOVO/Projects/MyGame/win32-build/engine/cocos/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\2d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\3d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\audio\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\base\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\editor-support\cocostudio\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\math\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\navmesh\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\network\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\physics\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\physics3d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\platform\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\renderer\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\ui\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\extensions\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\LENOVO\Projects\MyGame\win32-build\engine\cocos\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/LENOVO/Projects/MyGame/cocos2d/cocos/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/LENOVO/Projects/MyGame -BC:/Users/LENOVO/Projects/MyGame/win32-build --check-stamp-file C:/Users/LENOVO/Projects/MyGame/win32-build/engine/cocos/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\2d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\3d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\audio\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\base\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\editor-support\cocostudio\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\math\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\navmesh\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\network\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\physics\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\physics3d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\platform\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\renderer\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\ui\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\extensions\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\LENOVO\Projects\MyGame\win32-build\engine\cocos\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/LENOVO/Projects/MyGame/cocos2d/cocos/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/LENOVO/Projects/MyGame -BC:/Users/LENOVO/Projects/MyGame/win32-build --check-stamp-file C:/Users/LENOVO/Projects/MyGame/win32-build/engine/cocos/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\2d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\3d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\audio\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\base\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\editor-support\cocostudio\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\math\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\navmesh\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\network\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\physics\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\physics3d\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\platform\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\renderer\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\cocos\ui\CMakeLists.txt;C:\Users\LENOVO\Projects\MyGame\cocos2d\extensions\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\LENOVO\Projects\MyGame\win32-build\engine\cocos\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\ZERO_CHECK.vcxproj">
+      <Project>{8EBD89C0-7AF9-3963-89E1-E1D908982BCF}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\cocos\core\cocos2d.vcxproj">
+      <Project>{A5970896-8F47-3177-BDAB-A554E1AB45E0}</Project>
+      <Name>cocos2d</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\clipper\ext_clipper.vcxproj">
+      <Project>{AED1D102-C3CC-3321-87C9-4927A4B6D796}</Project>
+      <Name>ext_clipper</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\ConvertUTF\ext_convertUTF.vcxproj">
+      <Project>{EFF54C5E-ABF5-3FC2-BAB7-E86F35AACC74}</Project>
+      <Name>ext_convertUTF</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\edtaa3func\ext_edtaa3func.vcxproj">
+      <Project>{ED97BB3D-6C50-36E4-B91C-C917F332C663}</Project>
+      <Name>ext_edtaa3func</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\md5\ext_md5.vcxproj">
+      <Project>{7EDE9414-341A-3483-9362-8431611DEDC1}</Project>
+      <Name>ext_md5</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\poly2tri\ext_poly2tri.vcxproj">
+      <Project>{D6391741-56DF-33A3-B468-51A7D444E5A5}</Project>
+      <Name>ext_poly2tri</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\recast\ext_recast.vcxproj">
+      <Project>{919ABDA9-EB03-309C-950A-93ACFE1B3F38}</Project>
+      <Name>ext_recast</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\tinyxml2\ext_tinyxml2.vcxproj">
+      <Project>{9EA7BC2A-0158-38CE-AEAB-26753BA9A406}</Project>
+      <Name>ext_tinyxml2</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\unzip\ext_unzip.vcxproj">
+      <Project>{6B8BBABE-54FE-3FFE-9847-067FCD678B81}</Project>
+      <Name>ext_unzip</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\xxhash\ext_xxhash.vcxproj">
+      <Project>{66B70575-26CF-3BF4-9041-00F003C30ABA}</Project>
+      <Name>ext_xxhash</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\xxtea\ext_xxtea.vcxproj">
+      <Project>{249F39FA-486C-3854-8091-6BE474E5B948}</Project>
+      <Name>ext_xxtea</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\LENOVO\Projects\MyGame\win32-build\engine\external\external.vcxproj">
+      <Project>{C645A5B7-A469-3625-B240-B42DD237EB9C}</Project>
+      <Name>external</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
