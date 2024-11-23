@@ -1,5 +1,0 @@
-# 忽略 Visual Studio 临时文件
-.vs/
-
-# 忽略编译生成文件
-win32-build/
