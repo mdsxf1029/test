@@ -3,7 +3,7 @@
 
 1. 文件相关
 - 文件名全小写，用下划线连接：my_file_name.cc
-- C++ 文件以 .cc 结尾，头文件以 .h 结尾
+- C++ 文件以 .cpp 结尾，头文件以 .h 结尾
 - 每个头文件都应该使用 #pragma once 或头文件保护宏
 ```cpp
 #ifndef FOO_BAR_BAZ_H_
