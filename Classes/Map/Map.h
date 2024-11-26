@@ -1,4 +1,17 @@
 #pragma once
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// 特殊点结构体
+struct special_point
+{
+	int x;
+	int y;
+	int type; // 特殊点类型：出生点0，怪兽1，迷宫2，钓鱼3，采药4，小动物5
+};
+
+// 更新地图类设计，不分基类子类，不同地图为地图类的不同对象
 class Map
 {
 public:
@@ -26,4 +39,5 @@ public:
 private:
 	vector<int> before_jump_point; // 保存跳转之前的人物坐标
 	bool fog; // 是否存在迷雾，有迷雾为true
-	vector<> special_points; // 结构体数组，存储特殊点坐标，类型：出生点0，怪兽1，迷宫2，钓鱼3，采药4，小动物5
+	vector<special_point> special_points; // 结构体数组，存储特殊点坐标，类型：出生点0，怪兽1，迷宫2，钓鱼3，采药4，小动物5
+};
