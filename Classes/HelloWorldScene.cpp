@@ -83,10 +83,17 @@ bool HelloWorld::init()
     /////////////////////////////
     // 3. add your codes below...
 
+
+    //¿ªÊ¼¾«Áé
+   // Sprite* startSpiriteNormal = Sprite::create("play-up.png");
+    //Sprite* startSpiriteNormal = Sprite::create("play-down.png");
+
+    //MenuItemSprite* startMenuItem = MenuItemSprite::create(startSpiritNormal, startSpiriteSelected, CC_CALLBLACK_1(HelloWorld::menuItemStartCallback, this));
+
     // add a label shows "Hello World"
     // create and initialize a label
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Save the Princess", "fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -102,15 +109,15 @@ bool HelloWorld::init()
     }
 
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
+    auto sprite = Sprite::create("SavePrincess.png");
     if (sprite == nullptr)
     {
-        problemLoading("'HelloWorld.png'");
+        problemLoading("'SavePrincess.png'");
     }
     else
     {
         // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x+20, visibleSize.height/2 + origin.y-100));
 
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);

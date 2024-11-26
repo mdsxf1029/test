@@ -34,4 +34,6 @@ protected:
 };
 
 #endif // BASE_MAP_H
+
+#pragma once
 #pragma once
