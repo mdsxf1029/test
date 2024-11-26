@@ -12,6 +12,7 @@
 * level 初始化为0 hp初始化为50 attack初始化为10
 */
 
+//构造函数 初始化姓名 元素属性 等级血量攻击力等等
 player::player(string& names, int element) :name(names), level(0), hp(50), attrack(10)
 {
 	switch (elemnt)
@@ -44,5 +45,37 @@ void player::upgrade()
 {
 	level++;//等级加1
 	hp += UPGRADE_HP;//血量增加
-	attack += UPGRADE_ATTACK;//攻击力增加
+	basic_attack += UPGRADE_ATTACK;//攻击力增加
+}
+
+
+// 玩家攻击敌人
+void player::attackEnemy(Player& enemy)
+{//攻击敌人
+	enemy.takeDamage(attack);
+}
+
+// 玩家受到伤害
+void player::takeDamage(int damage)
+{
+	hp -= damage;
+}
+
+// 玩家治疗  
+// heal_hp 治疗的血量
+void player::heal(int heal_hp)
+{
+	hp += heal_hp;
+}
+
+// 获取玩家的当前血量
+int player::getHp() const
+{
+	return this->hp;
+}
+
+// 获取玩家的名字
+std::string player::getName() const 
+{
+	return this-> name;
 }

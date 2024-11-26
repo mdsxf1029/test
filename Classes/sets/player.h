@@ -29,12 +29,29 @@ const int UPGRADE_ATTACK = 5;//升级增加的攻击力
  - inventory: 玩家背包
 
 *******************************************************************************************/
-
+//hero
 class Player {
 public:
 	//含参
     player(string& names, int element);
-	void upgrade();//升级
+	
+    //升级
+    void upgrade();
+
+    // 玩家攻击敌人
+    void attackEnemy(Player& enemy);
+
+    // 玩家受到伤害
+    void takeDamage(int damage);
+
+    // 玩家治疗
+    void heal(int heal_hp);
+
+    // 获取玩家的当前血量
+    int getHp() const;
+
+    // 获取玩家的名字
+    std::string getName() const;
 
 protected:
 
@@ -44,8 +61,9 @@ private:
     int level;  //等级
     int hp;      //血量
     ElementType player_element;//元素属性
-    int attack;  //攻击力
-    inventory bag;
+    int basic_attack;  //攻击力(根据等级)
+    int attack;//最终攻击力
+	inventory bag;//背包
 };
 
 #endif
