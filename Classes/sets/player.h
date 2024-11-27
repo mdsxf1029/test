@@ -10,6 +10,7 @@
 #include "elements.h"
 #include "inventory.h"
 
+
 const int UPGRADE_HP = 25;//升级增加的血量
 const int UPGRADE_ATTACK = 5;//升级增加的攻击力 
 /******************************************************************************************
@@ -32,26 +33,34 @@ const int UPGRADE_ATTACK = 5;//升级增加的攻击力
 //hero
 class Player {
 public:
-	//含参
-    player(string& names, int element);
-	
+    //含参
+    Player(string& names, int element);
+
     //升级
-    void upgrade();
+    void Upgrade();
 
     // 玩家攻击敌人
-    void attackEnemy(Player& enemy);
+    void AttackEnemy(Player& enemy);
 
     // 玩家受到伤害
-    void takeDamage(int damage);
+    void TakeDamage(int damage);
 
     // 玩家治疗
-    void heal(int heal_hp);
+    void Heal(int heal_hp);
 
     // 获取玩家的当前血量
-    int getHp() const;
+    int GetHp() const;
 
     // 获取玩家的名字
-    std::string getName() const;
+    std::string GetName() const;
+
+    // 获取玩家的等级
+    int GetLevel() const;
+
+    //移动 需要坐标
+    void Move();
+
+
 
 protected:
 
@@ -63,7 +72,7 @@ private:
     ElementType player_element;//元素属性
     int basic_attack;  //攻击力(根据等级)
     int attack;//最终攻击力
-	inventory bag;//背包
+    inventory bag;//背包
 };
 
 #endif

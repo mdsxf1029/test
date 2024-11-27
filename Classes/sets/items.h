@@ -24,6 +24,7 @@ const string STONE = "STONE";//石头
 
 const string FISH = "FISH";//鱼
 const string FRUIT = "FRUIT";//水果
+const string VEGETABLE = "VEGETABLE";//蔬菜
 const string HERB = "HERB";//草药
 
 //特殊物品
@@ -55,7 +56,7 @@ public:
 	
 protected:
 	
-	bool in_bag;//是否在背包中
+	bool inBag;//是否在背包中
 
 private: 
 
@@ -105,10 +106,11 @@ protected:
 
 private:
 	string name;//名字
-	int heal_hp;//回复的血量
-	int level;//等级
-	bool is_equiped;//是否装备
-	bool is_eaten;//是否吃过
+	int healHp;//回复的血量
+	int num;//数量
+	bool isEquiped;//是否装备
+	bool isCooked;//是否烹饪
+	bool isEaten;//是否吃过
 
 };
 
@@ -122,13 +124,15 @@ protected:
 
 private:
 	string name;//名字
-	int level;//等级
-	bool is_equiped;//是否装备
+	bool is_used;//是否使用
+	int num;//记录数量
 };
 
 //任务物品类
 class TaskItem : public Item {
 public:
+	TaskItem() {};
+	virtual ~TaskItem() {};
 
 protected:
 
