@@ -6,21 +6,27 @@
 #include <vector>
 #include "items.h"
 
+const int BAG_SIZE = 10;
+
+//背包类
 class Inventory {
 public:
-	Inventory();
-	~Inventory();
-	void addItem(Item* item);
-	void removeItem(Item* item);
-	void removeItem(int index);
-	Item* getItem(int index);
-	int getSize();
-	void clear();
-	void showInventory();
+	Inventory(int size) :size(size), items(0),item_num(0) {};
+	~Inventory() {};
+	//界面
+	void showInventory();//展示背包
+	//操作
+	bool addItem(Item* item);//添加物品
+	void removeItem(Item* item);//移除物品
+	void useItem(Item* item);//使用物品
+	int getSize();//得到大小
+	bool isFull();//是否满了
+	
 protected:
 
 private:
-	std::vector<Item*> items;
+	std::vector<Item*> items;//物品 指针 (items类定义内有数量)
+	int size;//背包大小
 };
-
+Inventory bag(BAG_SIZE);
 #endif

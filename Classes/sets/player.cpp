@@ -14,7 +14,7 @@
 
 
 //构造函数 初始化姓名 元素属性 等级血量攻击力等等
-Player::Player(string& names, int element) :name(names), level(0), hp(50), attrack(10)
+Player::Player(std::string& names, int element) :name(names), level(0), hp(50), attrack(10)
 {
 	switch (elemnt)
 	{
@@ -42,53 +42,71 @@ Player::Player(string& names, int element) :name(names), level(0), hp(50), attra
 * name:upgrade
 * level ++， hp+25， attack+5
 */
-void player::Upgrade()
+void Player::Upgrade()
 {
 	level++;//等级加1
-	hp += UPGRADE_HP;//血量增加
+	max_hp += UPGRADE_HP;//血量增加
+	hp = max_hp;//血量回复满
 	basic_attack += UPGRADE_ATTACK;//攻击力增加
 }
 
 
 // 玩家攻击敌人
-void player::AttackEnemy(Player& enemy)
+void Player::AttackEnemy(Player& enemy)
 {//攻击敌人
 	enemy.takeDamage(attack);
 }
 
 // 玩家受到伤害
-void player::TakeDamage(int damage)
+void Player::TakeDamage(int damage)
 {
-	hp -= damage;
+	if ((hp - damage) > 0)
+	{
+		hp -= damage;
+	}
+	else
+	{
+		hp = 0;
+		//玩家死亡
+	//游戏结束 或者 返回上一个存档点 或者退出战斗场景
+	}
 }
 
 // 玩家治疗  
 // heal_hp 治疗的血量
-void player::Heal(int heal_hp)
+void Player::Heal(int heal_hp)
 {
-	hp += heal_hp;
+	if ((hp + heal_hp)<=max_hp)
+	{
+		hp += heal_hp;
+	}
+	else
+	{
+		hp = max_hp;
+	}
 }
 
+
 // 获取玩家的当前血量
-int player::GetHp() const
+int Player::GetHp() const
 {
 	return this->hp;
 }
 
 // 获取玩家的名字
-std::string player::GetName() const
+std::string Player::GetName() const
 {
 	return this->name;
 }
 
 // 获取玩家的等级
-int player::GetLevel() const
+int Player::GetLevel() const
 {
 	return this->level;
 }
 
 // 移动 需要坐标
-void player::Move()
+void Player::Move()
 {
 	//坐标
 }

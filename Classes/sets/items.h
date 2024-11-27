@@ -41,7 +41,7 @@ const int UPGRADE_PROTECT = 5;//升级增加的防御力
 class Item {
 public: 
 
-	Item() :in_bag(false) {};//构造函数 默认不在背包内
+	Item() :in_bag(false), num(0) {};//构造函数 默认不在背包内,数量为0
 	virtual ~Item() {};//虚析构函数
 
 	//如果不在背包中
@@ -53,11 +53,11 @@ public:
 	virtual void unequip() = 0; //卸下
 	virtual void upgrade() = 0; //升级
 	virtual void use() = 0;//使用
-	
+	int getNum() { return num; };//得到数量
 protected:
 	
 	bool inBag;//是否在背包中
-
+	int num;//数量
 private: 
 
 };

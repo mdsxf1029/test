@@ -68,11 +68,12 @@ protected:
 private:
     string name; //名字
     int level;  //等级
+	int max_hp;  //最大血量
     int hp;      //血量
     ElementType player_element;//元素属性
     int basic_attack;  //攻击力(根据等级)
     int attack;//最终攻击力
-    inventory bag;//背包
+    Inventory bag;//背包
 };
 
 #endif
