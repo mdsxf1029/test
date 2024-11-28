@@ -25,8 +25,13 @@ public:
 protected:
 
 private:
+	friend class Player;
+	friend class Item;
+
 	std::vector<Item*> items;//物品 指针 (items类定义内有数量)
 	int size;//背包大小
 };
+
 Inventory bag(BAG_SIZE);
+
 #endif

@@ -9,7 +9,7 @@
 #include <string.h>
 #include "elements.h"
 #include "inventory.h"
-
+#include "items.h"
 
 const int UPGRADE_HP = 25;//升级增加的血量
 const int UPGRADE_ATTACK = 5;//升级增加的攻击力 
@@ -34,7 +34,7 @@ const int UPGRADE_ATTACK = 5;//升级增加的攻击力
 class Player {
 public:
     //含参
-    Player(string& names, int element);
+    Player();
 
     //升级
     void Upgrade();
@@ -75,5 +75,8 @@ private:
     int attack;//最终攻击力
     Inventory bag;//背包
 };
+
+//玩家类
+Player hero;
 
 #endif
