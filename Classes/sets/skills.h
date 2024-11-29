@@ -31,8 +31,8 @@ const std::string Arcane_Blast = "Arcane Blast";//°ÂÊõ±¬·¢
 
 class Skill {
 public:
-	Skill(std::string& name);
-	virtual ~Skill(); 
+	Skill(const std::string name);
+	virtual ~Skill() ;
 protected:
 
 private:
@@ -41,32 +41,27 @@ private:
 
 class LowLevelSkill : public Skill {
 public:
-	LowLevelSkill(std::string& name);
-	virtual ~LowLevelSkill();
+	LowLevelSkill(std::string name);
+	virtual ~LowLevelSkill() ;
 private:
 	int attack;//ÉËº¦
 };
 
 class MidLevelSkill : public Skill {
 public:
-	MidLevelSkill(std::string& name);
-	~MidLevelSkill();
+	MidLevelSkill(std::string name);
+	virtual ~MidLevelSkill();
 
-private:
-	int attack;//ÉËº¦
-}
-class HighLevelSkill : public Skill {
-public:
-	HighLevelSkill(std::string& name);
-	~HighLevelSkill();
 private:
 	int attack;//ÉËº¦
 };
-
-LowLevelSkill elementSurge(ELEMENT_SURGE);//ÔªËØ³å»÷
-MidLevelSkill elementalTorrent(Elemental_Torrent);//ÔªËØºéÁ÷
-HighLevelSkill energyVortex(Energy_Vortex);//ÄÜÁ¿äöÎÐ
-
-HighLevelSkill arcaneBlast(Arcane_Blast);//°ÂÊõ±¬·¢
+class HighLevelSkill : public Skill {
+public:
+	HighLevelSkill(std::string name);
+	virtual ~HighLevelSkill();
+private:
+	int attack;//ÉËº¦
+};
+ 
 
 #endif

@@ -1,13 +1,16 @@
  
 #include "elements.h"
+#include"sets_variables.h"
 
 
 // 构造函数
-Element::Element(ElementType type) :element(type) {};
+Element::Element(ElementType type) {
+	this->type = type;
+};
 //
 
 // 获取元素名称
-static std::string Element::getElementName(ElementType type) {
+std::string Element::getElementName(ElementType type) {
 	switch (type) {
 		case Gold: return "Gold";   // 金
 		case Wood: return "Wood";   // 木
@@ -22,7 +25,7 @@ static std::string Element::getElementName(ElementType type) {
 
 // 打印元素信息  有点不确定 可能会用上面的函数表达相同效果，看看后期怎么处理
 void Element::printElement() const {
-    std::cout << "Element: " << getElementName(type) << std::endl;
+    std::cout << "Element: " << this->type << std::endl;
 }
 
 // 比较元素大小   运算符重载

@@ -4,33 +4,37 @@
 
 #include <string>
 #include <string.h>
-<<<<<<< HEAD
 #include "elements.h"
 #include "inventory.h"
 #include "tasks.h"
 
 //友方
-=======
+const std::string PRINCESS = "PRINCESS";//公主
+const std::string KING = "KING";//国王
+const std::string MINISTER = "MINISTER";//大臣
 
+const std::string ClothesProvider = "ClothesProvider";//服装商
+const std::string WeaponProvider = "WeaponProvider";//武器商
+const std::string FoodProvider = "FoodProvider";//食品商
+const std::string SkillProvider = "SkillProvider";//技能商
 
->>>>>>> parent of 78dc541 (瀹氫箟浜唅tem鍙橀噺,hero.npc 缁嗗寲)
-const string PRINCESS = "PRINCESS";//公主
-const string KING = "KING";//国王
-const string MINISTER = "MINISTER";//大臣
+//`ClothesProvider` `WeaponProvider ` `FoodProvider ` `SkillProvider`
 
-const stirng HIGH_LEVEL_MONSTER = "HIGH_LEVEL_MONSTER";
-const stirng LOW_LEVEL_MONSTER = "LOW_LEVEL_MONSTER";
-
+//敌方
+const std::string HIGH_LEVEL_MONSTER = "HIGH_LEVEL_MONSTER";
+const std::string LOW_LEVEL_MONSTER = "LOW_LEVEL_MONSTER";
+const int ENEMY_ATTACK = 10;//初始化攻击力
+const int ENEMY_HP = 25;//初始化防御力
+//NPC类
 class NPC
 {
 public:
-	NPC(const string& name) :name{ name } {};
-	virtual ~NPC() {};
-
+	NPC()noexcept {};//默认构造函数
+	NPC(const std::string name);//含参构造函数
+	virtual ~NPC() {}; 
 protected:
 
 private:
-<<<<<<< HEAD
 	std::string name;
 };
 
@@ -38,9 +42,9 @@ private:
 class FriendNpc : public NPC
 {
 public:
-	FriendNpc();
-	~FriendNpc() {};
-	void GiveTask() {};//给任务
+	FriendNpc(const std::string name);
+	 
+	void GiveTask()  ;//给任务
 
 protected:
 
@@ -53,12 +57,14 @@ private:
 class EnemyNpc : public NPC
 {
 public:
-	EnemyNpc(ElemntType& element, int level);
+	friend class Player;
+	friend class Elements;
+	EnemyNpc(ElementType element, int level); 
 	void Attack() 
 	{
 		//攻击
 	};//攻击
-	~EnemyNpc() {};
+	 
 protected:
 
 private:
@@ -71,38 +77,6 @@ private:
 
 };
 
-//友方NPC
-FriendNpc princess(PRINCESS);//公主
-FriendNpc king(KING);//国王
-FriendNpc minister(MINISTER);//大臣
-
-FriendNpc clothesProvider(ClothesProvider);//服装商
-FriendNpc weaponProvider(WeaponProvider);//武器商
-FriendNpc foodProvider(FoodProvider);//食品商
-FriendNpc skillProvider(SkillProvider);//技能商
 
 
-//怪物数量后期看看怎么处理
-EnemyNpc highLevelFireMonster(ElementType::Fire, 2);//高级火怪物
-EnemyNpc lowLevelFireMonster(ElementType::Fire, 1);//低级火怪物
-
-EnemyNpc highLevelWaterMonster(ElementType::Water, 2);//高级水怪物
-EnemyNpc lowLevelWaterMonster(ElementType::Water, 1);//低级水怪物
-
-EnemyNpc highLevelWoodMonster(ElementType::Wood, 2);//高级木怪物
-EnemyNpc lowLevelWoodMonster(ElementType::Wood, 1);//低级木怪物
-
-EnemyNpc highLevelGoldMonster(ElementType::Gold, 2);//高级金怪物
-EnemyNpc lowLevelGoldMonster(ElementType::Gold, 1);//低级金怪物
-
-EnemyNpc highLevelEarthMonster(ElementType::Earth, 2);//高级土怪物
-EnemyNpc lowLevelEarthMonster(ElementType::Earth, 1);//低级土怪物
-
-
-=======
-	string name;
-
-};
-
->>>>>>> parent of 78dc541 (瀹氫箟浜唅tem鍙橀噺,hero.npc 缁嗗寲)
 #endif

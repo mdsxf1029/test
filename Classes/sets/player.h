@@ -9,10 +9,10 @@
 #include <string.h>
 #include "elements.h"
 #include "inventory.h"
-
-
-const int UPGRADE_HP = 25;//升级增加的血量
-const int UPGRADE_ATTACK = 5;//升级增加的攻击力 
+#include "items.h"
+#include "tasks.h"
+const int PLAYER_UPGRADE_HP = 25;//升级增加的血量
+const int PLAYER_UPGRADE_ATTACK = 5;//升级增加的攻击力 
 /******************************************************************************************
  class Player
  代表游戏中的玩家角色。
@@ -34,7 +34,7 @@ const int UPGRADE_ATTACK = 5;//升级增加的攻击力
 class Player {
 public:
     //含参
-    Player(string& names, int element);
+    Player();
 
     //升级
     void Upgrade();
@@ -66,7 +66,7 @@ protected:
 
 
 private:
-    string name; //名字
+    std::string name; //名字
     int level;  //等级
     int max_hp;  //最大血量
     int hp;      //血量

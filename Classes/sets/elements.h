@@ -19,12 +19,14 @@ enum ElementType {
 class Element {
 public:
     // 构造函数
-    Element(ElementType type);
-	// 析构函数
-	~Element() {};
+	friend class Player;
+	friend class EnemyNpc;
+    friend class Item;
+
+    Element(ElementType type); 
 
 	// 获取元素名称    也许不定义为成员函数更好。
-    static std::string getElementName(ElementType type);
+    std::string getElementName(ElementType type);
 
     // 打印元素信息
     void printElement() const;

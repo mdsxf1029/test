@@ -31,32 +31,22 @@ const std::string SIDE_TASK_SIX_DESCRIPTION = "The treasure is hidden in the for
 const std::string SIDE_TASK_SEVEN = "FIND THE KEY";//找到钥匙
 const std::string SIDE_TASK_SEVEN_DESCRIPTION = "The key is hidden in the cave, you need to find it";//钥匙藏在洞穴中，你需要找到它
 
+const std::string NON_TASK = "NON_TASK";//无任务	
+const std::string NON_TASK_DESCRIPTION = "No task";//无任务描述
 class Task {
 public:
-	Task(std::string& name，std::string& description);
-	~Task();
-	void finish();//完成任务
+	Task() noexcept : name(" "), description(" "), priority(0), isFinished(false) {};//默认构造函数
+	Task(const std::string name, const std::string description);//含参构造函数
+	void finish() noexcept;//完成任务
 protected:
 
 private:
 	std::string name;//任务名称
 	std::string description;//任务描述
-	int proirity;//优先级
+	int priority;//优先级
 	bool isFinished;//是否完成
 };
 
-//主任务
-Task mainTask(MAIN_TASK，MAIN_TASK_DESCRIPTION);
-//副任务
-Task sideTaskOne(SIDE_TASK_ONE, SIDE_TASK_ONE_DESCRIPTION);
-Task sideTaskTwo(SIDE_TASK_TWO, SIDE_TASK_TWO_DESCRIPTION);
-Task sideTaskThree(SIDE_TASK_THREE, SIDE_TASK_THREE_DESCRIPTION);
-Task sideTaskFour(SIDE_TASK_FOUR, SIDE_TASK_FOUR_DESCRIPTION);
-Task sideTaskFive(SIDE_TASK_FIVE, SIDE_TASK_FIVE_DESCRIPTION);
-Task sideTaskSix(SIDE_TASK_SIX, SIDE_TASK_SIX_DESCRIPTION);
-Task sideTaskSeven(SIDE_TASK_SEVEN, SIDE_TASK_SEVEN_DESCRIPTION);
-
-//无任务
-Task nonTask("NO TASK", "No task now");//用来 敷衍 那些没有任务的NPC 或者是任务已经完成的NPC
+ 
 
 #endif

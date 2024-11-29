@@ -1,70 +1,123 @@
 #include "items.h"
-
+#include"player.h"
+#include"sets_variables.h"
 //基类
-/
-virtual void item::pick() = 0 {
-	if (!in_bag)//如果不在背包中
-		in_bag = true;//拾取
-};//拾取
 
-virtual void item::drop() = 0 {
-	if (!in_bag)//如果不在背包中
-		in_bag = false;//放下
-//不放入背包
-};//放下
+//拾取
+void Item::pick()
+{
+	if (!inBag)//如果不在背包中
+		inBag = true;//拾取
+}
 
-virtual void item::discard() = 0 {
-	if (in_bag)//如果在背包中
-		in_bag = false;//丢弃
-};//丢弃
+//放下
+void  Item::drop()
+{
+	if (!inBag)//如果不在背包中
+		inBag = false;//放下
+	//不放入背包
+}
 
-virtual void item::equip() = 0 {
-	if (in_bag)//如果在背包中
+//装备
+void Item::equip()
+{
+	if (inBag && isEquiped == false)//如果在背包中
 	{
-		is_equiped = true;
+		isEquiped = true;
 	}
-};//装备
+}  
 
-virtual void item::unequip() = 0 {
-	if (in_bag && is_equiped)//如果在背包中 且 装备
+//卸下
+void Item::unequip()
+{
+	if (inBag && isEquiped)//如果在背包中 且 装备
 	{
-		is_equiped = false;
+		isEquiped = false;
 	}
-};//卸下
+}
+//升级  //后面通过覆盖实现 对于武器和护具
+void Item::upgrade(){ }
+  
+
+//丢弃
+void Item::discard()
+{
+	if (inBag)//如果在背包中
+	{
+		inBag = false;//丢弃
+		num = 0;//数量为0
+		//不显示图像
+	}
+} 
+
+//烹饪 //后面通过覆盖实现 对于食物
+void Item::cook() {}
+//食用 //后面通过覆盖实现 对于食物
+void Item::eat() {}
+//使用 //后面通过覆盖实现 对于材料
+void Item::use() {}
 
 /*************************************************************************/
 
 //武器类 函数
 
-//升级
-virtual void Weapon::upgrade() override 
-{ 
-	if(in_bag)
-	{
-		level++; //升级
-		attack += UPGRADE_ATTACK;//增加杀伤力
-	}
-} 
-
 //装备
-virtual void Weapon::equip() override
+void Weapon::equip()
 {
-	if (in_bag)
+	if (inBag && isEquiped == false)
 	{
-		is_equiped = true;//装备
+		isEquiped = true;//装备
 	}
 }
+
+//卸下
+void Weapon::unequip()
+{
+	if (inBag && isEquiped)
+	{
+		isEquiped = false;//卸下
+	}
+}
+
+//升级
+void Weapon::upgrade()
+{
+	if (inBag)
+	{
+		level++; //升级
+		attack += SIDE_UPGRADE_ATTACK;//增加杀伤力
+	}
+}
+
 
 /*************************************************************************/
 
 //装备类 函数
+//升级
 
-virtual void upgrade() override
+// 装备
+void Armor::equip()
 {
-	if (in_bag && level <= 3)//如果在背包中 且 等级小于等于3
+	if (inBag && !isEquiped)
+	{
+		isEquiped = true;//装备
+	}
+}
+//卸下
+void Armor::unequip()
+{
+	if (inBag && isEquiped)
+	{
+		isEquiped = false;//卸下
+	}
+}
+//升级
+void Armor::upgrade()
+{
+	if (inBag && level <= 3)//如果在背包中 且 等级小于等于3
 	{
 		level++;//升级
-		protect += UPGRADE_PROTECT;//增加防御力
+		protect += SIDE_UPGRADE_PROTECT;//增加防御力
 	}
 }
 
@@ -72,12 +125,68 @@ virtual void upgrade() override
 
 //食物类 函数
 
-//食物类不需要升级
-virtual void use() override
+//烹饪
+void Food::cook()
 {
-	if (in_bag)
+	if (inBag && !isCooked)
 	{
+		//	烹饪
+		isCooked = true;//烹饪
+	}
+}
+
+//食用
+void Food::eat()
+{
+	if (inBag&&num!=0)
+	{
+		hero.Heal(healHp);//回复
+		num--;//数量减少
+		if (num == 0)
+		{
+			//不显示图像
+		}
 		//使用食物
 	}
 }
+
+/*************************************************************************/
+
+//材料类
+
+//使用
+void Material::use()
+{
+	//我想的是木头和石头可以用来生火  钻木取火吧，算是。
+	if (inBag)
+	{
+		//使用  
+		num--;//数量减少
+		if (num == 0)
+		{
+			//不显示图像
+		}
+	}
+}
+
+
+/**************************************************************************/
+
+//任务物品类
+
+//完成任务
+void TaskItem::Finish()
+{
+	if (num == 5)//如果数量为5
+	{
+		//完成任务
+		num = 0;//数量清零
+		this->discard();//丢弃 
+		//替换成另一个标志物
+		isFinished = true;//完成
+		//对话
+		//最终决战
+	}
+}
+
 

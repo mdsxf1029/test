@@ -5,6 +5,7 @@
 
 #include "elements.h"
 # include "player.h"
+#include"sets_variables.h"
 /*
 * class player 的含参构造函数
 * player 代表游戏中的玩家角色。   创建实例是 将其 设定为 hero 便于组中成员 完成代码
@@ -14,8 +15,16 @@
 
 
 //构造函数 初始化姓名 元素属性 等级血量攻击力等等
-Player::Player(std::string& names, int element) :name(names), level(0), hp(50), attrack(10)
+Player::Player() : level(0), hp(50), attack(10)
 {
+	std::string names;
+	std::cin >> names;
+	 
+	int elemnt=0;
+	// 1金 2木 3水 4火 5土
+	//这里通过界面选择元素属性
+	std::cin >> elemnt;//暂且先用cin代替
+	
 	switch (elemnt)
 	{
 		case 1:
@@ -45,16 +54,16 @@ Player::Player(std::string& names, int element) :name(names), level(0), hp(50), 
 void Player::Upgrade()
 {
 	level++;//等级加1
-	max_hp += UPGRADE_HP;//血量增加
+	max_hp += PLAYER_UPGRADE_HP;//血量增加
 	hp = max_hp;//血量回复满
-	basic_attack += UPGRADE_ATTACK;//攻击力增加
+	basic_attack += PLAYER_UPGRADE_ATTACK;//攻击力增加
 }
 
 
 // 玩家攻击敌人
 void Player::AttackEnemy(Player& enemy)
 {//攻击敌人
-	enemy.takeDamage(attack);
+	enemy.TakeDamage(attack);
 }
 
 // 玩家受到伤害
