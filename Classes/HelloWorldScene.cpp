@@ -24,6 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include <proj.win32/SettingScene.h>
 
 USING_NS_CC;
 
@@ -39,10 +40,8 @@ static void problemLoading(const char* filename)
     printf("Depending on how you compiled you might have to add 'Resources/' in front of filenames in HelloWorldScene.cpp\n");
 }
 
-// on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
-    //////////////////////////////
     // 1. super init first
     if ( !Scene::init() )
     {
@@ -56,7 +55,7 @@ bool HelloWorld::init()
     // 2. add a menu item with "X" image, which is clicked to quit the program
     //    you may modify it.
 
-    // add a "close" icon to exit the progress. it's an autorelease object
+    // 关闭按钮
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
                                            "CloseSelected.png",
@@ -80,20 +79,23 @@ bool HelloWorld::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-    /////////////////////////////
     // 3. add your codes below...
 
+     //开始精灵
+    Sprite* startSpiriteNormal = Sprite::create("play-up.png");
+    Sprite* startSpiriteSelected = Sprite::create("play-down.png");
 
-    //开始精灵
-   // Sprite* startSpiriteNormal = Sprite::create("play-up.png");
-    //Sprite* startSpiriteNormal = Sprite::create("play-down.png");
+    MenuItemSprite* startMenuItem = MenuItemSprite::create(startSpiriteNormal, startSpiriteSelected, CC_CALLBACK_1(HelloWorld::menuItem1Callback1, this));
+    float x = origin.x + visibleSize.width - startMenuItem->getContentSize().width / 2;
+    float y = origin.y + startMenuItem->getContentSize().height / 2;
+    startMenuItem->setPosition(Vec2(x, y));
+    Menu* mu = Menu::create(startMenuItem,NULL);
+    mu->setPosition(Vec2::ZERO);
+    this->addChild(mu);
+    
+    //救公主的标题
 
-    //MenuItemSprite* startMenuItem = MenuItemSprite::create(startSpiritNormal, startSpiriteSelected, CC_CALLBLACK_1(HelloWorld::menuItemStartCallback, this));
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-
-    auto label = Label::createWithTTF("Save the Princess", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Save the Princess", "fonts/Marker Felt.ttf",360);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -108,7 +110,7 @@ bool HelloWorld::init()
         this->addChild(label, 1);
     }
 
-    // add "HelloWorld" splash screen"
+    //救公主图片
     auto sprite = Sprite::create("SavePrincess.png");
     if (sprite == nullptr)
     {
@@ -117,11 +119,14 @@ bool HelloWorld::init()
     else
     {
         // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x+20, visibleSize.height/2 + origin.y-100));
+        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x-20, visibleSize.height/2 + origin.y+100));
 
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }
+
+   
+
     return true;
 }
 
@@ -138,3 +143,24 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 
 }
+//点击play之后创建的新背景
+Scene* Setting::createScene()
+{
+    auto scene = Scene::create();
+    auto layer = Setting::create();
+    scene->addChild(layer);
+    return scene;
+}
+
+//初始界面点击play之后的响应
+void HelloWorld::menuItem1Callback1(Ref* pSender)
+{
+    MenuItem* item = (MenuItem*)pSender;
+    log("Touch Help Menu Item %p", item);
+    auto sc = Setting::createScene();
+    Director::getInstance()->replaceScene(sc);
+}
+
+
+
+
