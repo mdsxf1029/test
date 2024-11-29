@@ -4,27 +4,23 @@
 
 #include <string>
 #include <string.h>
+<<<<<<< HEAD
 #include "elements.h"
 #include "inventory.h"
- 
+#include "tasks.h"
+
 //友方
+=======
+
+
+>>>>>>> parent of 78dc541 (瀹氫箟浜唅tem鍙橀噺,hero.npc 缁嗗寲)
 const string PRINCESS = "PRINCESS";//公主
 const string KING = "KING";//国王
 const string MINISTER = "MINISTER";//大臣
 
-const string ClothesProvider = "ClothesProvider";//服装商
-const string WeaponProvider = "WeaponProvider";//武器商
-const string FoodProvider = "FoodProvider";//食品商
-const string SkillProvider = "SkillProvider";//技能商
-
-//`ClothesProvider` `WeaponProvider ` `FoodProvider ` `SkillProvider`
-
-//敌方
 const stirng HIGH_LEVEL_MONSTER = "HIGH_LEVEL_MONSTER";
 const stirng LOW_LEVEL_MONSTER = "LOW_LEVEL_MONSTER";
-const int ATTACK = 10;//初始化攻击力
-const int HP = 25;//初始化防御力
-//NPC类
+
 class NPC
 {
 public:
@@ -34,34 +30,30 @@ public:
 protected:
 
 private:
-	string name;
+<<<<<<< HEAD
+	std::string name;
 };
 
 //友方NPC
 class FriendNpc : public NPC
 {
 public:
-	FriendNpc(const string& name) :name{ name } {};
+	FriendNpc();
 	~FriendNpc() {};
 	void GiveTask() {};//给任务
 
 protected:
 
 private:
-	string name;
-
+	std::string name;
+	Task task;
 };
 
 //敌方NPC
 class EnemyNpc : public NPC
 {
 public:
-	EnemyNpc(ElemntType & element,int level ) :element(element),level(level)
-	{
-		hp = HP*level;
-		basic_attack = ATTACK * level;
-		attack = basic_attack;
-	};
+	EnemyNpc(ElemntType& element, int level);
 	void Attack() 
 	{
 		//攻击
@@ -70,7 +62,7 @@ public:
 protected:
 
 private:
-	string name;
+	std::string name;
 	ElementType element;
 	int hp;
 	int basic_attack;
@@ -107,4 +99,10 @@ EnemyNpc highLevelEarthMonster(ElementType::Earth, 2);//高级土怪物
 EnemyNpc lowLevelEarthMonster(ElementType::Earth, 1);//低级土怪物
 
 
+=======
+	string name;
+
+};
+
+>>>>>>> parent of 78dc541 (瀹氫箟浜唅tem鍙橀噺,hero.npc 缁嗗寲)
 #endif

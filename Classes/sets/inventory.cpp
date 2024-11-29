@@ -1,15 +1,17 @@
 //2353924 冯俊财
 //inverntory 为玩家的背包 的函数实现
 
-#include "inventory.h"
-
+//Inventory(int size) :size(size), items(0) {};
 Inventory::~Inventory() {};
 
 //界面
 //展示背包
 void Inventory::showInventory()
 {
-	
+<<<<<<< HEAD
+
+=======
+>>>>>>> parent of 78dc541 (瀹氫箟浜唅tem鍙橀噺,hero.npc 缁嗗寲)
 	//遍历背包
 	//显示背包中的物品 png
 	//显示物品的名字（鼠标点击之后，旁边的界面）
@@ -31,15 +33,14 @@ bool Inventory::addItem(Item* item)
 	else
 	{
 		//背包满了
-		cout << "背包已满" << endl;//提示 届时作为弹窗
 		return false;
 	}
-} 
+}
 
 //移除物品
-void Inventory::removeItem(Item* item) 
+void Inventory::removeItem(Item* item)
 {
-	for (int i=0;i<BAG_SIZE;i++)
+	for (int i = 0; i < BAG_SIZE; i++)
 	{
 		if (items[i] == item)
 		{
@@ -56,12 +57,13 @@ void Inventory::useItem(Item* item)
 {
 	//使用物品
 	//根据物品的种类，调用不同的函数
-	//如果是武器，调用
+	//如果是武器，调用攻击函数
 	//如果是护具，调用防御函数
 	//如果是食品，调用回复函数
 	//如果是材料，调用合成函数
 	//如果是任务物品，调用任务函数
-	
+<<<<<<< HEAD
+
 	auto type = item->getType();
 	switch (type)
 	{
@@ -70,7 +72,7 @@ void Inventory::useItem(Item* item)
 			// 获取点击物品的选项
 			//此处先用cin代替	
 			int choice = 0;
-			
+
 			switch (choice)
 			{
 				case 1:
@@ -87,14 +89,14 @@ void Inventory::useItem(Item* item)
 					break;
 				default:
 					break;
-			} 
+			}
 			break;
 		}
 		case ItemType::ARMOR:
 		{
-			int choice=0;
+			int choice = 0;
 			cin >> choice;
-			switch(choice)
+			switch (choice)
 			{
 				case 1:
 					//升级
@@ -111,7 +113,7 @@ void Inventory::useItem(Item* item)
 				default:
 					break;
 			}
-			
+
 			break;
 		}
 		case ItemType::FOOD:
@@ -129,39 +131,34 @@ void Inventory::useItem(Item* item)
 					//烹饪
 					item->cook();
 					break;
-	 			default:
+				default:
 					break;
 			}
 			break;
 		}
 		case ItemType::MATERIAL:
 		{
-			//合成函数
-			if()
+			//使用函数
+			item->use();//例如
 			break;
 		}
-		case ItemType::TASK:
-		{
-	
-			//任务函数
-			 
-			break;
-		}
+
+		//任务物品不在这里用
 
 		default:
-			break;	
+			break;
 	}
 
-} 
+}
 
 //得到大小
-int Inventory::getSize() 
+int Inventory::getSize() const
 {
 	return size;
 }
 
 //是否满了
-bool Inventory::isFull() 
+bool Inventory::isFull()
 {
 	if (items.size() == size)
 	{
@@ -172,3 +169,14 @@ bool Inventory::isFull()
 		return false;
 	}
 }
+=======
+} 
+
+//得到大小
+int Inventory::getSize() 
+{}
+
+//是否满了
+bool Inventory::isFull() 
+{}
+>>>>>>> parent of 78dc541 (瀹氫箟浜唅tem鍙橀噺,hero.npc 缁嗗寲)

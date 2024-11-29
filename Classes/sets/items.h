@@ -19,14 +19,13 @@ const string ARMOR = "ARMOR";//盔甲
 const string SHOES = "SHOES";//鞋子
  
 //食品及杂物
+const string TREE = "TREE";//树
+const string STONE = "STONE";//石头
+
 const string FISH = "FISH";//鱼
 const string FRUIT = "FRUIT";//水果
 const string VEGETABLE = "VEGETABLE";//蔬菜
 const string HERB = "HERB";//草药
-const string MEAT = "MEAT";//肉
-
-const string TREE = "TREE";//树
-const string STONE = "STONE";//石头
 
 //特殊物品
 const string KEY = "KEY";//钥匙 
@@ -54,10 +53,7 @@ public:
 	virtual void unequip() = 0; //卸下
 	virtual void upgrade() = 0; //升级
 	virtual void use() = 0;//使用
-	int getNum() { return num; } const ;//得到数量
-	void setNum(int n) { num = n; };//设置数量
-	getTppe() { return type; };//得到类型
-
+	int getNum() { return num; };//得到数量
 protected:
 	
 	bool inBag;//是否在背包中
@@ -72,7 +68,7 @@ public:
 	Weapon(const std::string& name):name(name),attack(ATTACK),level(0),is_equiped(false) {};
 	~Weapon() {};
 	virtual void upgrade() override ;//升级
-	virtual void equip() override;//装备
+	virtual void equip() override;//拾取
 
 protected: 
 
@@ -89,7 +85,7 @@ private:
 class Armor : public Item {
 public:
 	Armor(const std::string& name) :name(name), protect(PROTECT), level(0), is_equiped(false) {};
-	virtual ~Armor() override {} ;
+	~Armor() {};
 	virtual void upgrade() override;//升级
 protected:
 
@@ -104,16 +100,14 @@ private:
 //食品类
 class Food : public Item {
 public:
-	Food(const std::string& name) :name(name), healHp(0), num(0), isEquiped(false), isCooked(false), isEaten(false) {};
-	virtual ~Food() override {};
-	virtual void cook() = 0;//烹饪
-	virtual void eat() = 0;//回复
+
 
 protected:
 
 private:
 	string name;//名字
 	int healHp;//回复的血量
+	int num;//数量
 	bool isEquiped;//是否装备
 	bool isCooked;//是否烹饪
 	bool isEaten;//是否吃过
@@ -125,14 +119,13 @@ private:
 //材料类 树 、石头等
 class Material : public Item {
 public:
-	Material(const std::string& name) :name(name), is_used(false), num(0) {};
-	virtual ~Material() override {};
-	virtual void use() = 0;//使用
+
 protected:
 
 private:
 	string name;//名字
 	bool is_used;//是否使用
+	int num;//记录数量
 };
 
 //任务物品类
@@ -140,37 +133,13 @@ class TaskItem : public Item {
 public:
 	TaskItem() {};
 	virtual ~TaskItem() {};
-	vitrual bool isFinished() = 0;//是否完成
+
 protected:
 
 private:
 	string name;//名字 
+	int num;//数量
 };
 
-
-
-//武器 变量
-Weapon  magicRing(MAGIC_RING);
-Weapon  magicCrystal(MAGIC_CRYSTAL);
-Weapon  magicScroll(MAGIC_SCROLL);
-
-//护具 变量
-Armor helmet(HELMET);
-Armor armor(ARMOR);
-Armor shoes(SHOES);
-
-//食品 变量
-Food fish(FISH);
-Food fruit(FRUIT);
-Food vegetable(VEGETABLE);
-Food herb(HERB);
-Food meat(MEAT);
-
-//材料 变量
-Material tree(TREE);
-Material stone(STONE);
-
-//特殊物品 变量
-TaskItem key(KEY);
 
 #endif

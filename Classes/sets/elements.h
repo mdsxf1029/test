@@ -15,29 +15,23 @@ enum ElementType {
     Earth,
     Count // 用于计算枚举的数量
 };
-
+// 元素类
 class Element {
 public:
-    
-    // 获取元素名称
-    static std::string getElementName(ElementType type) {
-        switch (type) {
-            case Gold: return "Gold";   // 金
-            case Wood: return "Wood";   // 木
-            case Water: return "Water"; // 水
-            case Fire: return "Fire";   // 火
-            case Earth: return "Earth"; // 土
-            default: return "Unknown";
-        }
-    }
-
     // 构造函数
-    Element(ElementType type) : type(type) {}
+    Element(ElementType type);
+	// 析构函数
+	~Element() {};
+
+	// 获取元素名称    也许不定义为成员函数更好。
+    static std::string getElementName(ElementType type);
 
     // 打印元素信息
-    void printElement() const {
-        std::cout << "Element: " << getElementName(type) << std::endl;
-    }
+    void printElement() const;
+
+	// 比较元素大小
+    // 金>木>土>水>火>金  
+	bool operator>(const Element& e) const;
 
 private:
     ElementType type; // 存储元素类型

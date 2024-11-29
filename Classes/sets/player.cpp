@@ -14,16 +14,8 @@
 
 
 //构造函数 初始化姓名 元素属性 等级血量攻击力等等
-Player::Player() :name(names), level(0), hp(50), attrack(10)
+Player::Player(std::string& names, int element) :name(names), level(0), hp(50), attrack(10)
 {
-	std::string& names;
-	std::cin >> names;
-	 
-	int elemnt=0;
-	// 1金 2木 3水 4火 5土
-	//这里通过界面选择元素属性
-	std::cin >> elemnt;//暂且先用cin代替
-	
 	switch (elemnt)
 	{
 		case 1:

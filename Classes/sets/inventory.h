@@ -19,19 +19,14 @@ public:
 	bool addItem(Item* item);//添加物品
 	void removeItem(Item* item);//移除物品
 	void useItem(Item* item);//使用物品
-	int getSize();//得到大小
+	int getSize() const;//得到大小
 	bool isFull();//是否满了
 	
 protected:
 
 private:
-	friend class Player;
-	friend class Item;
-
 	std::vector<Item*> items;//物品 指针 (items类定义内有数量)
 	int size;//背包大小
 };
-
 Inventory bag(BAG_SIZE);
-
 #endif

@@ -9,7 +9,7 @@
 #include <string.h>
 #include "elements.h"
 #include "inventory.h"
-#include "items.h"
+
 
 const int UPGRADE_HP = 25;//升级增加的血量
 const int UPGRADE_ATTACK = 5;//升级增加的攻击力 
@@ -34,7 +34,7 @@ const int UPGRADE_ATTACK = 5;//升级增加的攻击力
 class Player {
 public:
     //含参
-    Player();
+    Player(string& names, int element);
 
     //升级
     void Upgrade();
@@ -68,15 +68,14 @@ protected:
 private:
     string name; //名字
     int level;  //等级
-	int max_hp;  //最大血量
+    int max_hp;  //最大血量
     int hp;      //血量
     ElementType player_element;//元素属性
     int basic_attack;  //攻击力(根据等级)
     int attack;//最终攻击力
     Inventory bag;//背包
-};
 
-//玩家类
-Player hero;
+    //需要把任务设置为属性吗 还是放在任务类中
+};
 
 #endif
