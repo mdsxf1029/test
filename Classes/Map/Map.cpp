@@ -31,7 +31,6 @@ bool Map::init()
 
 bool Map::SwitchBetweenSmallMaps(const std::string& objectMap)
 {
-	
 	// 如果要前往迷宫或战斗，保留上一次的地图
 	if (objectMap == "maze" || objectMap == "battle") {
 		Map newMap(objectMap);
@@ -58,10 +57,10 @@ void Map::Pan(const cocos2d::Vec2& roleWorldPosition, const cocos2d::EventKeyboa
 	// 获取当前可视区域原点坐标
 	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 	// 定义世界边界坐标
-	int minWorldX = origin.x;
-	int minWorldY = origin.y;
-	int maxWorldX = origin.x + visibleSize.width;
-	int maxWorldY = origin.y + visibleSize.height;
+	float minWorldX = origin.x;
+	float minWorldY = origin.y;
+	float maxWorldX = origin.x + visibleSize.width;
+	float maxWorldY = origin.y + visibleSize.height;
 
 	// 获取当前瓦片地图坐标
 	cocos2d::Vec2 mapPosition = tiledMap->getPosition();
@@ -70,15 +69,15 @@ void Map::Pan(const cocos2d::Vec2& roleWorldPosition, const cocos2d::EventKeyboa
 	// 获取当前瓦片地图瓦片大小
 	cocos2d::Size tileSize = tiledMap->getTileSize();
 	// 定义瓦片地图边界坐标
-	int minTileX = 0;
-	int minTileY = 0;
-	int maxTileX = mapSize.width - 1;
-	int maxTileY = mapSize.height - 1;
+	float minTileX = 0.0f;
+	float minTileY = 0.0f;
+	float maxTileX = mapSize.width - 1;
+	float maxTileY = mapSize.height - 1;
 	// 通过世界坐标获取精灵在瓦片层中的相对坐标
 	cocos2d::Vec2 tilePosInMap = tiledMap->convertToNodeSpace(roleWorldPosition);
 	// 计算精灵的逻辑坐标
-	int roleTileX = tilePosInMap.x / tileSize.width;  // 精灵的 X 逻辑坐标
-	int roleTileY = tilePosInMap.y / tileSize.height; // 精灵的 Y 逻辑坐标
+	float roleTileX = tilePosInMap.x / tileSize.width;  // 精灵的 X 逻辑坐标
+	float roleTileY = tilePosInMap.y / tileSize.height; // 精灵的 Y 逻辑坐标
 
 	// 当精灵走到世界边界处，且未抵达地图边界处，才会滑动地图
 	// 精灵向左
