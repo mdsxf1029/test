@@ -1,43 +1,62 @@
 #pragma once
-#include <iostream>
 #include <vector>
-using namespace std;
+#include "cocos2d.h"
 
-// ÌØÊâµã½á¹¹Ìå
-struct special_point
+//ç‰¹æ®Šç‚¹ç±»å‹
+#define BORN_POINT 0 // å‡ºç”Ÿç‚¹
+#define MONSTER 1 // æ€ªå…½
+#define MAZE 2 // è¿·å®«
+#define FISHING 3 // é’“é±¼
+#define HERB_GATHERING 4 // é‡‡è¯
+#define ANIMALS 5 // å°åŠ¨ç‰©
+
+// ç‰¹æ®Šç‚¹ç»“æ„ä½“
+struct SpecialPoint
 {
 	int x;
 	int y;
-	int type; // ÌØÊâµãÀàĞÍ£º³öÉúµã0£¬¹ÖÊŞ1£¬ÃÔ¹¬2£¬µöÓã3£¬²ÉÒ©4£¬Ğ¡¶¯Îï5
+	int type; // ç‰¹æ®Šç‚¹ç±»å‹
 };
 
-// ¸üĞÂµØÍ¼ÀàÉè¼Æ£¬²»·Ö»ùÀà×ÓÀà£¬²»Í¬µØÍ¼ÎªµØÍ¼ÀàµÄ²»Í¬¶ÔÏó
-class Map
+// åœ°å›¾ç±»
+class Map : public cocos2d::Layer
 {
 public:
-	// Çë²¹³ä´óĞ¡µØÍ¼Ö®¼äÇĞ»»µÄº¯Êı
+	// æ„é€ å‡½æ•°
+	Map();
+	Map(const std::string& name);
 
-	/*º¯ÊıÃû£ºSwitchBetweenSmallMaps
-	  º¯Êı¹¦ÄÜ£ºĞ¡µØÍ¼Ö®¼äÃªµãµÄÇĞ»»
-	  ²ÎÊıÁĞ±í£º
-		  role_coord_x£¬role_coord_y£ºÈËÎïµ±Ç°ËùÔÚ×ø±ê£¬Í¨¹ı½»»¥ÏµÍ³»ñÈ¡£¬´ÓÓòÍâµØÍ¼Ìø»ØÊ±ĞèÒªÓÃµ½¡£
-		  object_map£ºĞèÒªÌø×ªµÄ¶ÔÏó£¬Í¨¹ı½»»¥ÏµÍ³»ñÈ¡£¬¾ö¶¨Ìø×ªµ½ÄÄ¸öµØÍ¼È¥¡£
-	  ·µ»ØÖµ£ºÊÇ·ñ³É¹¦Ìø×ª£¬³É¹¦ÔòÎªtrue
+	// åˆ›å»ºæ–¹æ³•
+	static cocos2d::Scene* createScene();
+
+	// åˆå§‹åŒ–
+	virtual bool init();
+
+	// ææ„å‡½æ•°
+	virtual ~Map() = default;
+
+	/*å‡½æ•°åï¼šSwitchBetweenSmallMaps
+	  å‡½æ•°åŠŸèƒ½ï¼šå°åœ°å›¾ä¹‹é—´é”šç‚¹çš„åˆ‡æ¢
+	  å‚æ•°åˆ—è¡¨ï¼š
+		  roleWorldPositionï¼šäººç‰©å½“å‰æ‰€åœ¨ä¸–ç•Œåæ ‡ï¼Œé€šè¿‡äº¤äº’ç³»ç»Ÿè·å–ï¼Œä»åŸŸå¤–åœ°å›¾è·³å›æ—¶éœ€è¦ç”¨åˆ°ã€‚
+		  object_mapï¼šéœ€è¦è·³è½¬çš„å¯¹è±¡ï¼Œé€šè¿‡äº¤äº’ç³»ç»Ÿè·å–ï¼Œå†³å®šè·³è½¬åˆ°å“ªä¸ªåœ°å›¾å»ã€‚
+	  è¿”å›å€¼ï¼šæ˜¯å¦æˆåŠŸè·³è½¬ï¼ŒæˆåŠŸåˆ™ä¸ºtrue
 	*/
-	bool SwitchBetweenSmallMaps(const int& role_coord_x, const int& role_coord_y, const int& object_map);
+	virtual bool SwitchBetweenSmallMaps(const std::string& object_map);
 
-	/*º¯ÊıÃû£ºPanM
-	  º¯Êı¹¦ÄÜ£ºµØÍ¼Õ¹Ê¾Ê±µÄÆ½ÒÆ
-	  ²ÎÊıÁĞ±í£º
-		  role_coord_x£¬role_coord_y£ºÈËÎïµ±Ç°ËùÔÚ×ø±ê£¬Í¨¹ı½»»¥ÏµÍ³»ñÈ¡¡£
-	  ·µ»ØÖµ£ºÎŞ
+	/*å‡½æ•°åï¼šPan
+	  å‡½æ•°åŠŸèƒ½ï¼šåœ°å›¾å±•ç¤ºæ—¶çš„å¹³ç§»
+	  å‚æ•°åˆ—è¡¨ï¼š
+		  roleWorldPositionï¼šäººç‰©å½“å‰æ‰€åœ¨ä¸–ç•Œåæ ‡ï¼Œé€šè¿‡äº¤äº’ç³»ç»Ÿè·å–ã€‚
+		  keyCodeï¼šäººç‰©å‰è¿›æ–¹å‘ï¼Œé”®ç›˜æ§åˆ¶ï¼Œé€šè¿‡äº¤äº’ç³»ç»Ÿè·å–ã€‚
+	  è¿”å›å€¼ï¼šæ— 
 	*/
-	void Pan(const int& role_coord_x, const int& role_coord_y);
+	void Pan(const cocos2d::Vec2& roleWorldPosition, const cocos2d::EventKeyboard::KeyCode keyCode);
 
-	// Çë²¹³äµØÍ¼Ëõ·Åº¯Êı
+	//å¸¦å‚å®åˆ›å»ºcreateå‡½æ•°
+	CREATE_FUNC(Map);
 
-private:
-	vector<int> before_jump_point; // ±£´æÌø×ªÖ®Ç°µÄÈËÎï×ø±ê
-	bool fog; // ÊÇ·ñ´æÔÚÃÔÎí£¬ÓĞÃÔÎíÎªtrue
-	vector<special_point> special_points; // ½á¹¹ÌåÊı×é£¬´æ´¢ÌØÊâµã×ø±ê£¬ÀàĞÍ£º³öÉúµã0£¬¹ÖÊŞ1£¬ÃÔ¹¬2£¬µöÓã3£¬²ÉÒ©4£¬Ğ¡¶¯Îï5
+protected:
+	std::string mapName; // å½“å‰åœ°å›¾çš„åç§°
+	cocos2d::TMXTiledMap* tiledMap; // å½“å‰åœ°å›¾çš„ç“¦ç‰‡åœ°å›¾
 };
