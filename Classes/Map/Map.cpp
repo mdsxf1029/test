@@ -20,11 +20,11 @@ bool Map::init()
 	if (!Layer::init()) {
 		return false;
 	}
-	// »ñÈ¡µ±Ç°¿ÉÊÓÇøÓòµÄ´óĞ¡
+	// è·å–å½“å‰å¯è§†åŒºåŸŸçš„å¤§å°
 	cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-	// »ñÈ¡µ±Ç°¿ÉÊÓÇøÓòÔ­µã×ø±ê
+	// è·å–å½“å‰å¯è§†åŒºåŸŸåŸç‚¹åæ ‡
 	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
-	// ¼ÓÔØµØÍ¼
+	// åŠ è½½åœ°å›¾
 	Map::addChild(tiledMap);
 	return true;
 }
@@ -32,70 +32,71 @@ bool Map::init()
 bool Map::SwitchBetweenSmallMaps(const std::string& objectMap)
 {
 	
-	// Èç¹ûÒªÇ°ÍùÃÔ¹¬»òÕ½¶·£¬±£ÁôÉÏÒ»´ÎµÄµØÍ¼
+	// å¦‚æœè¦å‰å¾€è¿·å®«æˆ–æˆ˜æ–—ï¼Œä¿ç•™ä¸Šä¸€æ¬¡çš„åœ°å›¾
 	if (objectMap == "maze" || objectMap == "battle") {
 		Map newMap(objectMap);
 		auto newScene = newMap.createScene();
 		cocos2d::Director::getInstance()->pushScene(newScene);
 	}
-	// Èç¹û´ÓÃÔ¹¬»òÕ½¶·»ØÀ´£¬»Øµ½ÉÏÒ»´ÎµØÍ¼
+	// å¦‚æœä»è¿·å®«æˆ–æˆ˜æ–—å›æ¥ï¼Œå›åˆ°ä¸Šä¸€æ¬¡åœ°å›¾
 	else if (this->mapName == "maze" || this->mapName == "battle") {
 		cocos2d::Director::getInstance()->popScene();
 	}
-	// Èç¹ûÖ»ÊÇµ¥´¿µÄÌø×ª£¬ÔòÊÍ·ÅµôÉÏÒ»´ÎµÄµØÍ¼
+	// å¦‚æœåªæ˜¯å•çº¯çš„è·³è½¬ï¼Œåˆ™é‡Šæ”¾æ‰ä¸Šä¸€æ¬¡çš„åœ°å›¾
 	else {
 		Map newMap(objectMap);
 		auto newScene = newMap.createScene();
 		cocos2d::Director::getInstance()->replaceScene(newScene);
 	}
+	return true;
 }
 
 void Map::Pan(const cocos2d::Vec2& roleWorldPosition, const cocos2d::EventKeyboard::KeyCode keyCode)
 {
-	// »ñÈ¡µ±Ç°¿É¼ûÇøÓòµÄ´óĞ¡
+	// è·å–å½“å‰å¯è§åŒºåŸŸçš„å¤§å°
 	cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
-	// »ñÈ¡µ±Ç°¿ÉÊÓÇøÓòÔ­µã×ø±ê
+	// è·å–å½“å‰å¯è§†åŒºåŸŸåŸç‚¹åæ ‡
 	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
-	// ¶¨ÒåÊÀ½ç±ß½ç×ø±ê
+	// å®šä¹‰ä¸–ç•Œè¾¹ç•Œåæ ‡
 	int minWorldX = origin.x;
 	int minWorldY = origin.y;
 	int maxWorldX = origin.x + visibleSize.width;
 	int maxWorldY = origin.y + visibleSize.height;
 
-	// »ñÈ¡µ±Ç°ÍßÆ¬µØÍ¼×ø±ê
+	// è·å–å½“å‰ç“¦ç‰‡åœ°å›¾åæ ‡
 	cocos2d::Vec2 mapPosition = tiledMap->getPosition();
-	// »ñÈ¡µ±Ç°ÍßÆ¬µØÍ¼´óĞ¡
+	// è·å–å½“å‰ç“¦ç‰‡åœ°å›¾å¤§å°
 	cocos2d::Size mapSize = tiledMap->getMapSize();
-	// »ñÈ¡µ±Ç°ÍßÆ¬µØÍ¼ÍßÆ¬´óĞ¡
+	// è·å–å½“å‰ç“¦ç‰‡åœ°å›¾ç“¦ç‰‡å¤§å°
 	cocos2d::Size tileSize = tiledMap->getTileSize();
-	// ¶¨ÒåÍßÆ¬µØÍ¼±ß½ç×ø±ê
+	// å®šä¹‰ç“¦ç‰‡åœ°å›¾è¾¹ç•Œåæ ‡
 	int minTileX = 0;
 	int minTileY = 0;
 	int maxTileX = mapSize.width - 1;
 	int maxTileY = mapSize.height - 1;
-	// Í¨¹ıÊÀ½ç×ø±ê»ñÈ¡¾«ÁéÔÚÍßÆ¬²ãÖĞµÄÏà¶Ô×ø±ê
+	// é€šè¿‡ä¸–ç•Œåæ ‡è·å–ç²¾çµåœ¨ç“¦ç‰‡å±‚ä¸­çš„ç›¸å¯¹åæ ‡
 	cocos2d::Vec2 tilePosInMap = tiledMap->convertToNodeSpace(roleWorldPosition);
-	// ¼ÆËã¾«ÁéµÄÂß¼­×ø±ê
-	int roleTileX = tilePosInMap.x / tileSize.width;  // ¾«ÁéµÄ X Âß¼­×ø±ê
-	int roleTileY = tilePosInMap.y / tileSize.height; // ¾«ÁéµÄ Y Âß¼­×ø±ê
+	// è®¡ç®—ç²¾çµçš„é€»è¾‘åæ ‡
+	int roleTileX = tilePosInMap.x / tileSize.width;  // ç²¾çµçš„ X é€»è¾‘åæ ‡
+	int roleTileY = tilePosInMap.y / tileSize.height; // ç²¾çµçš„ Y é€»è¾‘åæ ‡
 
-	// µ±¾«Áé×ßµ½ÊÀ½ç±ß½ç´¦£¬ÇÒÎ´µÖ´ïµØÍ¼±ß½ç´¦£¬²Å»á»¬¶¯µØÍ¼
-	// ¾«ÁéÏò×ó
+	// å½“ç²¾çµèµ°åˆ°ä¸–ç•Œè¾¹ç•Œå¤„ï¼Œä¸”æœªæŠµè¾¾åœ°å›¾è¾¹ç•Œå¤„ï¼Œæ‰ä¼šæ»‘åŠ¨åœ°å›¾
+	// ç²¾çµå‘å·¦
 	if (roleWorldPosition.x <= minWorldX && keyCode == cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW && roleTileX > 0) {
 		cocos2d::Vec2 newMapPosition = cocos2d::Vec2(mapPosition.x + tileSize.width, mapPosition.y);
 		tiledMap->setPosition(newMapPosition);
 	}
-	// ¾«ÁéÏòÓÒ
+	// ç²¾çµå‘å³
 	else if (roleWorldPosition.x >= maxWorldX && keyCode == cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW && roleTileX < maxTileX) {
 		cocos2d::Vec2 newMapPosition = cocos2d::Vec2(mapPosition.x - tileSize.width, mapPosition.y);
 		tiledMap->setPosition(newMapPosition);
 	}
-	// ¾«ÁéÏòÉÏ
+	// ç²¾çµå‘ä¸Š
 	else if (roleWorldPosition.x >= maxWorldY && keyCode == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW && roleTileY < maxTileY) {
 		cocos2d::Vec2 newMapPosition = cocos2d::Vec2(mapPosition.x, mapPosition.y-tileSize.height);
 		tiledMap->setPosition(newMapPosition);
 	}
-	// ¾«ÁéÏòÏÂ
+	// ç²¾çµå‘ä¸‹
 	else if (roleWorldPosition.x <= minWorldY && keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW && roleTileY > 0) {
 		cocos2d::Vec2 newMapPosition = cocos2d::Vec2(mapPosition.x, mapPosition.y+tileSize.height);
 		tiledMap->setPosition(newMapPosition);
