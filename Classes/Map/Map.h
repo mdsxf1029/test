@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __MAP_H__
+#define __MAP_H__
+
 #include <vector>
 #include "cocos2d.h"
 
@@ -40,9 +42,10 @@ public:
 	  参数列表：
 		  roleWorldPosition：人物当前所在世界坐标，通过交互系统获取，从域外地图跳回时需要用到。
 		  object_map：需要跳转的对象，通过交互系统获取，决定跳转到哪个地图去。
+		  walk：true：步行前往相邻地图；false：锚点传送至目的地图
 	  返回值：是否成功跳转，成功则为true
 	*/
-	virtual bool SwitchBetweenSmallMaps(const std::string& object_map);
+	virtual bool SwitchBetweenSmallMaps(const std::string& object_map, const bool walk);
 
 	/*函数名：Pan
 	  函数功能：地图展示时的平移
@@ -60,3 +63,5 @@ protected:
 	std::string mapName; // 当前地图的名称
 	cocos2d::TMXTiledMap* tiledMap; // 当前地图的瓦片地图
 };
+
+#endif // __MAP_H__
