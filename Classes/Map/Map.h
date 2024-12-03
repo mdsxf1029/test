@@ -12,14 +12,6 @@
 #define HERB_GATHERING 4 // 采药
 #define ANIMALS 5 // 小动物
 
-// 特殊点结构体
-struct SpecialPoint
-{
-	int x;
-	int y;
-	int type; // 特殊点类型
-};
-
 // 地图类
 class Map : public cocos2d::Layer
 {
