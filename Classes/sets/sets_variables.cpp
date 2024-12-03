@@ -68,6 +68,7 @@ EnemyNpc lowLevelGoldMonster(ElementType::Gold, 1);//低级金怪物
 EnemyNpc highLevelEarthMonster(ElementType::Earth, 2);//高级土怪物
 EnemyNpc lowLevelEarthMonster(ElementType::Earth, 1);//低级土怪物
 
+EnemyNpc BOSS(hero.player_element, 3);//boss 与玩家元素相同 等级为3
 //物品
 
 //武器 变量

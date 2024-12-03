@@ -68,6 +68,7 @@ extern EnemyNpc lowLevelGoldMonster;//低级金怪物
 extern EnemyNpc highLevelEarthMonster;//高级土怪物
 extern EnemyNpc lowLevelEarthMonster;//低级土怪物
 
+extern EnemyNpc BOSS;//高级怪物
 //物品
 
 //武器 变量

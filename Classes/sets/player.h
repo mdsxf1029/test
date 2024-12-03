@@ -18,7 +18,7 @@ const int PLAYER_UPGRADE_ATTACK = 5;//升级增加的攻击力
  代表游戏中的玩家角色。
 
  class Player包含角色的基本属性，如名字、等级、血量、元素属性以及攻击力。
- 此处的 初始化的 攻击力是不包含武器技能等的攻击力，只是基础攻击力
+ 此处的 初始化的 攻击力是不包含武器技能等的攻击力，只是基础攻击力。
  该类提供了构造函数以初始化玩家的名字，并默认初始化其他属性。
 
 属性：
@@ -32,15 +32,28 @@ const int PLAYER_UPGRADE_ATTACK = 5;//升级增加的攻击力
 *******************************************************************************************/
 //hero
 class Player {
-public:
-    //含参
+
+    friend class Inventory;
+    friend class Item;
+    friend class Weapon;
+    friend class Armor;
+    friend class BackgroundManager;
+    friend class Food;
+    friend class Task;
+    friend class NPC;
+    friend class FriendNpc;
+    friend class EnemyNpc;
+
+public:    //含参
     Player();
 
     //升级
     void Upgrade();
+    //互动
+    void Interact(FriendNpc& fnpc) {};
 
     // 玩家攻击敌人
-    void AttackEnemy(Player& enemy);
+    void AttackEnemy(EnemyNpc& enemy);
 
     // 玩家受到伤害
     void TakeDamage(int damage);
@@ -75,7 +88,13 @@ private:
     int attack;//最终攻击力
     Inventory bag;//背包
 
-    //需要把任务设置为属性吗 还是放在任务类中
+    //装备
+	Armor armor;//护甲
+	Armor helmet;//头盔
+	Armor shoes;//鞋子
+	//武器
+    Weapon weapon;//武器为空
+
 };
 
 #endif

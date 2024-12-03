@@ -61,7 +61,7 @@ void Player::Upgrade()
 
 
 // Íæ¼Ò¹¥»÷µÐÈË
-void Player::AttackEnemy(Player& enemy)
+void Player::AttackEnemy(EnemyNpc& enemy)
 {//¹¥»÷µÐÈË
 	enemy.TakeDamage(attack);
 }

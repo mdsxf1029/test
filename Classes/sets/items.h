@@ -74,6 +74,7 @@ private:
 //Œ‰∆˜¿‡
 class Weapon : public Item {
 public:
+	Weapon() :name("Weapon"), attack(0), level(0), isEquiped(false) {};
 	Weapon(const std::string& name) :name(name), attack(SIDE_ATTACK), level(0), isEquiped(false) {};
 	~Weapon() {};
 
