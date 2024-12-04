@@ -1,16 +1,16 @@
-// SettingScene.h  
-#ifndef __SETTING_SCENE_H__  
-#define __SETTING_SCENE_H__  
+// GoldWood.h  
+#ifndef __GOLD_WOOD_H__  
+#define __GOLD_WOOD_H__   
 
 #include "cocos2d.h"  
 #include "BackgroundManager.h"  
 
-class Setting : public cocos2d::Scene
+class Setting2 : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createScene();
     virtual bool init();
-    CREATE_FUNC(Setting);
+    CREATE_FUNC(Setting2);
 
 private:
     BackgroundManager* _backgroundManager;
@@ -24,4 +24,4 @@ private:
         const std::string& backgroundImage);
 };
 
-#endif // __SETTING_SCENE_H__
+#endif // _GOLD_WOOD_H_#pragma once
