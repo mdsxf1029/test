@@ -44,8 +44,9 @@ class Player {
     friend class FriendNpc;
     friend class EnemyNpc;
 
-public:    //含参
-    Player();
+public:    
+	//Player() {};//默认构造函数
+    Player(const std::string& filename);//含参
 
     //升级
     void Upgrade();
@@ -72,6 +73,8 @@ public:    //含参
 
     //移动 需要坐标
     void Move();
+    //
+    static Player* initWithFile(const std::string& filename);
 
 
 
@@ -81,6 +84,7 @@ protected:
 private:
     std::string name; //名字
     int level;  //等级
+    bool isAlive; //是否存活
     int max_hp;  //最大血量
     int hp;      //血量
     ElementType player_element;//元素属性
@@ -89,10 +93,10 @@ private:
     Inventory bag;//背包
 
     //装备
-	Armor armor;//护甲
-	Armor helmet;//头盔
-	Armor shoes;//鞋子
-	//武器
+    Armor armor;//护甲
+    Armor helmet;//头盔
+    Armor shoes;//鞋子
+    //武器
     Weapon weapon;//武器为空
 
 };

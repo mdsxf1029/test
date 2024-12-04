@@ -15,16 +15,17 @@
 
 
 //构造函数 初始化姓名 元素属性 等级血量攻击力等等
-Player::Player() : level(0), hp(50), attack(10)
+Player::Player(const std::string& filename) : level(0), hp(50), attack(10), is alive(true)
 {
 	std::string names;
 	std::cin >> names;
-	 
-	int elemnt=0;
+
+	initWithFile(filename);
+	int elemnt = 0;
 	// 1金 2木 3水 4火 5土
 	//这里通过界面选择元素属性
 	std::cin >> elemnt;//暂且先用cin代替
-	
+
 	switch (elemnt)
 	{
 		case 1:
@@ -76,7 +77,9 @@ void Player::TakeDamage(int damage)
 	else
 	{
 		hp = 0;
+		is_alive = false;
 		//玩家死亡
+//退出战斗场景
 	//游戏结束 或者 返回上一个存档点 或者退出战斗场景
 	}
 }
@@ -85,7 +88,7 @@ void Player::TakeDamage(int damage)
 // heal_hp 治疗的血量
 void Player::Heal(int heal_hp)
 {
-	if ((hp + heal_hp)<=max_hp)
+	if ((hp + heal_hp) <= max_hp)
 	{
 		hp += heal_hp;
 	}
@@ -118,4 +121,11 @@ int Player::GetLevel() const
 void Player::Move()
 {
 	//坐标
+}
+
+//图像
+void Player::initWithFile(const std::string& filename)
+{
+	//加载图片
+	//this->initWithFile(filename);
 }

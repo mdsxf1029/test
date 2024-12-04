@@ -7,7 +7,9 @@
 #include "elements.h"
 #include "inventory.h"
 #include "tasks.h"
-
+#include "sets_variables.h"
+#include "player.h"
+#include "skills.h"
 //友方
 const std::string PRINCESS = "PRINCESS";//公主
 const std::string KING = "KING";//国王
@@ -56,25 +58,42 @@ private:
 //敌方NPC
 class EnemyNpc : public NPC
 {
+	friend class Player;
+	friend class Elements;
+	friend class Skill;
+	friend class LowLevelSkill;
+	friend class MidLevelSkill;
+	friend class HighLevelSkill;
+
 public:
 	friend class Player;
 	friend class Elements;
-	EnemyNpc(ElementType element, int level); 
+	EnemyNpc(ElementType element, int level, LowLevelSkill& skill);//含参构造函数
+	EnemyNpc(ElementType element, int level, MidLevelSkill& skill);//含参构造函数
+	EnemyNpc(ElementType element, int level, HighLevelSkill& skill);//含参构造函数
 	void Attack() 
 	{
+		//动画？
 		//攻击
 	};//攻击
-	 
+
+	//受到伤害
+	void TakeDamage(int damage);
+	
+	//狂暴
+	void Frenzy();
 protected:
 
 private:
 	std::string name;
 	ElementType element;
+	int maxHp;
 	int hp;
 	int basic_attack;
 	int attack;
 	int level;
-
+	bool isAlive;
+	Skill * skill;
 };
 
 
