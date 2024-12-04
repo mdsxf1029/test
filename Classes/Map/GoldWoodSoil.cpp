@@ -1,9 +1,9 @@
-#include "SettingScene.h"
+#include "GoldWoodSoil.h"
 #include "SimpleAudioEngine.h"
 #include "HelloWorldScene.h"
 USING_NS_CC;
 
-bool Setting::init()
+bool Setting3::init()
 {
 	if (!Scene::init())
 	{
@@ -19,45 +19,49 @@ bool Setting::init()
 	this->addChild(mapParentNode);
 
 	// 创建并添加背景到父节点
-	auto bg = Sprite::create("Gold.png");
+	auto bg = Sprite::create("GoldWoodSoil.png");
 	bg->setPosition(Vec2::ZERO); // 相对于父节点的位置
 	bg->setName("bgSprite");
 	mapParentNode->addChild(bg);
 
 	// 添加鼠标滚轮事件监听器
 	auto mouseListener = EventListenerMouse::create();
-	mouseListener->onMouseScroll = CC_CALLBACK_1(Setting::onMouseScroll, this);
+	mouseListener->onMouseScroll = CC_CALLBACK_1(Setting3::onMouseScroll, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
-	
-	
+
+
 
 	// 创建背景管理实例
 	_backgroundManager = new BackgroundManager(this);
 	// 创建菜单项
 	auto downtownMenuItem = createTextButton("Downtown", "fonts/Marker Felt.ttf", 300, "downtown.png");
 	auto castleMenuItem = createTextButton("Castle", "fonts/Marker Felt.ttf", 300, "castle.png");
+	auto soilMenuItem = createTextButton("Soil", "fonts/Marker Felt.ttf", 300, "soilMap.png");
+	auto woodMenuItem = createTextButton("Wood", "fonts/Marker Felt.ttf", 300, "woodMap.png");
 	auto goldMenuItem = createTextButton("Gold", "fonts/Marker Felt.ttf", 300, "goldMap.png");
 
 	// 创建菜单
-	auto menu = Menu::create(downtownMenuItem, castleMenuItem, goldMenuItem, nullptr);
+	auto menu = Menu::create(downtownMenuItem, castleMenuItem, soilMenuItem,woodMenuItem, goldMenuItem, nullptr);
 	menu->setPosition(Vec2::ZERO);
 	mapParentNode->addChild(menu); // 将菜单添加到父节点
 
 	// 设置按钮的位置（相对于父节点）
 	downtownMenuItem->setPosition(Vec2(-500, -100));
 	castleMenuItem->setPosition(Vec2(0, 500));
+	soilMenuItem->setPosition(Vec2(-4000, 500));
+	woodMenuItem->setPosition(Vec2(-1500, -2500));
 	goldMenuItem->setPosition(Vec2(3000, -1000));
 
 	return true;
 }
 
-void Setting::disableBigMapScrolling()
+void Setting3::disableBigMapScrolling()
 {
 	// 移除鼠标滚轮事件监听器
 	_eventDispatcher->removeEventListenersForTarget(this);
 }
 
-void Setting::menuItemCallback1(Ref* sender, const std::string& backgroundImage)
+void Setting3::menuItemCallback1(Ref* sender, const std::string& backgroundImage)
 {
 	// 禁用 BigMap 的滚轮缩放
 	disableBigMapScrolling();
@@ -86,27 +90,27 @@ void Setting::menuItemCallback1(Ref* sender, const std::string& backgroundImage)
 }
 
 
-cocos2d::MenuItemLabel* Setting::createTextButton(const std::string& text, const std::string& fontFile, int fontSize, const std::string& backgroundImage)
+cocos2d::MenuItemLabel* Setting3::createTextButton(const std::string& text, const std::string& fontFile, int fontSize, const std::string& backgroundImage)
 {
 	// 创建文字标签
 	auto label = Label::createWithTTF(text, fontFile, fontSize);
 
 	// 设置文字颜色
-	label->setTextColor(Color4B::BLACK); 
+	label->setTextColor(Color4B::BLACK);
 
 	// 创建文字按钮，并绑定回调函数
 	auto button = MenuItemLabel::create
-	(label, [this, backgroundImage](Ref* sender) 
-	{
-		this->menuItemCallback1(sender, backgroundImage);
-	}
+	(label, [this, backgroundImage](Ref* sender)
+		{
+			this->menuItemCallback1(sender, backgroundImage);
+		}
 	);
 
 	return button;
 }
 
 //小地图的放大缩小功能
-void Setting::onMouseScroll(cocos2d::Event* event) {
+void Setting3::onMouseScroll(cocos2d::Event* event) {
 	auto mouseEvent = static_cast<cocos2d::EventMouse*>(event);
 	float scrollY = mouseEvent->getScrollY();
 
@@ -152,9 +156,9 @@ void Setting::onMouseScroll(cocos2d::Event* event) {
 		auto origin = Director::getInstance()->getVisibleOrigin();
 
 		// 限制地图的位置，防止超出屏幕
-		newMapPosition.x =origin.x+visibleSize.width-3100;
-		
-		newMapPosition.y = origin.y + visibleSize.height-2000;
+		newMapPosition.x = origin.x + visibleSize.width - 3100;
+
+		newMapPosition.y = origin.y + visibleSize.height - 2000;
 
 
 		if ((currentMapPosition.x == (origin.x + visibleSize.width - 3100)) &&
@@ -166,8 +170,8 @@ void Setting::onMouseScroll(cocos2d::Event* event) {
 		{
 			mapParentNode->setPosition(newMapPosition);
 		}
-	
-	
+
+
 	}
 }
 
