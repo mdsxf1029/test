@@ -43,15 +43,22 @@ class Player {
     friend class NPC;
     friend class FriendNpc;
     friend class EnemyNpc;
+    friend class Skill;
+    friend class LowLevelSkill;
+    friend class MidLevelSkill;
+    friend class HighLevelSkill;
+    friend class Elements;
 
-public:    
-	//Player() {};//默认构造函数
+
+public:
+    
     Player(const std::string& filename);//含参
 
     //升级
     void Upgrade();
     //互动
-    void Interact(FriendNpc& fnpc) {};
+    void Interact(FriendNpc& fnpc) 
+    { };//还没有具体写
 
     // 玩家攻击敌人
     void AttackEnemy(EnemyNpc& enemy);
@@ -73,9 +80,11 @@ public:
 
     //移动 需要坐标
     void Move();
-    //
-    static Player* initWithFile(const std::string& filename);
+    //创建文件
+    Player* initWithFile(const std::string& filename);
 
+	//获取玩家元素属性
+    ElementType getPlayerElement() const { return player_element; }
 
 
 protected:
@@ -93,11 +102,11 @@ private:
     Inventory bag;//背包
 
     //装备
-    Armor armor;//护甲
-    Armor helmet;//头盔
-    Armor shoes;//鞋子
+    Armor* my_armor;//护甲
+    Armor* my_helmet;//头盔
+    Armor* my_shoes;//鞋子
     //武器
-    Weapon weapon;//武器为空
+    Weapon* weapon;//武器为空
 
 };
 

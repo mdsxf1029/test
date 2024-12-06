@@ -5,7 +5,8 @@
 
 #include "elements.h"
 # include "player.h"
-#include"sets_variables.h"
+#include "sets_variables.h"
+#include "items.h"
 /*
 * class player 的含参构造函数
 * player 代表游戏中的玩家角色。   创建实例是 将其 设定为 hero 便于组中成员 完成代码
@@ -15,7 +16,7 @@
 
 
 //构造函数 初始化姓名 元素属性 等级血量攻击力等等
-Player::Player(const std::string& filename) : level(0), hp(50), attack(10), is alive(true)
+Player::Player(const std::string& filename) : level(0), hp(50), attack(10), isAlive(true)
 {
 	std::string names;
 	std::cin >> names;
@@ -47,6 +48,14 @@ Player::Player(const std::string& filename) : level(0), hp(50), attack(10), is a
 			player_element = ElementType::Gold;
 			break;
 	}
+
+	//初始时 装备
+	my_armor = &armor;//护甲
+	my_helmet = &helmet;//头盔
+	my_shoes = &shoes;//鞋子
+	//初始时 武器
+	weapon = nullptr;//武器为空
+	 
 }
 /*
 * name:upgrade
@@ -77,7 +86,7 @@ void Player::TakeDamage(int damage)
 	else
 	{
 		hp = 0;
-		is_alive = false;
+		isAlive = false;
 		//玩家死亡
 //退出战斗场景
 	//游戏结束 或者 返回上一个存档点 或者退出战斗场景
@@ -124,8 +133,10 @@ void Player::Move()
 }
 
 //图像
-void Player::initWithFile(const std::string& filename)
+ 
+Player* Player::initWithFile(const std::string& filename)
 {
 	//加载图片
 	//this->initWithFile(filename);
+	return this;
 }

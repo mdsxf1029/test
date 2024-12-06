@@ -42,7 +42,7 @@ constexpr int SIDE_UPGRADE_PROTECT = 5;//升级增加的防御力
 class Item {
 public:
 
-	Item()noexcept :inBag(false), num(0) {};//构造函数 默认不在背包内,数量为0
+	Item()noexcept :inBag(false), isEquiped(false), num(0) {};//构造函数 默认不在背包内,数量为0
 	virtual ~Item() {};//虚析构函数
 
 	//如果不在背包中

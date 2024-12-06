@@ -15,8 +15,8 @@
 
 
 //玩家类
-
-Player hero;
+std::string spritetry="try.png";
+Player hero(spritetry);//玩家
 
 //任务
 
@@ -52,10 +52,7 @@ FriendNpc foodProvider(FoodProvider);//食品商
 FriendNpc skillProvider(SkillProvider);//技能商
 
 
-
-LowLevelSkill elementSurge(ELEMENT_SURGE);//元素冲击
-MidLevelSkill elementalTorrent(Elemental_Torrent);//元素洪流
-HighLevelSkill energyVortex(Energy_Vortex);//能量漩涡
+ 
 //怪物数量后期看看怎么处理
 EnemyNpc highLevelFireMonster(ElementType::Fire, 2, elementalTorrent);//高级火怪物
 EnemyNpc lowLevelFireMonster(ElementType::Fire, 1, elementSurge);//低级火怪物
@@ -69,10 +66,11 @@ EnemyNpc lowLevelWoodMonster(ElementType::Wood, 1, elementSurge);//低级木怪物
 EnemyNpc highLevelGoldMonster(ElementType::Gold, 2, elementalTorrent);//高级金怪物
 EnemyNpc lowLevelGoldMonster(ElementType::Gold, 1, elementSurge);//低级金怪物
 
-EnemyNpc highLevelEarthMonster(ElementType::Earth, 2);//高级土怪物
+EnemyNpc highLevelEarthMonster(ElementType::Earth, 2, elementalTorrent);//高级土怪物
 EnemyNpc lowLevelEarthMonster(ElementType::Earth, 1, elementSurge);//低级土怪物
 
-EnemyNpc BOSS(hero.player_element, 3, energyVortex);//boss 与玩家元素相同 等级为3  //或者相克更好 暂且这样
+ElementType playerElement = hero.getPlayerElement();
+EnemyNpc BOSS(playerElement, 3, energyVortex);//boss 与玩家元素相同 等级为3  //或者相克更好 暂且这样
 //物品
 
 //武器 变量

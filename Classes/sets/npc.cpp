@@ -58,6 +58,7 @@ EnemyNpc::EnemyNpc(ElementType element, int level, MidLevelSkill& skill) : eleme
 	attack = basic_attack + skill.attack;
 };
 
+
 EnemyNpc::EnemyNpc(ElementType element, int level, HighLevelSkill& skill) : element(element), level(level), isAlive(true), skill(&skill)
 {
 	hp = ENEMY_HP * level;

@@ -35,7 +35,7 @@ const std::string NON_TASK = "NON_TASK";//无任务
 const std::string NON_TASK_DESCRIPTION = "No task";//无任务描述
 class Task {
 public:
-	Task() noexcept : name(" "), description(" "), priority(0), isFinished(false) {};//默认构造函数
+	Task() noexcept : name("NULL"), description("NULL"), priority(0), isFinished(false) {};//默认构造函数
 	Task(const std::string name, const std::string description);//含参构造函数
 	void finish() noexcept;//完成任务
 protected:

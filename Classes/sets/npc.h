@@ -71,6 +71,7 @@ public:
 	EnemyNpc(ElementType element, int level, LowLevelSkill& skill);//含参构造函数
 	EnemyNpc(ElementType element, int level, MidLevelSkill& skill);//含参构造函数
 	EnemyNpc(ElementType element, int level, HighLevelSkill& skill);//含参构造函数
+ 
 	void Attack() 
 	{
 		//动画？

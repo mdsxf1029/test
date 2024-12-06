@@ -32,18 +32,16 @@ const std::string Arcane_Blast = "Arcane Blast";//奥术爆发
 class Skill {
 public:
 	Skill(const std::string name);
-	virtual ~Skill() ;
-protected:
+	virtual ~Skill();
 
-private:
 	std::string name;//技能名称 
 };
 
 class LowLevelSkill : public Skill {
 public:
 	LowLevelSkill(std::string name);
-	virtual ~LowLevelSkill() ;
-private:
+	virtual ~LowLevelSkill();
+
 	int attack;//伤害
 };
 
@@ -52,16 +50,15 @@ public:
 	MidLevelSkill(std::string name);
 	virtual ~MidLevelSkill();
 
-private:
 	int attack;//伤害
 };
 class HighLevelSkill : public Skill {
 public:
 	HighLevelSkill(std::string name);
 	virtual ~HighLevelSkill();
-private:
+
 	int attack;//伤害
 };
- 
+
 
 #endif

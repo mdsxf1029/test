@@ -8,14 +8,13 @@
 #include"items.h"
 #include"player.h"
 #include"tasks.h"
-#include"skills.h"
-#include"npc.h"
+#include"skills.h" 
 #include"elements.h"
 #include"inventory.h"
+#include "npc.h"
 
 
-//玩家类
-
+//玩家类 
 extern Player hero;
 
 //任务
@@ -95,7 +94,7 @@ extern Material stone;
 //特殊物品 变量
 extern TaskItem key;
 extern TaskItem letter;
- 
+
 
 //背包
 extern Inventory bag;//背包
