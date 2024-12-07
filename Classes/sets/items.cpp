@@ -155,7 +155,7 @@ void Food::eat()
 //材料类
 
 //使用
-void Material::use()
+void GameMaterial::use()
 {
 	//我想的是木头和石头可以用来生火  钻木取火吧，算是。
 	if (inBag)

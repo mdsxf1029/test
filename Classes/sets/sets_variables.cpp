@@ -89,10 +89,10 @@ Food fruit(FRUIT);
 Food vegetable(VEGETABLE);
 Food herb(HERB);
 Food meat(MEAT);
-
+Food mushroom(MUSHROOM);
 //材料 变量
-Material tree(TREE);
-Material stone(STONE);
+GameMaterial tree(TREE);
+GameMaterial stone(STONE);
 
 //特殊物品 变量
 TaskItem key(KEY);

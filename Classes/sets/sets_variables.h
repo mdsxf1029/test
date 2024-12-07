@@ -5,14 +5,22 @@
 #include<string>
 #include<string.h>
 
-#include"items.h"
-#include"player.h"
-#include"tasks.h"
-#include"skills.h" 
-#include"elements.h"
-#include"inventory.h"
-#include "npc.h"
+#include "player.h"
 
+//前置声明
+class Player;
+class Task;
+class LowLevelSkill;
+class MidLevelSkill;
+class HighLevelSkill;
+class Weapon;
+class Armor;
+class Food;
+class GameMaterial;
+class TaskItem;
+class FriendNpc;
+class EnemyNpc;
+	
 
 //玩家类 
 extern Player hero;
@@ -86,17 +94,14 @@ extern Food fruit;
 extern Food vegetable;
 extern Food herb;
 extern Food meat;
-
+extern Food mushroom;
 //材料 变量
-extern Material tree;
-extern Material stone;
+extern GameMaterial tree;
+extern GameMaterial stone;
 
 //特殊物品 变量
 extern TaskItem key;
 extern TaskItem letter;
 
-
-//背包
-extern Inventory bag;//背包
 
 #endif // !SET_VARIABLES_H

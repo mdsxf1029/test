@@ -129,7 +129,7 @@ void Inventory::useItem(Item* item)
 				break;
 		}
 	}
-	else if (name == "Material")
+	else if (name == "GameMaterial")
 	{
 		//使用函数
 		item->use();//例如

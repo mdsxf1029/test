@@ -111,7 +111,9 @@
             - 装备升级。
         - 村民：（人数：三到五人？）
             - 发布任务的人（衣物装备、武器、料理、技能 各一人） 
-            - 命名 `ClothesProvider` `WeaponProvider ` `FoodProvider ` `SkillProvider`
+            - 命名 `ClothesProvider` `WeaponProvider ` `FoodProvider ` 
+            - ~~ SkillProvider ~~ 改为 鱼店老板
+             
             > 从其获取装备， 武器，补给，技能等等
             -  对于没有任务发布的，或者已经完成发布任务（`或许可以采取重复发布任务的方式`  ）的村民。
             >  背景板 或者 设置简单的聊天框 如“不知道公主现在怎么样了”，“希望公主能平安无事啊”等有关主线剧情的语句，或者 “我家里种的菜快好了”“欢迎你来我家做客”的家常语句。

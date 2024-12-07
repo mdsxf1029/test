@@ -19,8 +19,9 @@
 Player::Player(const std::string& filename) : level(0), hp(50), attack(10), isAlive(true)
 {
 	std::string names;
+	std::cout << "为你的英雄起一个名字吧：";
 	std::cin >> names;
-
+	 
 	initWithFile(filename);
 	int elemnt = 0;
 	// 1金 2木 3水 4火 5土
@@ -55,7 +56,10 @@ Player::Player(const std::string& filename) : level(0), hp(50), attack(10), isAl
 	my_shoes = &shoes;//鞋子
 	//初始时 武器
 	weapon = nullptr;//武器为空
-	 
+
+	position = Vec2(0, 0);//初始位置
+	//初始化背包
+	bag = Inventory();
 }
 /*
 * name:upgrade
@@ -71,8 +75,30 @@ void Player::Upgrade()
 
 
 // 玩家攻击敌人
-void Player::AttackEnemy(EnemyNpc& enemy)
+void Player::AttackEnemy(EnemyNpc& enemy, EventKeyboard::KeyCode KEY)
 {//攻击敌人
+	switch (KEY)
+	{
+		case EventKeyboard::KeyCode::KEY_0:
+			Attack(enemy, elementSurge);
+			break;
+		case EventKeyboard::KeyCode::KEY_1:
+			//攻击
+			Attack(enemy, elementalTorrent);
+			break;
+		case EventKeyboard::KeyCode::KEY_2:
+			//攻击
+			Attack(enemy, energyVortex);
+			break;
+		default:
+			break;
+	}
+	int damage = attack;
+	if (damage > 0) {
+		enemy.hp -= damage;
+		// 显示攻击效果
+	}
+
 	enemy.TakeDamage(attack);
 }
 
@@ -127,14 +153,34 @@ int Player::GetLevel() const
 }
 
 // 移动 需要坐标
-void Player::Move()
+void Player::Move(EventKeyboard::KeyCode keyCode)
 {
-	//坐标
+	if (isMoving)//如果正在移动
+	{
+		switch (keyCode)
+		{
+			case EventKeyboard::KeyCode::KEY_UP_ARROW:
+				position.y += SPEED * Director::getInstance()->getDeltaTime()*level;
+				break;
+			case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+				position.y -= SPEED * Director::getInstance()->getDeltaTime() * level;
+				break;
+			case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+				position.x -= SPEED * Director::getInstance()->getDeltaTime() * level;
+				break;
+			case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+				position.x += SPEED * Director::getInstance()->getDeltaTime() * level;
+				break;
+			default:
+				break;
+		}
+	}
+	this->setPosition(position); // 更新节点的位置
 }
 
 //图像
- 
-Player* Player::initWithFile(const std::string& filename)
+
+bool Player::initWithFile(const std::string& filename)
 {
 	//加载图片
 	//this->initWithFile(filename);

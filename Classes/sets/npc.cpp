@@ -1,13 +1,19 @@
-#include "npc.h"
+
 #include "tasks.h"
 #include"sets_variables.h"
 #include"skills.h"
-//基类 NPC类
+#include "npc.h"
 
+//前置声明
+class Skill;
+class LowLevelSkill;
+class MidLevelSkill;
+class HighLevelSkill;
+
+//基类 NPC类
 //构造函数 传入名称
 NPC::NPC(const std::string name) : name(name)
 {
-
 }
 
 //子类
@@ -29,8 +35,6 @@ FriendNpc::FriendNpc(const std::string name) : name(name)
 		task = sideTaskSix;
 	else
 		task = nonTask;
-
-
 }
 
 void FriendNpc::GiveTask()
@@ -89,3 +93,9 @@ void EnemyNpc::Frenzy()
 		attack += 10;
 	}
 };//狂暴
+
+//敌人移动
+void EnemyNpc::Move()
+{
+	//移动
+}

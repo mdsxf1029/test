@@ -5,7 +5,10 @@
 
 #include <string>
 #include <string.h>
+#include "cocos2d.h" // 包含 Cocos2d-x 的所有基础设施
+#include "math/Vec2.h" // 直接包含 Vec2 的定义
 
+USING_NS_CC;
 //命名
 //武器 
 
@@ -24,7 +27,7 @@ const std::string FRUIT = "FRUIT";//水果
 const std::string VEGETABLE = "VEGETABLE";//蔬菜
 const std::string HERB = "HERB";//草药
 const std::string MEAT = "MEAT";//肉
-
+const std::string MUSHROOM = "MUSHROOM";//蘑菇
 const std::string TREE = "TREE";//树
 const std::string STONE = "STONE";//石头
 
@@ -39,10 +42,10 @@ constexpr int SIDE_PROTECT = 5;//初始化防御力
 constexpr int SIDE_UPGRADE_ATTACK = 5;//升级增加的攻击力
 constexpr int SIDE_UPGRADE_PROTECT = 5;//升级增加的防御力
 
-class Item {
+class Item : public Sprite {
 public:
 
-	Item()noexcept :inBag(false), isEquiped(false), num(0) {};//构造函数 默认不在背包内,数量为0
+	Item()noexcept :inBag(false), isEquiped(false), num(0), id(0) {};//构造函数 默认不在背包内,数量为0
 	virtual ~Item() {};//虚析构函数
 
 	//如果不在背包中
@@ -60,13 +63,24 @@ public:
 	int getNum() { return num; };//得到数量
 	void setNum(int n) { num = n; };//设置数量
 	//auto getTppe() { return type; };//得到类型
-	virtual std::string getName() const { return "Item"; }
-protected:
+	virtual const std::string& getItemName() const { return "Item"; }
 
+	virtual void setPosition(Vec2& position)
+	{
+		this->position = position;
+	};//设置位置
+
+	virtual const Vec2& getPosition() const
+	{
+		return position;
+	}
+
+protected:
+	int id;
 	bool inBag;//是否在背包中
 	bool isEquiped;//是否装备
 	int num;//数量
-
+	Vec2 position;//位置
 private:
 
 };
@@ -74,20 +88,21 @@ private:
 //武器类
 class Weapon : public Item {
 public:
-	Weapon() :name("Weapon"), attack(0), level(0), isEquiped(false) {};
-	Weapon(const std::string& name) :name(name), attack(SIDE_ATTACK), level(0), isEquiped(false) {};
+	Weapon() :name("Weapon"), attack(0), level(0), isEquiped(false), id(0) {};
+	Weapon(const std::string& name) :name(name), attack(SIDE_ATTACK), level(0), isEquiped(false), id(0) {};
 	~Weapon() {};
 
 	void equip() override;//装备
 	void unequip() override;//卸下
 	void upgrade() override;//升级
 
-	std::string getName() const { return "Weapon"; };//得到名字
+	const std::string& getItemName() const override { return "Weapon"; }
 
 protected:
 
 
 private:
+	int id;
 	std::string name;
 	int attack;
 	int level;
@@ -98,18 +113,18 @@ private:
 //护具类
 class Armor : public Item {
 public:
-	Armor(const std::string& name) :name(name), protect(SIDE_PROTECT), level(0), isEquiped(false) {};
+	Armor(const std::string& name) :name(name), protect(SIDE_PROTECT), level(0), isEquiped(false), id(0) {};
 	~Armor() override {};
 
 	void equip() override;//装备
 	void unequip() override;//卸下
 	void upgrade() override;//升级
-	std::string getName() const { return "Armor"; };//得到名字
+	const std::string& getItemName() const override { return "Armor"; };//得到名字
 
 protected:
 
 private:
-
+	int id;
 	std::string name;//名字
 	int protect;//防御力
 	int level;//等级
@@ -119,11 +134,11 @@ private:
 //食品类
 class Food : public Item {
 public:
-	Food(const std::string& name) :name(name), healHp(0), num(0), isEquiped(false), isCooked(false), isEaten(false) {};
+	Food(const std::string& name) :name(name), healHp(0), num(0), isEquiped(false), isCooked(false), isEaten(false), id(0) {};
 	~Food() override {};
 	void cook();//烹饪
 	void eat();//食用
-	std::string getName() const { return "Food"; };//得到名字
+	const std::string& getItemName() const { return "Food"; };//得到名字
 
 protected:
 
@@ -134,18 +149,18 @@ private:
 	bool isCooked;//是否烹饪
 	bool isEaten;//是否吃过
 	int num;//数量
-
+	int id;
 };
 
 
 
 //材料类 树 、石头等
-class Material : public Item {
+class GameMaterial : public Item {
 public:
-	Material(const std::string& name) :name(name), is_used(false), num(0) {};
-	~Material() override {};
+	GameMaterial(const std::string& name) :name(name), is_used(false), num(0), id(0) {};
+	~GameMaterial() override {};
 	void use();//使用
-	std::string getName() const { return "Material"; };//得到名字
+	const std::string& getItemName() const { return "GameMaterial"; };//得到名字
 
 protected:
 
@@ -153,25 +168,24 @@ private:
 	std::string name;//名字
 	bool is_used;//是否使用
 	int num;//数量
+	int id;
 };
 
 //任务物品类
 class TaskItem : public Item {
 public:
-	TaskItem(const std::string& name) :name(name) {};
+	TaskItem(const std::string& name) :name(name), id(0), isFinished(false) {};
 	~TaskItem() {};
 	void Finish();//完成
-	std::string getName() const { return "TaskItem"; };//得到名字
+	const std::string& getItemName() const { return "TaskItem"; };//得到名字
 
 protected:
 
 private:
 	std::string name;//名字 
 	bool isFinished;//是否完成
+	int id;
 };
-
-
-
 
 
 #endif

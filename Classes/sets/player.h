@@ -11,8 +11,14 @@
 #include "inventory.h"
 #include "items.h"
 #include "tasks.h"
+#include "npc.h"
+#include "cocos2d.h"
+#include <battle/BattleSence.h>
+
+
 const int PLAYER_UPGRADE_HP = 25;//升级增加的血量
-const int PLAYER_UPGRADE_ATTACK = 5;//升级增加的攻击力 
+const int PLAYER_UPGRADE_ATTACK = 5;//升级增加的攻击力
+const int SPEED = 200;//移动速度
 /******************************************************************************************
  class Player
  代表游戏中的玩家角色。
@@ -31,7 +37,7 @@ const int PLAYER_UPGRADE_ATTACK = 5;//升级增加的攻击力
 
 *******************************************************************************************/
 //hero
-class Player {
+class Player : public Sprite {
 
     friend class Inventory;
     friend class Item;
@@ -48,20 +54,21 @@ class Player {
     friend class MidLevelSkill;
     friend class HighLevelSkill;
     friend class Elements;
-
+    friend class BattleSence;
 
 public:
-    
+
     Player(const std::string& filename);//含参
 
     //升级
     void Upgrade();
     //互动
-    void Interact(FriendNpc& fnpc) 
-    { };//还没有具体写
+    void Interact(FriendNpc& fnpc)
+    {
+    };//还没有具体写
 
     // 玩家攻击敌人
-    void AttackEnemy(EnemyNpc& enemy);
+    void AttackEnemy(EnemyNpc& enemy, EventKeyboard::KeyCode KEY);
 
     // 玩家受到伤害
     void TakeDamage(int damage);
@@ -79,16 +86,23 @@ public:
     int GetLevel() const;
 
     //移动 需要坐标
-    void Move();
-    //创建文件
-    Player* initWithFile(const std::string& filename);
+    void Move(EventKeyboard::KeyCode keyCode);
 
-	//获取玩家元素属性
+    //创建文件
+    bool initWithFile(const std::string& filename);
+
+    //获取玩家元素属性
     ElementType getPlayerElement() const { return player_element; }
 
+    //设定坐标
+    void setPosition(const Vec2& newPosition) {
+        position = newPosition; // 更新位置
+    }
 
-protected:
-
+	//获取坐标
+    const cocos2d::Vec2& getPosition() const override {
+        return position; // 返回位置
+    }
 
 private:
     std::string name; //名字
@@ -101,13 +115,17 @@ private:
     int attack;//最终攻击力
     Inventory bag;//背包
 
+    
+	bool isMoving = false;//是否 移动
+	bool isAttacking = false;//是否攻击 普通攻击
+
     //装备
     Armor* my_armor;//护甲
     Armor* my_helmet;//头盔
     Armor* my_shoes;//鞋子
     //武器
     Weapon* weapon;//武器为空
-
+    Vec2 position;//位置
 };
 
 #endif

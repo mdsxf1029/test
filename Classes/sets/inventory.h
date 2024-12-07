@@ -4,7 +4,8 @@
 
 #include <string>
 #include <vector>
-#include "items.h"
+
+class Item;//前置声明
 
 constexpr int BAG_SIZE = 10;
 //背包类
