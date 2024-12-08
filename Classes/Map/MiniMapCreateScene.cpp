@@ -14,12 +14,13 @@ T clamp(const T& value, const T& min, const T& max)
 }
 
 // 初始化
-MiniMap::MiniMap(const std::string& map,bool fly)
+MiniMap::MiniMap(const std::string& map, bool fly)
 {
 	mapName = map;
 	isFly = fly;
 	tiledMap = cocos2d::TMXTiledMap::create(map);
 	player = cocos2d::Sprite::create("player.png");
+	keyboardListener = nullptr;
 }
 
 cocos2d::Scene* MiniMap::createScene()
@@ -117,5 +118,55 @@ bool MiniMap::init()
 	// 设置相机的位置
 	camera->setPosition(cocos2d::Vec2(cameraX,cameraY));
 
+	// 设置键盘事件监听器
+	StartListening();
+
 	return true;
+}
+
+// 设置键盘事件监听器
+void MiniMap::StartListening()
+{
+	if (!keyboardListener) { // 确保没有重复添加监听器
+		// 创建并保存键盘事件监听器
+		keyboardListener = cocos2d::EventListenerKeyboard::create();
+
+		// 设置键盘按下事件的回调函数
+		keyboardListener->onKeyPressed = CC_CALLBACK_2(MiniMap::OnKeyPressed, this);
+
+		// 设置键盘释放事件的回调函数
+		keyboardListener->onKeyReleased = CC_CALLBACK_2(MiniMap::OnKeyReleased, this);
+
+		// 添加到事件调度器中
+		_eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
+	}
+}
+
+// 按键按下的回调函数
+void MiniMap::OnKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+	switch (keyCode) {
+	case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
+	case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+	case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+	case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		UpdatePlayerPosition(keyCode);
+		break;
+	default:
+		break;
+	}
+}
+
+// 按键释放的回调函数（暂时好像不需要，先放着吧）
+void MiniMap::OnKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+}
+
+// 清理监听器
+void MiniMap::StopListening()
+{
+	if (keyboardListener) {
+		_eventDispatcher->removeEventListener(keyboardListener);
+		keyboardListener = nullptr; // 清空指针
+	}
 }
