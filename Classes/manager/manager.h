@@ -33,11 +33,19 @@ class GlobalManager {
 private:
 	Player* _hero;                                                                                  // 玩家
 	std::vector<Task> _tasks;   														            // 任务                                    
+	
 	std::vector<LowLevelSkill> _lowLevelSkills; 									    			// 低级技能         
 	std::vector<MidLevelSkill> _midLevelSkills; 									    			// 中级技能                             
 	std::vector<HighLevelSkill> _highLevelSkills;   							        			// 高级技能                     
+	
 	std::vector<FriendNpc> _friendNpcs; 									    					// 友方NPC                                
-	std::vector<EnemyNpc> _enemyNpcs;   							    		        			// 敌方NPC                            
+	
+	std::vector<EnemyNpc> _enemyNpcsGold;   							    		        			// 敌方NPC -- 金
+	std::vector<EnemyNpc> _enemyNpcsWood;   							    		        			// 敌方NPC -- 木
+	std::vector<EnemyNpc> _enemyNpcsWater;   							    		        			// 敌方NPC -- 水
+	std::vector<EnemyNpc> _enemyNpcsFire;   							    		        			// 敌方NPC -- 火
+	std::vector<EnemyNpc> _enemyNpcsEarth;   							    		        			// 敌方NPC -- 土
+	EnemyNpc* _enemyNpcsBoss;   							    		        					// boss
 	std::vector<Weapon> _weapons;   							    		            			// 武器   
 	std::vector<Armor> _armors;   							    		                			// 护具   
 	std::vector<Food> _foods;       			    		                            			// 食品   
@@ -68,7 +76,11 @@ public:
 	const std::vector<MidLevelSkill>& getMidLevelSkills() const { return _midLevelSkills; } 						// 获取中级技能
 	const std::vector<HighLevelSkill>& getHighLevelSkills() const { return _highLevelSkills; } 				    	// 获取高级技能
 	const std::vector<FriendNpc>& getFriendNpcs() const { return _friendNpcs; } 								    // 获取友方NPC
-	const std::vector<EnemyNpc>& getEnemyNpcs() const { return _enemyNpcs; }    					                // 获取敌方NPC
+	const std::vector<EnemyNpc>& getEnemyNpcsGold() const { return _enemyNpcsGold; }    					        // 获取敌方NPC -- 金
+	const std::vector<EnemyNpc>& getEnemyNpcsWood() const { return _enemyNpcsWood; }    					        // 获取敌方NPC -- 木
+	const std::vector<EnemyNpc>& getEnemyNpcsWater() const { return _enemyNpcsWater; }    					        // 获取敌方NPC -- 水
+	const std::vector<EnemyNpc>& getEnemyNpcsFire() const { return _enemyNpcsFire; }    					        // 获取敌方NPC -- 火
+	const std::vector<EnemyNpc>& getEnemyNpcsEarth() const { return _enemyNpcsEarth; }    					        // 获取敌方NPC -- 土
 	const std::vector<Weapon>& getWeapons() const { return _weapons; } 										        // 获取武器
 	const std::vector<Armor>& getArmors() const { return _armors; } 										        // 获取护具
 	const std::vector<Food>& getFoods() const { return _foods; } 										            // 获取食品
@@ -90,7 +102,11 @@ public:
 		delete[] & _midLevelSkills;                                                                                 // 释放中级技能资源
 		delete[] & _highLevelSkills;                                                                                // 释放高级技能资源
 		delete[] & _friendNpcs;                                                                                     // 释放友方NPC资源
-		delete[] & _enemyNpcs;                                                                                      // 释放敌方NPC资源
+		delete[] & _enemyNpcsGold;                                                                                  // 释放敌方NPC资源 -- 金
+		delete[] & _enemyNpcsWood;                                                                                  // 释放敌方NPC资源 -- 木
+		delete[] & _enemyNpcsWater;                                                                                 // 释放敌方NPC资源 -- 水
+		delete[] & _enemyNpcsFire;                                                                                  // 释放敌方NPC资源 -- 火
+		delete[] & _enemyNpcsEarth;                                                                                 // 释放敌方NPC资源 -- 土
 		delete[] & _weapons;                                                                                        // 释放武器资源
 		delete[] & _armors;                                                                                         // 释放护具资源
 		delete[] & _foods;                                                                                          // 释放食品资源
@@ -140,23 +156,23 @@ void GlobalManager::initialize() {
 
 	// 初始化敌方NPC
 	//金
-	_enemyNpcs.emplace_back(ElementType::Gold, 2, Elemental_Torrent);                                           //低级金怪物
-	_enemyNpcs.emplace_back(ElementType::Gold, 1, ELEMENT_SURGE);   								            //高级金怪物                  
+	_enemyNpcsGold.emplace_back(ElementType::Gold, 2, _lowLevelSkills[0]);                                           //低级金怪物
+	_enemyNpcsGold.emplace_back(ElementType::Gold, 1, _midLevelSkills[0]);   								            //高级金怪物                  
 	//木
-	_enemyNpcs.emplace_back(ElementType::Wood, 2, Elemental_Torrent);                                           //低级木怪物
-	_enemyNpcs.emplace_back(ElementType::Wood, 1, ELEMENT_SURGE);   								            //高级木怪物
+	_enemyNpcsWood.emplace_back(ElementType::Wood, 2, _lowLevelSkills[0]);                                           //低级木怪物
+	_enemyNpcsWood.emplace_back(ElementType::Wood, 1, _midLevelSkills[0]);   								            //高级木怪物
 	//土
-	_enemyNpcs.emplace_back(ElementType::Earth, 2, Elemental_Torrent);                                          //低级土怪物
-	_enemyNpcs.emplace_back(ElementType::Earth, 1, ELEMENT_SURGE);                                              //高级土怪物
+	_enemyNpcsEarth.emplace_back(ElementType::Earth, 2, _lowLevelSkills[0]);                                          //低级土怪物
+	_enemyNpcsEarth.emplace_back(ElementType::Earth, 1, _midLevelSkills[0]);                                              //高级土怪物
 	//水
-	_enemyNpcs.emplace_back(ElementType::Water, 2, Elemental_Torrent);                                          //低级水怪物
-	_enemyNpcs.emplace_back(ElementType::Water, 1, ELEMENT_SURGE);      					                    //高级水怪物
+	_enemyNpcsEarth.emplace_back(ElementType::Water, 2, _lowLevelSkills[0]);                                          //低级水怪物
+	_enemyNpcsEarth.emplace_back(ElementType::Water, 1, _midLevelSkills[0]);      					                    //高级水怪物
 	//火
-	_enemyNpcs.emplace_back(ElementType::Fire, 2, Elemental_Torrent);       			                        //低级火怪物
-	_enemyNpcs.emplace_back(ElementType::Fire, 1, ELEMENT_SURGE);    			                                //高级火怪物
+	_enemyNpcsEarth.emplace_back(ElementType::Fire, 2, _lowLevelSkills[0]);       			                        //低级火怪物
+	_enemyNpcsEarth.emplace_back(ElementType::Fire, 1, _midLevelSkills[0]);    			                                //高级火怪物
 
 	ElementType type = _hero->getPlayerElement();
-	_enemyNpcs.emplace_back(type, 3, Energy_Vortex);                                                               //boss
+	_enemyNpcsBoss=new EnemyNpc (type, 3, _highLevelSkills[0]);                                                               //boss
 
 
 	// 其他敌方NPC可以按照需要继续添加
