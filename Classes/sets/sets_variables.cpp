@@ -112,7 +112,7 @@ Food apple(APPLE);															//苹果
 
 //材料 变量
 GameMaterial tree(TREE);													//树
-GameMaterial wood(WOOD);													//木头
+GameMaterial woods(WOOD);													//木头
 GameMaterial stone(STONE);													//石头
 GameMaterial goldMine(GOLD_MINE);											//金矿
 GameMaterial chest(CHEST);													//宝箱

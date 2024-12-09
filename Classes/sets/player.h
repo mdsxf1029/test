@@ -89,7 +89,7 @@ public:
     //移动 需要坐标
     Vec2 Move(EventKeyboard::KeyCode keyCode);
 
-    //创建文件  图像
+    //创建文件
     bool initWithFile(const std::string& filename);
 
     //获取玩家元素属性
@@ -102,7 +102,7 @@ public:
     const cocos2d::Vec2& getPosition() const override { return position; }
 
     //玩家货币增加
-    void AddMoney(int getmoney) {money+=getmoney};
+    void AddMoney(int getmoney) { money += getmoney; };
 
 private:
 
