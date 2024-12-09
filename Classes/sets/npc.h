@@ -11,21 +11,24 @@
 #include "player.h"
 #include "skills.h"
 //友方
-const std::string PRINCESS = "PRINCESS";//公主
-const std::string KING = "KING";//国王
-const std::string MINISTER = "MINISTER";//大臣
-      
-const std::string ClothesProvider = "ClothesProvider";//服装商
-const std::string WeaponProvider = "WeaponProvider";//武器商
-const std::string FoodProvider = "FoodProvider";//食品商
-const std::string SkillProvider = "SkillProvider";//技能商
+const std::string PRINCESS = "PRINCESS";								//公主
+const std::string KING = "KING";										//国王
+const std::string MINISTER = "MINISTER";								//大臣
+         
 
-//`ClothesProvider` `WeaponProvider ` `FoodProvider ` `SkillProvider`
+// 鱼店  ，矿石店，蔬菜水果店，武器店  店长
+const std::string FishStoreManager = "FishStoreManager";				//鱼店
+const std::string OreStoreManager = "OreStoreManager";					//矿石店
+const std::string VegetableStoreManager = "VegetableStoreManager";		//蔬菜店
+const std::string WeaponStoreManager = "WeaponStoreManager";			//武器店
+
+
+//`FishStoreManager` `WeaponStoreManager ` `VegetableStoreManager ` `OreStoreManager`
 
 //敌方
 
-const int ENEMY_ATTACK = 10;//初始化攻击力
-const int ENEMY_HP = 25;//初始化防御力
+const int ENEMY_ATTACK = 10;											//初始化攻击力
+const int ENEMY_HP = 25;												//初始化防御力
 //NPC类
 class NPC : public Sprite
 {

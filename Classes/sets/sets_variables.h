@@ -6,6 +6,12 @@
 #include<string.h>
 
 #include "player.h"
+#include "tasks.h"
+#include "skills.h"
+#include "npc.h"
+#include "elements.h"
+#include "inventory.h"
+#include "items.h"
 
 //前置声明
 class Player;
@@ -20,7 +26,7 @@ class GameMaterial;
 class TaskItem;
 class FriendNpc;
 class EnemyNpc;
-	
+
 
 //玩家类 
 extern Player hero;
@@ -53,10 +59,10 @@ extern FriendNpc princess;//公主
 extern FriendNpc king;//国王
 extern FriendNpc minister;//大臣
 
-extern FriendNpc clothesProvider;//服装商
-extern FriendNpc weaponProvider;//武器商
-extern FriendNpc foodProvider;//食品商
-extern FriendNpc skillProvider;//技能商
+extern FriendNpc fishStoreManager;//服装商
+extern FriendNpc weaponStoreManager;//武器商
+extern FriendNpc vegetableStoreManager;//食品商
+extern FriendNpc oreStoreManager;//技能商
 
 
 //怪物数量后期看看怎么处理
@@ -76,6 +82,7 @@ extern EnemyNpc highLevelEarthMonster;//高级土怪物
 extern EnemyNpc lowLevelEarthMonster;//低级土怪物
 
 extern EnemyNpc BOSS;//高级怪物
+
 //物品
 
 //武器 变量

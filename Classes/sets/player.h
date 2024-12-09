@@ -62,7 +62,8 @@ public:
 
     //升级
     void Upgrade();
-    //互动
+
+    //互动  -交给其他组员。
     void Interact(FriendNpc& fnpc)
     {
     };//还没有具体写
@@ -86,46 +87,49 @@ public:
     int GetLevel() const;
 
     //移动 需要坐标
-    void Move(EventKeyboard::KeyCode keyCode);
+    Vec2 Move(EventKeyboard::KeyCode keyCode);
 
-    //创建文件
+    //创建文件  图像
     bool initWithFile(const std::string& filename);
 
     //获取玩家元素属性
-    ElementType getPlayerElement() const { return player_element; }
+    constexpr ElementType getPlayerElement() { return player_element; }
 
     //设定坐标
-    void setPosition(const Vec2& newPosition) {
-        position = newPosition; // 更新位置
-    }
+    void setPosition(const Vec2& newPosition) override { position = newPosition; }
 
-	//获取坐标
-    const cocos2d::Vec2& getPosition() const override {
-        return position; // 返回位置
-    }
+    //获取坐标
+    const cocos2d::Vec2& getPosition() const override { return position; }
+
+    //玩家货币增加
+    void AddMoney(int getmoney) {money+=getmoney};
 
 private:
-    std::string name; //名字
-    int level;  //等级
-    bool isAlive; //是否存活
-    int max_hp;  //最大血量
-    int hp;      //血量
-    ElementType player_element;//元素属性
-    int basic_attack;  //攻击力(根据等级)
-    int attack;//最终攻击力
-    Inventory bag;//背包
 
-    
-	bool isMoving = false;//是否 移动
-	bool isAttacking = false;//是否攻击 普通攻击
+    //设定面板
+    std::string name;                                       //名字
+    int level;                                              //等级
+    int max_hp;                                             //最大血量
+    int hp;                                                 //当前血量
+    int basic_attack;                                       //攻击力(根据等级)
+    int attack;                                             //最终攻击力
+    int money = 0;                                            //金钱
+
+    ElementType player_element;                             //元素属性
+    Inventory bag;                                          //背包
+    Vec2 position;                                          //位置
+
+    //状态
+    bool isAlive;                                           //是否存活   
+    bool isMoving = false;                                  //是否 移动
+    bool isAttacking = false;                               //是否攻击 普通攻击
 
     //装备
-    Armor* my_armor;//护甲
-    Armor* my_helmet;//头盔
-    Armor* my_shoes;//鞋子
+    Armor* my_armor;                                        //护甲
+    Armor* my_helmet;                                       //头盔
+    Armor* my_shoes;                                        //鞋子
     //武器
-    Weapon* weapon;//武器为空
-    Vec2 position;//位置
+    Weapon* weapon;                                         //武器为空  
 };
 
 #endif

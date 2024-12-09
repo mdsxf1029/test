@@ -80,15 +80,15 @@ void Player::AttackEnemy(EnemyNpc& enemy, EventKeyboard::KeyCode KEY)
 	switch (KEY)
 	{
 		case EventKeyboard::KeyCode::KEY_0:
-			Attack(enemy, elementSurge);
+		//	Attack(enemy, elementSurge);
 			break;
 		case EventKeyboard::KeyCode::KEY_1:
 			//攻击
-			Attack(enemy, elementalTorrent);
+	//		Attack(enemy, elementalTorrent);
 			break;
 		case EventKeyboard::KeyCode::KEY_2:
 			//攻击
-			Attack(enemy, energyVortex);
+		//	Attack(enemy, energyVortex);
 			break;
 		default:
 			break;
@@ -153,29 +153,30 @@ int Player::GetLevel() const
 }
 
 // 移动 需要坐标
-void Player::Move(EventKeyboard::KeyCode keyCode)
+Vec2 Player::Move(EventKeyboard::KeyCode keyCode)
 {
+	Vec2 next_position = position;
 	if (isMoving)//如果正在移动
 	{
 		switch (keyCode)
 		{
 			case EventKeyboard::KeyCode::KEY_UP_ARROW:
-				position.y += SPEED * Director::getInstance()->getDeltaTime()*level;
+				next_position.y += SPEED * Director::getInstance()->getDeltaTime()*level;
 				break;
 			case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-				position.y -= SPEED * Director::getInstance()->getDeltaTime() * level;
+				next_position.y -= SPEED * Director::getInstance()->getDeltaTime() * level;
 				break;
 			case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-				position.x -= SPEED * Director::getInstance()->getDeltaTime() * level;
+				next_position.x -= SPEED * Director::getInstance()->getDeltaTime() * level;
 				break;
 			case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-				position.x += SPEED * Director::getInstance()->getDeltaTime() * level;
+				next_position.x += SPEED * Director::getInstance()->getDeltaTime() * level;
 				break;
 			default:
 				break;
 		}
 	}
-	this->setPosition(position); // 更新节点的位置
+	return next_position;
 }
 
 //图像

@@ -15,7 +15,7 @@ void InteractableNPC::Interact()
 	{
 
 	}
-	else if (name == "ClothesProvider" || name == "WeaponProvider" || name == "FoodProvider" || name == "SkillProvider")      // 村民交互
+	else if (name == "FishStoreManager" || name == "WeaponStoreManager" || name == "VegetableStoreManager" || name == "OreStoreManager")      // 商店交互交互
 	{
 
 	}

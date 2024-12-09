@@ -25,13 +25,13 @@ FriendNpc::FriendNpc(const std::string name) : name(name)
 		task = mainTask; //主任务
 	//以下为副任务
 	//可以更换为其他任务 重新设定
-	else if (name == "ClothesProvider")
+	else if (name == "FishStoreManager")						//鱼店
 		task = sideTaskThree;
-	else if (name == "WeaponProvider")
+	else if (name == "WeaponStoreManager")						//武器店
 		task = sideTaskFour;
-	else if (name == "FoodProvider")
+	else if (name == "VegetableStoreManager")					//蔬菜店
 		task = sideTaskFive;
-	else if (name == "SkillProvider")
+	else if (name == "OreStoreManager")							//矿石店
 		task = sideTaskSix;
 	else
 		task = nonTask;
