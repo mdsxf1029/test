@@ -21,11 +21,11 @@ void Inventory::showInventory()
 }
 //操作
 //添加物品
-bool Inventory::addItem(Item* item)
+bool Inventory::addItem(Item& item)
 {
 	if (items.size() < size)
 	{
-		items.push_back(item);
+		items.push_back(&item);
 		item_num++;
 		return true;
 	}
@@ -38,11 +38,11 @@ bool Inventory::addItem(Item* item)
 }
 
 //移除物品
-void Inventory::removeItem(Item* item)
+void Inventory::removeItem(Item& item)
 {
 	for (int i = 0; i < BAG_SIZE; i++)
 	{
-		if (items[i] == item)
+		if (items[i] == &item)
 		{
 			items.erase(items.begin() + i);
 			item_num--;
@@ -53,7 +53,7 @@ void Inventory::removeItem(Item* item)
 }
 
 //使用物品void 
-void Inventory::useItem(Item* item)
+void Inventory::useItem(Item& item)
 {
 	//使用物品
 	//根据物品的种类，调用不同的函数
@@ -63,7 +63,7 @@ void Inventory::useItem(Item* item)
 	//如果是材料，调用合成函数
 	//如果是任务物品，调用任务函数
 
-	std::string name = item->getName();
+	std::string name = item.getName();
 	if (name == "Weapon")
 	{			// 获取点击物品的选项
 			//此处先用cin代替	
@@ -74,15 +74,15 @@ void Inventory::useItem(Item* item)
 		{
 			case 1:
 				//升级
-				item->upgrade();
+				item.upgrade();
 				break;
 			case 2:
 				//装备
-				item->equip();
+				item.equip();
 				break;
 			case 3:
 				//卸下
-				item->unequip();
+				item.unequip();
 				break;
 			default:
 				break;
@@ -96,15 +96,15 @@ void Inventory::useItem(Item* item)
 		{
 			case 1:
 				//升级
-				item->upgrade();
+				item.upgrade();
 					break;
 			case 2:
 				//装备
-				item->equip();
+				item.equip();
 				break;
 			case 3:
 				//卸下
-				item->unequip();
+				item.unequip();
 				break;
 			default:
 				break;
@@ -119,11 +119,11 @@ void Inventory::useItem(Item* item)
 		{
 			case 1:
 				//食用
-				item->eat();
+				item.eat();
 				break;
 			case 2:
 				//烹饪
-				item->cook();
+				item.cook();
 				break;
 			default:
 				break;
@@ -132,7 +132,7 @@ void Inventory::useItem(Item* item)
 	else if (name == "GameMaterial")
 	{
 		//使用函数
-		item->use();//例如
+		item.use();//例如
 
 	} 
 		//任务物品不在这里用
