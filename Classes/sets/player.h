@@ -14,10 +14,6 @@
 #include "npc.h"
 #include "cocos2d.h" 
 
-
-const int PLAYER_UPGRADE_HP = 25;//升级增加的血量
-const int PLAYER_UPGRADE_ATTACK = 5;//升级增加的攻击力
-const int SPEED = 200;//移动速度
 /******************************************************************************************
  class Player
  代表游戏中的玩家角色。

@@ -14,9 +14,14 @@
 * level 初始化为0 hp初始化为50 attack初始化为10
 */
 
+constexpr int PLAYRT_BASE_HP = 50;//玩家初始血量
+constexpr int PLAYER_UPGRADE_HP = 25;//升级增加的血量
+constexpr int PLAYRR_BASE_ATTACK = 10;//玩家初始攻击力
+constexpr int PLAYER_UPGRADE_ATTACK = 5;//升级增加的攻击力
+constexpr int SPEED = 200;//移动速度
 
 //构造函数 初始化姓名 元素属性 等级血量攻击力等等
-Player::Player(const std::string& filename) : level(0), hp(50), attack(10), isAlive(true)
+Player::Player(const std::string& filename) : level(0), hp(PLAYRT_BASE_HP), attack(PLAYRR_BASE_ATTACK), isAlive(true)
 {
 	std::string names;
 	std::cout << "为你的英雄起一个名字吧：";

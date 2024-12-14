@@ -31,7 +31,8 @@ class Inventory;
 // 全局管理器
 class GlobalManager {
 private:
-	std::shared_ptr<Player> _hero;                                                                                  // 玩家
+	std::shared_ptr<Player> _hero;																						// 玩家
+	std::shared_ptr<EnemyNpc>_battleNpc;																				// 战斗NPC
 	std::vector <std::shared_ptr< Task >> _tasks;   														            // 任务                                    
 	
 	std::vector <std::shared_ptr< LowLevelSkill >> _lowLevelSkills; 									    			// 低级技能         
@@ -56,11 +57,32 @@ private:
 
 	// 构造函数
     GlobalManager() {
-		initialize();                                                                               // 初始化
+		initializeElements();                                                                               // 初始化
+		initializeElements();//初始化
+		initializePlayer();//初始化玩家
+		initializeTasks();//初始化任务
+		initializeSkills();//初始化技能
+		initializeFriendNpcs();//初始化友方NPC
+		initializeEnemyNpcs();//初始化敌方NPC
+		initializeWeapons();//初始化武器
+		initializeArmors();//初始化护具
+		initializeFoods();//初始化食品
+		initializeMaterials();//初始化材料
+		initializeTaskItems();//初始化任务物品 
     }
 
-	void initialize();//初始化
-
+	void initializeElements();//初始化
+	void initializePlayer();//初始化玩家
+	void initializeTasks();//初始化任务
+	void initializeSkills();//初始化技能
+	void initializeFriendNpcs();//初始化友方NPC
+	void initializeEnemyNpcs();//初始化敌方NPC
+	void initializeWeapons();//初始化武器
+	void initializeArmors();//初始化护具
+	void initializeFoods();//初始化食品
+	void initializeMaterials();//初始化材料
+	void initializeTaskItems();//初始化任务物品 
+	void initializeBag();//初始化背包
 public:
 
 	// 获取全局管理器实例
@@ -68,6 +90,8 @@ public:
         static GlobalManager instance;
         return instance;
     }
+
+	void setBattleNpc(std::shared_ptr<EnemyNpc> npc) { _battleNpc = npc; }														// 设置战斗NPC
 
 	// 获取成员变量  
 	std::shared_ptr<Player> getPlayer() const { return _hero; }																	// 获取玩家
@@ -87,12 +111,13 @@ public:
 	const std::vector<std::shared_ptr<GameMaterial>>& getMaterials() const { return _materials; }								// 获取材料
 	const std::vector<std::shared_ptr<TaskItem>>& getTaskItems() const { return _taskItems; }									// 获取任务物品
 	const std::vector<std::shared_ptr<Element>>& getElements() const { return _elements; }										// 获取元素
-	std::shared_ptr<Inventory> getInventory() const { return _bag; }
+	const std::shared_ptr<Inventory> getInventory() const { return _bag; }														// 获取背包		
+	const std::shared_ptr<EnemyNpc> getBattleNpc() const { return _battleNpc; }													// 获取战斗NPC
 	// 获取背包
 
     // 防止拷贝构造和赋值
-  //  GlobalManager(const GlobalManager&) = delete;                                                       
-   // GlobalManager& operator=(const GlobalManager&) = delete;
+    GlobalManager(const GlobalManager&) = delete;                                                       
+   GlobalManager& operator=(const GlobalManager&) = delete;
 
     // 析构函数
     ~GlobalManager() {
@@ -101,18 +126,20 @@ public:
 };
 
 // 初始化
-void GlobalManager::initialize() {
+void GlobalManager::initializeElements() {
 	// 初始化元素 
 	_elements.emplace_back(std::make_shared<Element>(ElementType::Gold));				// 金
 	_elements.emplace_back(std::make_shared<Element>(ElementType::Wood));				// 木
 	_elements.emplace_back(std::make_shared<Element>(ElementType::Water));				// 水
 	_elements.emplace_back(std::make_shared<Element>(ElementType::Fire));				// 火
 	_elements.emplace_back(std::make_shared<Element>(ElementType::Earth));				// 土
-
+}
+void GlobalManager::initializePlayer() {
 
 	// 初始化玩家
 	_hero = std::make_shared<Player>("try.png");										// 玩家
-
+}
+void GlobalManager::initializeTasks() {
 	// 初始化任务 
 	_tasks.emplace_back(std::make_shared<Task>(MAIN_TASK, MAIN_TASK_DESCRIPTION));					// 主线任务
 	_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_ONE, SIDE_TASK_ONE_DESCRIPTION));			// 副任务1
@@ -123,13 +150,15 @@ void GlobalManager::initialize() {
 	_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SIX, SIDE_TASK_SIX_DESCRIPTION));			// 副任务6
 	_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SEVEN, SIDE_TASK_SEVEN_DESCRIPTION));		// 副任务7
 	_tasks.emplace_back(std::make_shared<Task>(NON_TASK, NON_TASK_DESCRIPTION));					// 无任务
-	
+}
+void GlobalManager::initializeSkills() {
 	// 初始化技能
 	_lowLevelSkills.emplace_back(std::make_shared<LowLevelSkill>(ELEMENT_SURGE));					// 低级技能
 	_midLevelSkills.emplace_back(std::make_shared<MidLevelSkill>(Elemental_Torrent));				// 中级技能
 	_highLevelSkills.emplace_back(std::make_shared<HighLevelSkill>(Energy_Vortex));					// 高级技能
 	_highLevelSkills.emplace_back(std::make_shared<HighLevelSkill>(Arcane_Blast));					// 组合技能
-
+}
+void GlobalManager::initializeFriendNpcs() {
 	// 初始化友方NPC
 	_friendNpcs.emplace_back(std::make_shared<FriendNpc>(PRINCESS));								// 公主
 	_friendNpcs.emplace_back(std::make_shared<FriendNpc>(KING));									// 国王
@@ -137,10 +166,11 @@ void GlobalManager::initialize() {
 	_friendNpcs.emplace_back(std::make_shared<FriendNpc>(WeaponStoreManager));						// 武器商
 	_friendNpcs.emplace_back(std::make_shared<FriendNpc>(VegetableStoreManager));					// 蔬菜商
 	_friendNpcs.emplace_back(std::make_shared<FriendNpc>(OreStoreManager));							// 矿石商
-
+}
+void GlobalManager::initializeEnemyNpcs() {
 	// 初始化敌方NPC
 	// 金
-	_enemyNpcsGold.emplace_back(std::make_shared<EnemyNpc>(ElementType::Gold, 2, _lowLevelSkills[0]));		
+	_enemyNpcsGold.emplace_back(std::make_shared<EnemyNpc>(ElementType::Gold, 2, _lowLevelSkills[0]));
 	_enemyNpcsGold.emplace_back(std::make_shared<EnemyNpc>(ElementType::Gold, 1, _midLevelSkills[0]));
 	// 木
 	_enemyNpcsWood.emplace_back(std::make_shared<EnemyNpc>(ElementType::Wood, 2, _lowLevelSkills[0]));
@@ -156,18 +186,24 @@ void GlobalManager::initialize() {
 	_enemyNpcsFire.emplace_back(std::make_shared<EnemyNpc>(ElementType::Fire, 1, _midLevelSkills[0]));
 
 	// 初始化Boss
-	ElementType type = _hero->getPlayerElement();					
+	ElementType type = _hero->getPlayerElement();
 	_enemyNpcsBoss = std::make_shared<EnemyNpc>(type, 3, _highLevelSkills[0]);
-
+}
+void GlobalManager::initializeWeapons() {
 	// 初始化物品
 	// 武器
-	_weapons.emplace_back(std::make_shared<Weapon>(MAGIC_RING));						
+	_weapons.emplace_back(std::make_shared<Weapon>(MAGIC_RING));
 	_weapons.emplace_back(std::make_shared<Weapon>(MAGIC_CRYSTAL));
 	_weapons.emplace_back(std::make_shared<Weapon>(MAGIC_SCROLL));
+}
+void GlobalManager::initializeArmors() {
 	// 护具
 	_armors.emplace_back(std::make_shared<Armor>(HELMET));
 	_armors.emplace_back(std::make_shared<Armor>(ARMOR));
 	_armors.emplace_back(std::make_shared<Armor>(SHOES));
+}
+void GlobalManager::initializeFoods() {
+
 	// 食品
 	_foods.emplace_back(std::make_shared<Food>(FISH));													//鱼
 	_foods.emplace_back(std::make_shared<Food>(FRUIT));													//水果
@@ -177,13 +213,24 @@ void GlobalManager::initialize() {
 	_foods.emplace_back(std::make_shared<Food>(MUSHROOM));												//蘑菇
 	_foods.emplace_back(std::make_shared<Food>(RICE));													//稻谷
 	_foods.emplace_back(std::make_shared<Food>(APPLE));													//苹果
-	// 材料
+}
+
+void GlobalManager::initializeMaterials() {
+// 材料
 	_materials.emplace_back(std::make_shared<GameMaterial>(TREE));										//树
 	_materials.emplace_back(std::make_shared<GameMaterial>(WOOD));										//木头
 	_materials.emplace_back(std::make_shared<GameMaterial>(STONE));										//石头
 	_materials.emplace_back(std::make_shared<GameMaterial>(GOLD_MINE));									//金矿
 	_materials.emplace_back(std::make_shared<GameMaterial>(CHEST));										//宝箱
+}
+void GlobalManager::initializeTaskItems() {
 	_taskItems.emplace_back(std::make_shared<TaskItem>(KEY));											//钥匙
 	_taskItems.emplace_back(std::make_shared<TaskItem>(LETTER));										//信件
 }
+void GlobalManager::initializeBag() {
+	_bag = std::make_shared<Inventory>();																//背包
+}
+
+
+
 #endif // GLOBAL_MANAGER_H

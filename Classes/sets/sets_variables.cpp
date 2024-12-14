@@ -27,10 +27,7 @@ class Element;																//元素
 class Inventory;															//背包
 enum ElementType;															//元素类型
 
-
-
-
-
+ 
 //玩家类
 std::string spritetry = "try.png";
 Player hero(spritetry);													//玩家
