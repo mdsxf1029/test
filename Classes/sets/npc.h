@@ -27,8 +27,8 @@ const std::string WeaponStoreManager = "WeaponStoreManager";			//武器店
 
 //敌方
 
-const int ENEMY_ATTACK = 10;											//初始化攻击力
-const int ENEMY_HP = 25;												//初始化防御力
+constexpr int ENEMY_ATTACK = 10;											//初始化攻击力
+constexpr int ENEMY_HP = 25;												//初始化防御力
 //NPC类
 class NPC : public Sprite
 {
@@ -42,7 +42,7 @@ public:
 
 	//获取位置
 	virtual const Vec2& getPosition() const { return this->position; };
-
+	bool initWithFile(const std::string& filename);
 protected:
 	Vec2 position;//位置
 private:
@@ -55,7 +55,6 @@ class FriendNpc : public NPC
 {
 public:
 	FriendNpc(const std::string name);
-
 	void GiveTask();//给任务
 
 private:
@@ -94,8 +93,10 @@ public:
 	}
 	void Move();
 
-	virtual const Vec2& getPosition() const ;
-	virtual const void setPosition(Vec2 position);
+	virtual const Vec2& getPosition() const;							//得到位置
+	virtual const void setPosition(Vec2 position);						//设置位置
+	//创建文件
+
 private:
 	std::string name;
 	ElementType element;

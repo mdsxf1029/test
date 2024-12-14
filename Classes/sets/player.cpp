@@ -188,8 +188,8 @@ void Player::setPosition(const Vec2& newPosition){
 	position = newPosition;                 //更新坐标存储
 	Node::setPosition(position);            //更新地图上显示的坐标
 }
-//图像
 
+//图像
 bool Player::initWithFile(const std::string& filename)
 {
 	if (!Sprite::initWithFile(filename)) {

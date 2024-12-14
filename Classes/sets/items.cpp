@@ -47,7 +47,14 @@ void Item::discard()
 		//不显示图像
 	}
 }
-
+bool Item::initwithFile(const std::string& filename)
+{
+	if (!Sprite::initWithFile(filename)) {
+		std::cerr << "无法加载文件：" << filename << std::endl;
+		return false;
+	}
+	return true;
+}
 /*************************************************************************/
 
 //武器类 函数

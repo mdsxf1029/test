@@ -4,13 +4,13 @@
 #include <string>
 #include <vector>
 
-#include "sets/Player.h"
-#include "sets/NPC.h"
+#include "sets/player.h"
+#include "sets/nPC.h"
 #include "sets/tasks.h"
-#include "sets/Skills.h"
-#include "sets/Items.h"
-#include "sets/Elements.h"
-#include "sets/Inventory.h"
+#include "sets/skills.h"
+#include "sets/items.h"
+#include "sets/elements.h"
+#include "sets/inventory.h"
 
 // Ç°ÖÃÉùÃ÷
 class Player;

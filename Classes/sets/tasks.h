@@ -37,9 +37,11 @@ class Task {
 public:
 
 	Task() noexcept : name(NON_TASK), description(NON_TASK_DESCRIPTION), priority(0), isFinished(false) {};//默认构造函数
-
 	Task(const std::string name, const std::string description);//含参构造函数
 	void finish() noexcept;//完成任务
+	std::string getTaskName() const { return name; };
+	std::string getTaskDescription() const { return description; };
+
 protected:
 
 private:
@@ -49,6 +51,6 @@ private:
 	bool isFinished;//是否完成
 };
 
- 
+
 
 #endif

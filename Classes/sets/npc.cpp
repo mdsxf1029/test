@@ -11,8 +11,16 @@ class HighLevelSkill;
 
 //基类 NPC类
 //构造函数 传入名称
-NPC::NPC(const std::string name) : name(name)
+NPC::NPC(const std::string name) : name(name){}
+//图像
+
+bool NPC::initWithFile(const std::string& filename)
 {
+	if (!Sprite::initWithFile(filename)) {
+		std::cerr << "无法加载文件：" << filename << std::endl;
+		return false;
+	}
+	return true;
 }
 
 //子类
@@ -108,3 +116,4 @@ const void EnemyNpc::setPosition(Vec2 position)
 	this->position = position;
 	Sprite::setPosition(position);
 };
+
