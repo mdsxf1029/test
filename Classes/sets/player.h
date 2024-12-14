@@ -13,7 +13,7 @@
 #include "tasks.h"
 #include "npc.h"
 #include "cocos2d.h"
-#include <battle/BattleSence.h>
+#include <Classes/battle/BattleSence.h>
 
 
 const int PLAYER_UPGRADE_HP = 25;//升级增加的血量

@@ -1,59 +1,59 @@
 #ifndef __MINI_MAP_H__
 #define __MINI_MAP_H__
 
-#include <string>
 #include "cocos2d.h"
+#include <string>
 
-// åœ°å›¾ç±»ï¼šå»ºè®®è°ƒç”¨æ—¶å…ˆåˆ›å»ºå¯¹è±¡ï¼Œä¼ å‚åœ°å›¾æ–‡ä»¶åå’Œæ˜¯å¦ä¼ é€ï¼Œå†è°ƒç”¨æˆå‘˜å‡½æ•°
+// µØÍ¼Àà£º½¨Òéµ÷ÓÃÊ±ÏÈ´´½¨¶ÔÏó£¬´«²ÎµØÍ¼ÎÄ¼şÃûºÍÊÇ·ñ´«ËÍ£¬ÔÙµ÷ÓÃ³ÉÔ±º¯Êı
 class MiniMap : public cocos2d::Scene
 {
 public:
-	// æ„é€ å‡½æ•°
+	// ¹¹Ôìº¯Êı
 	MiniMap() :mapName(""), isFly(true), tiledMap(nullptr), player(nullptr), keyboardListener(nullptr) {}
 	MiniMap(const std::string& map, bool fly);
 
-	// åˆ›å»ºæ–¹æ³•
+	// ´´½¨·½·¨
 	static cocos2d::Scene* createScene();
 
-	// åˆå§‹åŒ–
+	// ³õÊ¼»¯
 	 bool init();
 
-	// ææ„å‡½æ•°
+	// Îö¹¹º¯Êı
 	 ~MiniMap()
 	 {
 		 StopListening();
 	 }
 
-	// è®¾ç½®ç›‘å¬å™¨
+	// ÉèÖÃ¼àÌıÆ÷
 	void StartListening();
 
-	// æŒ‰é”®æŒ‰ä¸‹çš„å›è°ƒå‡½æ•°
+	// °´¼ü°´ÏÂµÄ»Øµ÷º¯Êı
 	void OnKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
-	// æŒ‰é”®é‡Šæ”¾çš„å›è°ƒå‡½æ•°
+	// °´¼üÊÍ·ÅµÄ»Øµ÷º¯Êı
 	void OnKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
-	// æ¸…ç†ç›‘å¬å™¨
+	// ÇåÀí¼àÌıÆ÷
 	void StopListening();
+	
+	// »®´¬È¥ÏàÁÚµØÍ¼£º½ğÄ¾Ë®»ğÍÁ´å×¯
+    void BoatingToMap(const std::string& objectMap);
 
-	// åˆ’èˆ¹å»ç›¸é‚»åœ°å›¾ï¼šé‡‘æœ¨æ°´ç«åœŸæ‘åº„
-        void BoatingToMap(const std::string& objectMap);
-
-	// ä¼ é€å»ç›¸é‚»åœ°å›¾ï¼šè·³è½¬å’Œå‰å¾€è¿·å®«/ç«æŠ€åœºæˆ–ä»è¿·å®«/ç«æŠ€åœºé€€å‡º
+	// ´«ËÍÈ¥ÏàÁÚµØÍ¼£ºÌø×ªºÍÇ°ÍùÃÔ¹¬/¾º¼¼³¡»ò´ÓÃÔ¹¬/¾º¼¼³¡ÍË³ö
 	void FlyToMap(const std::string& objectMap);
-
-	// æ›´æ–°äººç‰©ä½ç½®
+	
+	// ¸üĞÂÈËÎïÎ»ÖÃ
 	void UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode);
-
-	//å¸¦å‚å®åˆ›å»ºcreateå‡½æ•°
+	
+	//´ø²Îºê´´½¨createº¯Êı
 	CREATE_FUNC(MiniMap);
 
 private:
-	std::string mapName; // å½“å‰åœ°å›¾çš„åç§°
-	bool isFly; // æ˜¯å¦ä¼ é€
-	cocos2d::TMXTiledMap* tiledMap; // å½“å‰åœ°å›¾çš„ç“¦ç‰‡åœ°å›¾
-	cocos2d::Sprite* player; // ç©å®¶ç²¾çµ
-	cocos2d::EventListenerKeyboard* keyboardListener; // é”®ç›˜ç›‘å¬å™¨
+	std::string mapName; // µ±Ç°µØÍ¼µÄÃû³Æ
+	bool isFly; // ÊÇ·ñ´«ËÍ
+	cocos2d::TMXTiledMap* tiledMap; // µ±Ç°µØÍ¼µÄÍßÆ¬µØÍ¼
+	cocos2d::Sprite* player; // Íæ¼Ò¾«Áé
+	cocos2d::EventListenerKeyboard* keyboardListener; // ¼üÅÌ¼àÌıÆ÷
 };
 
 #endif // __MINI_MAP_H__
