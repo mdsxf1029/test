@@ -1,6 +1,6 @@
  
 #include "elements.h"
-#include"sets_variables.h"
+
 
 
 // ¹¹Ôìº¯Êı

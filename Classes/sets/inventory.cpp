@@ -3,8 +3,11 @@
 #include<iostream>
 #include <typeinfo>
 #include "inventory.h"
-#include"sets_variables.h"
- 
+#include "items.h"
+
+//前置声明
+class Item;
+
 
 //界面
 //展示背包
