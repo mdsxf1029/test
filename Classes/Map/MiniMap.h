@@ -1,7 +1,10 @@
 #include "cocos2d.h"
 #include <string>
 
-// 地图类：建议调用时先创建对象，传参地图文件名和是否传送，再调用成员函数
+// 地图类：使用时直接调用createWithMap()，传参文件名形如"gold1.tmx"，传参fly用锚点传送则为true,划船去相邻地图则为false
+// 调用示例：
+//    auto miniMapScene = MiniMap::createWithMap("gold1.tmx", true);
+//    cocos2d::Director::getInstance()->replaceScene(miniMapScene);
 class MiniMap : public cocos2d::Scene
 {
 public:
