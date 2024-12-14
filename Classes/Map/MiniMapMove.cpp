@@ -1,124 +1,164 @@
-#include <cmath>
 #include "MiniMap.h"
 #include "cocos2d.h"
 #include "Classes/manager/manager.h"
 
-// 更新主控精灵位置
-void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode)
+cocos2d::Scene* MiniMap::createWithMap(const std::string& mapFile, bool fly)
 {
-    // 获取主控精灵原位置
-    cocos2d::Vec2 currentPos = player->getPosition();
+	MiniMap* scene = new(std::nothrow) MiniMap(mapFile);
+	if (scene && scene->initWithMap(mapFile)) {
+		scene->autorelease();
+		scene->isFly = fly;
+		scene->mapName = mapFile;
+		return scene;
+	}
+	CC_SAFE_DELETE(scene);
+	return nullptr;
+}
 
-    // 获取主控精灵新位置
-    cocos2d::Vec2 newPos = GlobalManager::getInstance().getPlayer()->Move(keyCode);
+bool MiniMap::initWithMap(const std::string& mapFile)
+{
+	if (!Scene::init()) {
+		return false;
+	}
+	// 获取当前可视区域的大小
+	cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 
-    // 是否能走
-    bool walkable = true;
+	// 获取当前可视区域原点坐标
+	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-    // 获取碰撞检测的动态对象组
-    auto collisionLayer = tiledMap->getObjectGroup("Collision");
+	// 获取地图
+	tiledMap = cocos2d::TMXTiledMap::create(mapFile);
+	if (!tiledMap) {
+		CCLOG("noMap");
+		return false;
+	}
 
-    // 获取缩放比例
-    auto scaleX = tiledMap->getScaleX();
-    auto scaleY = tiledMap->getScaleY();
+	//设置缩放比例
+	float scaleX = 3.0f;
+	float scaleY = 3.0f;
 
-    // 获取当前瓦片地图大小
-    cocos2d::Size mapSize = tiledMap->getMapSize();
+	// 加载地图
+	tiledMap->setScale(scaleX, scaleY);
 
-    // 获取瓦片地图瓦片大小
-    cocos2d::Size tileSize = tiledMap->getTileSize();
+	// 获取当前瓦片地图大小
+	cocos2d::Size mapSize = tiledMap->getMapSize();
 
-    // 获取当前瓦片地图坐标
-    cocos2d::Vec2 currentMapPos = tiledMap->getPosition();
+	// 获取瓦片地图瓦片大小
+	auto tileSize = tiledMap->getTileSize();
 
-    // 计算瓦片缩放后大小
-    cocos2d::Size playerSize = tileSize;
-    playerSize.width *= scaleX;
-    playerSize.height *= scaleY;
+	// 计算瓦片缩放后大小
+	auto playerSize = tileSize;
+	playerSize.width *= scaleX;
+	playerSize.height *= scaleY;
 
-    // 通过世界坐标获取精灵在瓦片层中的相对坐标
-    cocos2d::Vec2 tilePos = tiledMap->convertToNodeSpace(newPos);
+	// 加载主控精灵
+	player = cocos2d::Sprite::create("HelloWorld.png");
 
-    // 如果有碰撞检测层，找Collision属性
-    if (collisionLayer) {
-        auto collisionObjects = collisionLayer->getObjects();
-        for (const auto& object : collisionObjects) {
-            cocos2d::ValueMap collisionProperties = object.asValueMap();
-            auto x = collisionProperties["x"].asFloat();
-            auto y = collisionProperties["y"].asFloat();
-            auto width = collisionProperties["width"].asFloat();
-            auto height = collisionProperties["height"].asFloat();
-            if (tilePos.x >= x && tilePos.x <= x + width && tilePos.y >= y && tilePos.y <= y + height) {
-                walkable = false;
-                break;
-            }
-        }
-    }
+	// 设置主控精灵大小
+	player->setContentSize(playerSize);
 
-    // 获取当前可视区域原点坐标
-    cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
+	// 获取主控精灵需要到达的逻辑坐标
+	float bornPointX = 0.0f, bornPointY = 0.0f;
 
-    // 获取当前可视区域的大小
-    cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
+	// 创建对象层
+	auto transportPoint = (isFly == true ? tiledMap->getObjectGroup("TransportPoint") : tiledMap->getObjectGroup("Boat"));
 
-    // 计算视窗中心的世界坐标
-    cocos2d::Vec2 centralWorldPos = cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2);
+	// 获取传送位置的逻辑坐标
+	if (transportPoint) {
+		auto transportObject = (isFly == true ? transportPoint->getObject("Fly") : transportPoint->getObject("Boat"));
+		bornPointX = transportObject["x"].asFloat();
+		bornPointY = transportObject["y"].asFloat();
+	}
 
-    // 定义区域边界世界坐标
-    float minWorldX = centralWorldPos.x - visibleSize.width / 4;
-    float minWorldY = centralWorldPos.y - visibleSize.height / 4;
-    float maxWorldX = centralWorldPos.x + visibleSize.width / 4;
-    float maxWorldY = centralWorldPos.y + visibleSize.height / 4;
+	if (!bornPointX && !bornPointY)
+		CCLOG("noBornPoint");
 
-    // 如果能前往该坐标
-    if (walkable) {
-        // 设置偏移量
-        float offset;
-        if (abs(newPos.x - currentPos.x))
-            offset = abs(newPos.x - currentPos.x);
-        else
-            offset = abs(newPos.y - currentPos.y);
+	// 计算主控精灵的世界坐标
+	auto bornWorld = tiledMap->convertToWorldSpace(cocos2d::Vec2(bornPointX, bornPointY));
 
-        // 精灵向左
-        if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW && newPos.x <= minWorldX && tilePos.x > 0
-            && currentMapPos.x < 0) {
-            cocos2d::Vec2 newMapPosition = currentMapPos + cocos2d::Vec2(offset, 0.0f);
-            tiledMap->setPosition(newMapPosition);
-        }
+	// 计算视窗中心的世界坐标
+	cocos2d::Vec2 centerWorldPosition = cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2);
 
-        // 精灵向右
-        else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW && newPos.x >= maxWorldX
-            && tilePos.x < mapSize.width * tileSize.width && currentMapPos.x + (mapSize.width - 2) * tileSize.width * scaleX > visibleSize.width) {
-            cocos2d::Vec2 newMapPosition = currentMapPos + cocos2d::Vec2(-offset, 0.0f);
-            tiledMap->setPosition(newMapPosition);
-        }
+	// 获取偏移量
+	cocos2d::Vec2 offset = centerWorldPosition - bornWorld + cocos2d::Vec2(0.0f, -tileSize.height * scaleY);
 
-        // 精灵向上
-        else if (newPos.y >= maxWorldY && keyCode == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW && tilePos.y > 0
-            && currentMapPos.y + (mapSize.height - 2) * tileSize.height * scaleY > visibleSize.height) {
-            cocos2d::Vec2 newMapPosition = currentMapPos + cocos2d::Vec2(0.0f, -offset);
-            tiledMap->setPosition(newMapPosition);
-        }
+	// 调整偏移量，以防边界出现在视窗内部
+	if (offset.x > 0)
+		offset.x = 0;
+	else if (offset.x + mapSize.width * tileSize.width * scaleX < visibleSize.width)
+		offset.x = visibleSize.width - mapSize.width * tileSize.width * scaleX;
+	if (offset.y > 0)
+		offset.y = 0;
+	else if (offset.y + mapSize.height * tileSize.height * scaleY < visibleSize.height)
+		offset.y = visibleSize.height - mapSize.height * tileSize.height * scaleY;
 
-        // 精灵向下
-        else if (newPos.y <= minWorldY && keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW
-            && tilePos.y < mapSize.height * tileSize.height && currentMapPos.y < 0) {
-            cocos2d::Vec2 newMapPosition = currentMapPos + cocos2d::Vec2(0.0f, offset);
-            tiledMap->setPosition(newMapPosition);
-        }
+	// 调整主控精灵位置
+	cocos2d::Vec2 playerPos = offset + bornWorld - cocos2d::Vec2(0.0f, -tileSize.height * scaleY);
 
-        else if (newPos.x > 0 && newPos.x < visibleSize.width && newPos.y>0 && newPos.y < visibleSize.height) {
-            // 创建平滑移动的动作
-            auto moveTo = cocos2d::MoveTo::create(0.1f, newPos);
+	// 设置主控精灵位置
+	player->setPosition(playerPos);
 
-            // 执行动作
-            player->runAction(moveTo);
+	// 设置地图位置
+	tiledMap->setPosition(offset);
 
-            // 更新主控坐标
-            GlobalManager::getInstance().getPlayer()->setPosition(newPos);
-        }
-    }
-    else {
-        CCLOG("无法前往(%f,%f)", newPos.x, newPos.y);
-    }
+	// 把精灵添加到场景
+	this->addChild(tiledMap);
+
+	// 把地图添加到场景
+	this->addChild(player);
+
+	// 更新人物位置
+	GlobalManager::getInstance().getPlayer()->setPosition(playerPos);
+
+	// 设置键盘事件监听器
+	StartListening();
+
+	return true;
+}
+
+// 设置键盘事件监听器
+void MiniMap::StartListening()
+{
+	if (!keyboardListener) { // 确保没有重复添加监听器
+		// 创建并保存键盘事件监听器
+		keyboardListener = cocos2d::EventListenerKeyboard::create();
+
+		// 设置键盘按下事件的回调函数
+		keyboardListener->onKeyPressed = CC_CALLBACK_2(MiniMap::OnKeyPressed, this);
+
+		// 设置键盘释放事件的回调函数
+		keyboardListener->onKeyReleased = CC_CALLBACK_2(MiniMap::OnKeyReleased, this);
+
+		// 添加到事件调度器中
+		_eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
+	}
+}
+
+// 按键按下的回调函数
+void MiniMap::OnKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+	switch (keyCode) {
+	case cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW:
+	case cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+	case cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+	case cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		UpdatePlayerPosition(keyCode);
+		break;
+	default:
+		break;
+	}
+}
+
+// 按键释放的回调函数（暂时好像不需要，先放着吧）
+void MiniMap::OnKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
+}
+
+// 清理监听器
+void MiniMap::StopListening()
+{
+	if (keyboardListener) {
+		_eventDispatcher->removeEventListener(keyboardListener);
+		keyboardListener = nullptr; // 清空指针
+	}
 }
