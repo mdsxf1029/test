@@ -1,3 +1,6 @@
+#ifndef __MINI_MAP_H__
+#define __MINI_MAP_H__
+
 #include "cocos2d.h"
 #include <string>
 
@@ -47,9 +50,6 @@ public:
 	
 	// 更新人物位置
 	void UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode);
-	
-	//带参宏创建create函数
-	// CREATE_FUNC(MiniMap);
 
 private:
 	std::string mapName; // 当前地图的名称
