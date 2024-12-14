@@ -8,8 +8,11 @@
 class Setting : public cocos2d::Scene
 {
 public:
+
+
     static cocos2d::Scene* createScene();
     virtual bool init();
+    void createButton();
     CREATE_FUNC(Setting);
 
 private:
@@ -17,6 +20,7 @@ private:
     void onMouseScroll(cocos2d::Event* event);
     void menuItemCallback1(cocos2d::Ref* sender, const std::string& backgroundImage);
     void disableBigMapScrolling();
+    void openBackpack();
     // 确保这里有函数声明  
     cocos2d::MenuItemLabel* createTextButton(const std::string& text,
         const std::string& fontFile,
