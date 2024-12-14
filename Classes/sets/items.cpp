@@ -1,8 +1,9 @@
 #include "items.h"
-#include"player.h"
-#include"sets_variables.h"
-//»ùÀà
+#include"player.h" 
+//Ç°ÖÃÉùÃ÷
+class Player;
 
+//»ùÀà
 //Ê°È¡
 void Item::pick()
 {
@@ -22,19 +23,19 @@ void Item::equip()
 {
 	if (inBag && isEquiped == false)		//Èç¹ûÔÚ±³°üÖĞ
 		isEquiped = true;					//×°±¸	
-	
-}  
+
+}
 
 //Ğ¶ÏÂ
 void Item::unequip()
 {
 	if (inBag && isEquiped)					//Èç¹ûÔÚ±³°üÖĞ ÇÒ ×°±¸
 		isEquiped = false;					//Ğ¶ÏÂ	
-	
+
 }
 //Éı¼¶										//ºóÃæÍ¨¹ı¸²¸ÇÊµÏÖ ¶ÔÓÚÎäÆ÷ºÍ»¤¾ß
-void Item::upgrade(){}
-  
+void Item::upgrade() {}
+
 
 //¶ªÆú
 void Item::discard()
@@ -43,10 +44,17 @@ void Item::discard()
 	{
 		inBag = false;						//¶ªÆú
 		num = 0;							//ÊıÁ¿Îª0
-											//²»ÏÔÊ¾Í¼Ïñ
+		//²»ÏÔÊ¾Í¼Ïñ
 	}
-} 
-
+}
+bool Item::initwithFile(const std::string& filename)
+{
+	if (!Sprite::initWithFile(filename)) {
+		std::cerr << "ÎŞ·¨¼ÓÔØÎÄ¼ş£º" << filename << std::endl;
+		return false;
+	}
+	return true;
+}
 /*************************************************************************/
 
 //ÎäÆ÷Àà º¯Êı
@@ -123,15 +131,14 @@ void Food::cook()
 //Ê³ÓÃ
 void Food::eat()
 {
-	if (inBag&&num!=0)
+	if (inBag && num != 0)
 	{
-		hero.Heal(healHp);					//»Ø¸´
 		num--;								//ÊıÁ¿¼õÉÙ
 		if (num == 0)
 		{
-											//²»ÏÔÊ¾Í¼Ïñ
+			//²»ÏÔÊ¾Í¼Ïñ
 		}
-											//Ê¹ÓÃÊ³Îï
+		//Ê¹ÓÃÊ³Îï
 	}
 }
 
@@ -144,11 +151,11 @@ void GameMaterial::use()					//ÎÒÏëµÄÊÇÄ¾Í·ºÍÊ¯Í·¿ÉÒÔÓÃÀ´Éú»ğ  ×êÄ¾È¡»ğ°É£¬ËãÊÇ¡
 {
 	if (inBag)
 	{
-											//Ê¹ÓÃ  
+		//Ê¹ÓÃ  
 		num--;								//ÊıÁ¿¼õÉÙ
 		if (num == 0)
 		{
-											//²»ÏÔÊ¾Í¼Ïñ
+			//²»ÏÔÊ¾Í¼Ïñ
 		}
 	}
 }
@@ -163,10 +170,10 @@ void TaskItem::Finish()
 {
 	if (num == 5)							//Èç¹ûÊıÁ¿Îª5
 	{
-											//Íê³ÉÈÎÎñ
+		//Íê³ÉÈÎÎñ
 		num = 0;							//ÊıÁ¿ÇåÁã
 		this->discard();					//¶ªÆú 
-											//Ìæ»»³ÉÁíÒ»¸ö±êÖ¾Îï
+		//Ìæ»»³ÉÁíÒ»¸ö±êÖ¾Îï
 		isFinished = true;//Íê³É
 		//¶Ô»°
 		//×îÖÕ¾öÕ½

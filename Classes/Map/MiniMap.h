@@ -4,19 +4,23 @@
 #include "cocos2d.h"
 #include <string>
 
-// 地图类：建议调用时先创建对象，传参地图文件名和是否传送，再调用成员函数
+// 地图类
+/* 调用示例：
+	auto miniMapScene = MiniMap::createWithMap("gold1.tmx", true);
+	cocos2d::Director::getInstance()->replaceScene(miniMapScene);
+*/
 class MiniMap : public cocos2d::Scene
 {
 public:
 	// 构造函数
-	MiniMap() :mapName(""), isFly(true), tiledMap(nullptr), player(nullptr), keyboardListener(nullptr) {}
-	MiniMap(const std::string& map, bool fly);
+	MiniMap(const std::string& mapFile = "village.tmx") :mapName(mapFile), isFly(true), tiledMap(nullptr), player(nullptr), keyboardListener(nullptr) {}
+	//MiniMap(const std::string& map, bool fly);
 
 	// 创建方法
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createWithMap(const std::string&mapName,bool fly);
 
-	// 初始化
-	 bool init();
+	// 自用初始化
+	bool initWithMap(const std::string&mapName);
 
 	// 析构函数
 	 ~MiniMap()
@@ -44,9 +48,6 @@ public:
 	
 	// 更新人物位置
 	void UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode);
-	
-	//带参宏创建create函数
-	CREATE_FUNC(MiniMap);
 
 private:
 	std::string mapName; // 当前地图的名称

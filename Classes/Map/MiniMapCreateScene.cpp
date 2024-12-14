@@ -1,81 +1,68 @@
 #include "MiniMap.h"
 #include "cocos2d.h"
 
-// ç¡®ä¿ç»™å‡ºçš„å€¼åœ¨æŸä¸ªèŒƒå›´å†…ï¼Œä¸»è¦ç”¨äºè®¾ç½®ç›¸æœºä¸­å¿ƒä½ç½®
-template<typename T>
-T clamp(const T& value, const T& min, const T& max)
+cocos2d::Scene* MiniMap::createWithMap(const std::string& mapFile, bool fly)
 {
-	if (value < min)
-		return min;
-	else if (value > max)
-		return max;
-	else
-		return value;
+	MiniMap* scene = new(std::nothrow) MiniMap(mapFile);
+	if (scene && scene->initWithMap(mapFile)) {
+		scene->autorelease();
+		scene->isFly = fly;
+		scene->mapName = mapFile;
+		return scene;
+	}
+	CC_SAFE_DELETE(scene);
+	return nullptr;
 }
 
-// åˆå§‹åŒ–
-MiniMap::MiniMap(const std::string& map, bool fly)
-{
-	mapName.assign(map);
-	CCLOG("mapName:%s", mapName);
-	isFly = fly;
-	tiledMap = nullptr;
-	player = nullptr;
-	keyboardListener = nullptr;
-}
-
-cocos2d::Scene* MiniMap::createScene()
-{
-	auto current_scene = cocos2d::Scene::create();
-	auto map = MiniMap::create();
-	current_scene->addChild(map);
-	return current_scene;
-}
-
-bool MiniMap::init()
+bool MiniMap::initWithMap(const std::string& mapFile)
 {
 	if (!Scene::init()) {
 		return false;
 	}
-	// è·å–å½“å‰å¯è§†åŒºåŸŸçš„å¤§å°
+	// »ñÈ¡µ±Ç°¿ÉÊÓÇøÓòµÄ´óĞ¡
 	cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 
-	// è·å–å½“å‰å¯è§†åŒºåŸŸåŸç‚¹åæ ‡
+	// »ñÈ¡µ±Ç°¿ÉÊÓÇøÓòÔ­µã×ø±ê
 	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-	// è·å–åœ°å›¾
-	tiledMap = cocos2d::TMXTiledMap::create(mapName);
-	if (!tiledMap)
+	// »ñÈ¡µØÍ¼
+	tiledMap = cocos2d::TMXTiledMap::create(mapFile);
+	if (!tiledMap) {
 		CCLOG("noMap");
+		return false;
+	}
 
-	//è®¾ç½®ç¼©æ”¾æ¯”ä¾‹
+	//ÉèÖÃËõ·Å±ÈÀı
 	float scaleX = 3.0f;
 	float scaleY = 3.0f;
 
-	// åŠ è½½åœ°å›¾
+	// ¼ÓÔØµØÍ¼
 	tiledMap->setScale(scaleX, scaleY);
 
-	// è·å–ç“¦ç‰‡åœ°å›¾ç“¦ç‰‡å¤§å°
+	// »ñÈ¡µ±Ç°ÍßÆ¬µØÍ¼´óĞ¡
+	cocos2d::Size mapSize = tiledMap->getMapSize();
+
+	// »ñÈ¡ÍßÆ¬µØÍ¼ÍßÆ¬´óĞ¡
 	auto tileSize = tiledMap->getTileSize();
 
-	// è®¡ç®—ç“¦ç‰‡ç¼©æ”¾åå¤§å°
+	// ¼ÆËãÍßÆ¬Ëõ·Åºó´óĞ¡
 	auto playerSize = tileSize;
 	playerSize.width *= scaleX;
 	playerSize.height *= scaleY;
 
-	// åŠ è½½ä¸»æ§ç²¾çµ
+	// ¼ÓÔØÖ÷¿Ø¾«Áé
 	player = cocos2d::Sprite::create("HelloWorld.png");
 
-	// è®¾ç½®ä¸»æ§ç²¾çµå¤§å°
+	// ÉèÖÃÖ÷¿Ø¾«Áé´óĞ¡
 	player->setContentSize(playerSize);
 
-	// è·å–ä¸»æ§ç²¾çµéœ€è¦åˆ°è¾¾çš„é€»è¾‘åæ ‡
+	// »ñÈ¡Ö÷¿Ø¾«ÁéĞèÒªµ½´ïµÄÂß¼­×ø±ê
 	float bornPointX = 0.0f, bornPointY = 0.0f;
 
-	// åˆ›å»ºå¯¹è±¡å±‚
+	// ´´½¨¶ÔÏó²ã
 	auto transportPoint = (isFly == true ? tiledMap->getObjectGroup("TransportPoint") : tiledMap->getObjectGroup("Boat"));
 
-	// è·å–ä¼ é€ä½ç½®çš„é€»è¾‘åæ ‡
+	// »ñÈ¡´«ËÍÎ»ÖÃµÄÂß¼­×ø±ê
 	if (transportPoint) {
 		auto transportObject = (isFly == true ? transportPoint->getObject("Fly") : transportPoint->getObject("Boat"));
 		bornPointX = transportObject["x"].asFloat();
@@ -85,48 +72,61 @@ bool MiniMap::init()
 	if (!bornPointX && !bornPointY)
 		CCLOG("noBornPoint");
 
-	// è®¡ç®—ä¸»æ§ç²¾çµçš„ä¸–ç•Œåæ ‡
+	// ¼ÆËãÖ÷¿Ø¾«ÁéµÄÊÀ½ç×ø±ê
 	auto bornWorld = tiledMap->convertToWorldSpace(cocos2d::Vec2(bornPointX, bornPointY));
 
-	// è®¡ç®—è§†çª—ä¸­å¿ƒçš„ä¸–ç•Œåæ ‡
+	// ¼ÆËãÊÓ´°ÖĞĞÄµÄÊÀ½ç×ø±ê
 	cocos2d::Vec2 centerWorldPosition = cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2);
 
-	// è·å–åç§»é‡
+	// »ñÈ¡Æ«ÒÆÁ¿
 	cocos2d::Vec2 offset = centerWorldPosition - bornWorld + cocos2d::Vec2(0.0f, -tileSize.height * scaleY);
 
-	// è®¾ç½®ä¸»æ§ç²¾çµä½ç½®
-	player->setPosition(centerWorldPosition);
+	// µ÷ÕûÆ«ÒÆÁ¿£¬ÒÔ·À±ß½ç³öÏÖÔÚÊÓ´°ÄÚ²¿
+	if (offset.x > 0)
+		offset.x = 0;
+	else if (offset.x + mapSize.width * tileSize.width * scaleX < visibleSize.width)
+		offset.x = visibleSize.width - mapSize.width * tileSize.width * scaleX;
+	if (offset.y > 0)
+		offset.y = 0;
+	else if (offset.y + mapSize.height * tileSize.height * scaleY < visibleSize.height)
+		offset.y = visibleSize.height - mapSize.height * tileSize.height * scaleY;
+
+	// µ÷ÕûÖ÷¿Ø¾«ÁéÎ»ÖÃ
+	cocos2d::Vec2 playerPos = offset + bornWorld - cocos2d::Vec2(0.0f, -tileSize.height * scaleY);
+
+	// ÉèÖÃÖ÷¿Ø¾«ÁéÎ»ÖÃ
+	player->setPosition(playerPos);
 	tiledMap->setPosition(offset);
 
-	// æŠŠç²¾çµæ·»åŠ åˆ°åœºæ™¯
+	// °Ñ¾«ÁéÌí¼Óµ½³¡¾°
 	this->addChild(tiledMap);
 	this->addChild(player);
 
-	// è®¾ç½®é”®ç›˜äº‹ä»¶ç›‘å¬å™¨
+	// ÉèÖÃ¼üÅÌÊÂ¼ş¼àÌıÆ÷
 	StartListening();
 
 	return true;
 }
 
-// è®¾ç½®é”®ç›˜äº‹ä»¶ç›‘å¬å™¨
+// ÉèÖÃ¼üÅÌÊÂ¼ş¼àÌıÆ÷
 void MiniMap::StartListening()
 {
-	if (!keyboardListener) { // ç¡®ä¿æ²¡æœ‰é‡å¤æ·»åŠ ç›‘å¬å™¨
-		// åˆ›å»ºå¹¶ä¿å­˜é”®ç›˜äº‹ä»¶ç›‘å¬å™¨
+	if (!keyboardListener) { // È·±£Ã»ÓĞÖØ¸´Ìí¼Ó¼àÌıÆ÷
+		// ´´½¨²¢±£´æ¼üÅÌÊÂ¼ş¼àÌıÆ÷
 		keyboardListener = cocos2d::EventListenerKeyboard::create();
 
-		// è®¾ç½®é”®ç›˜æŒ‰ä¸‹äº‹ä»¶çš„å›è°ƒå‡½æ•°
+		// ÉèÖÃ¼üÅÌ°´ÏÂÊÂ¼şµÄ»Øµ÷º¯Êı
 		keyboardListener->onKeyPressed = CC_CALLBACK_2(MiniMap::OnKeyPressed, this);
 
-		// è®¾ç½®é”®ç›˜é‡Šæ”¾äº‹ä»¶çš„å›è°ƒå‡½æ•°
+		// ÉèÖÃ¼üÅÌÊÍ·ÅÊÂ¼şµÄ»Øµ÷º¯Êı
 		keyboardListener->onKeyReleased = CC_CALLBACK_2(MiniMap::OnKeyReleased, this);
 
-		// æ·»åŠ åˆ°äº‹ä»¶è°ƒåº¦å™¨ä¸­
+		// Ìí¼Óµ½ÊÂ¼şµ÷¶ÈÆ÷ÖĞ
 		_eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardListener, this);
 	}
 }
 
-// æŒ‰é”®æŒ‰ä¸‹çš„å›è°ƒå‡½æ•°
+// °´¼ü°´ÏÂµÄ»Øµ÷º¯Êı
 void MiniMap::OnKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	switch (keyCode) {
@@ -141,16 +141,16 @@ void MiniMap::OnKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
 	}
 }
 
-// æŒ‰é”®é‡Šæ”¾çš„å›è°ƒå‡½æ•°ï¼ˆæš‚æ—¶å¥½åƒä¸éœ€è¦ï¼Œå…ˆæ”¾ç€å§ï¼‰
+// °´¼üÊÍ·ÅµÄ»Øµ÷º¯Êı£¨ÔİÊ±ºÃÏñ²»ĞèÒª£¬ÏÈ·Å×Å°É£©
 void MiniMap::OnKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 }
 
-// æ¸…ç†ç›‘å¬å™¨
+// ÇåÀí¼àÌıÆ÷
 void MiniMap::StopListening()
 {
 	if (keyboardListener) {
 		_eventDispatcher->removeEventListener(keyboardListener);
-		keyboardListener = nullptr; // æ¸…ç©ºæŒ‡é’ˆ
+		keyboardListener = nullptr; // Çå¿ÕÖ¸Õë
 	}
 }

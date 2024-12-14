@@ -12,13 +12,13 @@
 #include "items.h"
 #include "tasks.h"
 #include "npc.h"
+<<<<<<< HEAD
 #include "cocos2d.h"
 #include <Classes/battle/BattleSence.h>
+=======
+#include "cocos2d.h" 
+>>>>>>> b63e711c7b7e90fb33041d65212f90826e208538
 
-
-const int PLAYER_UPGRADE_HP = 25;//升级增加的血量
-const int PLAYER_UPGRADE_ATTACK = 5;//升级增加的攻击力
-const int SPEED = 200;//移动速度
 /******************************************************************************************
  class Player
  代表游戏中的玩家角色。
@@ -36,7 +36,24 @@ const int SPEED = 200;//移动速度
  - inventory: 玩家背包
 
 *******************************************************************************************/
+//图片名字
+const std::string hero1 = "try1.png";
+const std::string hero2 = "try1.png";
+const std::string hero3 = "try1.png";
+
 //hero
+enum SkillState
+{
+    NONE,   // 没有技能激活
+    SKILL_1,  // 一技能
+    SKILL_2   // 二技能
+};
+// 玩家角色的状态，可能用于角色属性管理
+enum PlayerState {
+    NORMAL,
+    STUNNED,
+    DEAD
+};
 class Player : public Sprite {
 
     friend class Inventory;
@@ -56,9 +73,10 @@ class Player : public Sprite {
     friend class Elements;
     friend class BattleSence;
 
+
 public:
 
-    Player(const std::string& filename);//含参
+    Player();//含参
 
     //升级
     void Upgrade();
@@ -66,7 +84,7 @@ public:
     //互动  -交给其他组员。
     void Interact(FriendNpc& fnpc)
     {
-    };//还没有具体写
+    };
 
     // 玩家攻击敌人
     void AttackEnemy(EnemyNpc& enemy, EventKeyboard::KeyCode KEY);
@@ -96,7 +114,7 @@ public:
     constexpr ElementType getPlayerElement() { return player_element; }
 
     //设定坐标
-    void setPosition(const Vec2& newPosition) override { position = newPosition; }
+    void setPosition(const Vec2& newPosition) override;
 
     //获取坐标
     const cocos2d::Vec2& getPosition() const override { return position; }
@@ -115,7 +133,8 @@ private:
     int attack;                                             //最终攻击力
     int money = 0;                                            //金钱
 
-    ElementType player_element;                             //元素属性
+    std::string file;									    //文件名
+    ElementType player_element;							    //元素属性
     Inventory bag;                                          //背包
     Vec2 position;                                          //位置
 
@@ -123,7 +142,7 @@ private:
     bool isAlive;                                           //是否存活   
     bool isMoving = false;                                  //是否 移动
     bool isAttacking = false;                               //是否攻击 普通攻击
-
+    PlayerState state;                                      //状态
     //装备
     Armor* my_armor;                                        //护甲
     Armor* my_helmet;                                       //头盔

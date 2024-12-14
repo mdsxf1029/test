@@ -5,7 +5,7 @@
 
 #include "elements.h"
 # include "player.h"
-#include "sets_variables.h"
+
 #include "items.h"
 /*
 * class player 的含参构造函数
@@ -14,15 +14,20 @@
 * level 初始化为0 hp初始化为50 attack初始化为10
 */
 
+constexpr int PLAYRT_BASE_HP = 50;//玩家初始血量
+constexpr int PLAYER_UPGRADE_HP = 25;//升级增加的血量
+constexpr int PLAYRR_BASE_ATTACK = 10;//玩家初始攻击力
+constexpr int PLAYER_UPGRADE_ATTACK = 5;//升级增加的攻击力
+constexpr int SPEED = 200;//移动速度
 
 //构造函数 初始化姓名 元素属性 等级血量攻击力等等
-Player::Player(const std::string& filename) : level(0), hp(50), attack(10), isAlive(true)
+Player::Player() : level(0), hp(PLAYRT_BASE_HP), attack(PLAYRR_BASE_ATTACK), isAlive(true)
 {
-	std::string names;
+	state = PlayerState::NORMAL;
+
 	std::cout << "为你的英雄起一个名字吧：";
-	std::cin >> names;
+	std::cin >> name;
 	 
-	initWithFile(filename);
 	int elemnt = 0;
 	// 1金 2木 3水 4火 5土
 	//这里通过界面选择元素属性
@@ -51,9 +56,9 @@ Player::Player(const std::string& filename) : level(0), hp(50), attack(10), isAl
 	}
 
 	//初始时 装备
-	my_armor = &armor;//护甲
-	my_helmet = &helmet;//头盔
-	my_shoes = &shoes;//鞋子
+	my_armor = nullptr;//护甲
+	my_helmet = nullptr;//头盔
+	my_shoes = nullptr;//鞋子
 	//初始时 武器
 	weapon = nullptr;//武器为空
 
@@ -178,12 +183,18 @@ Vec2 Player::Move(EventKeyboard::KeyCode keyCode)
 	}
 	return next_position;
 }
+//设定坐标
+void Player::setPosition(const Vec2& newPosition){
+	position = newPosition;                 //更新坐标存储
+	Node::setPosition(position);            //更新地图上显示的坐标
+}
 
 //图像
-
 bool Player::initWithFile(const std::string& filename)
 {
-	//加载图片
-	//this->initWithFile(filename);
-	return this;
+	if (!Sprite::initWithFile(filename)) {
+		std::cerr << "无法加载文件：" << filename << std::endl;
+		return false;
+	}
+	return true;
 }

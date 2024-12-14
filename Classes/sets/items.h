@@ -64,7 +64,7 @@ public:
 	virtual void use() {};												//使用
 	virtual void cook() {};												//烹饪
 	virtual void eat() {};												//食用
-
+	virtual bool initwithFile(const std::string& filename)  ;			//初始化
 	virtual void discard();												//丢弃 
 	int getNum() { return num; };										//得到数量
 	void setNum(int n) { num = n; };									//设置数量 

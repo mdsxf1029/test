@@ -30,8 +30,7 @@ void MiniMap::BoatingToMap(const std::string& objectMap)
 	cocos2d::Director::getInstance()->replaceScene(boatTransition1);
 
 	// 创建新场景
-	MiniMap newMap(objectMap,false);
-	auto newScene = newMap.createScene();
+	auto newScene = createWithMap(objectMap, false);
 
 	// 添加过渡动画
 	auto boatTransition2 = cocos2d::TransitionSlideInT::create(0.5f, newScene);
@@ -90,8 +89,7 @@ void MiniMap::FlyToMap(const std::string& objectMap)
 	}
 	else { // 其他转换
 		// 创建新场景
-		MiniMap newMap(objectMap, true);
-		auto newScene = newMap.createScene();
+		auto newScene = createWithMap(objectMap, true);
 
 		// 添加过渡动画
 		auto flyTransition2 = cocos2d::TransitionSlideInT::create(0.5f, newScene);

@@ -1,5 +1,5 @@
 #include"skills.h" 
-#include"sets_variables.h"
+
 //¼¼ÄÜÀà
 Skill::Skill(const std::string name) :name(name) {};
 Skill::~Skill() {};

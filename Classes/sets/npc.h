@@ -7,7 +7,7 @@
 #include "elements.h"
 #include "inventory.h"
 #include "tasks.h"
-#include "sets_variables.h"
+
 #include "player.h"
 #include "skills.h"
 //友方
@@ -27,14 +27,14 @@ const std::string WeaponStoreManager = "WeaponStoreManager";			//武器店
 
 //敌方
 
-const int ENEMY_ATTACK = 10;											//初始化攻击力
-const int ENEMY_HP = 25;												//初始化防御力
+constexpr int ENEMY_ATTACK = 10;											//初始化攻击力
+constexpr int ENEMY_HP = 25;												//初始化防御力
 //NPC类
 class NPC : public Sprite
 {
 public:
 	NPC()noexcept {
-		position = Vec2(0, 0);
+		position = Vec2(0.0, 0.0);
 	};//默认构造函数
 	NPC(const std::string name);//含参构造函数
 	virtual ~NPC() {};
@@ -42,7 +42,7 @@ public:
 
 	//获取位置
 	virtual const Vec2& getPosition() const { return this->position; };
-
+	bool initWithFile(const std::string& filename);
 protected:
 	Vec2 position;//位置
 private:
@@ -55,7 +55,6 @@ class FriendNpc : public NPC
 {
 public:
 	FriendNpc(const std::string name);
-
 	void GiveTask();//给任务
 
 private:
@@ -76,9 +75,9 @@ class EnemyNpc : public NPC
 public:
 	friend class Player;
 	friend class Elements;
-	EnemyNpc(ElementType element, int level, LowLevelSkill& skill);//含参构造函数
-	EnemyNpc(ElementType element, int level, MidLevelSkill& skill);//含参构造函数
-	EnemyNpc(ElementType element, int level, HighLevelSkill& skill);//含参构造函数
+	EnemyNpc(ElementType element, int level, std::shared_ptr<LowLevelSkill> skill);//含参构造函数
+	EnemyNpc(ElementType element, int level, std::shared_ptr<MidLevelSkill> skill);//含参构造函数
+	EnemyNpc(ElementType element, int level, std::shared_ptr<HighLevelSkill>skill);//含参构造函数
 
 
 	//受到伤害
@@ -94,6 +93,10 @@ public:
 	}
 	void Move();
 
+	virtual const Vec2& getPosition() const;							//得到位置
+	virtual const void setPosition(Vec2 position);						//设置位置
+	//创建文件
+
 private:
 	std::string name;
 	ElementType element;
@@ -102,10 +105,13 @@ private:
 	int basic_attack;
 	int attack;
 	int level;
-	bool isAlive;
+
+	Vec2 position=Vec2(0.0f,0.0f);
+
+	bool isAlive = true;//初始化为存活状态
 	bool isFrenzy = false;//初始化为非狂暴状态
 	bool isMoving = false;//初始化为不在移动状态
-	Skill* skill;
+	std::shared_ptr<Skill> skill;
 };
 
 
