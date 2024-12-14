@@ -1,11 +1,11 @@
 #include "MiniMap.h"
 #include "cocos2d.h"
-constexpr int SPEED = 2000;//ÒÆ¶¯ËÙ¶È
+constexpr int SPEED = 2000;//ç§»åŠ¨é€Ÿåº¦
 
-// ¸üĞÂÖ÷¿Ø¾«ÁéÎ»ÖÃ
+// æ›´æ–°ä¸»æ§ç²¾çµä½ç½®
 void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode)
 {
-    // »ñÈ¡Ö÷¿Ø¾«ÁéĞÂÎ»ÖÃ
+    // è·å–ä¸»æ§ç²¾çµæ–°ä½ç½®
     //cocos2d::Vec2& newPos = hero.Move(keyCode);
     cocos2d::Vec2 next_position = player->getPosition(), currentPos = player->getPosition();
     switch (keyCode)
@@ -27,34 +27,34 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
     }
     cocos2d::Vec2 newPos = next_position;
 
-    // ÊÇ·ñÄÜ×ß
+    // æ˜¯å¦èƒ½èµ°
     bool walkable = true;
 
-    // »ñÈ¡Åö×²¼ì²âµÄ¶¯Ì¬¶ÔÏó×é
+    // è·å–ç¢°æ’æ£€æµ‹çš„åŠ¨æ€å¯¹è±¡ç»„
     auto collisionLayer = tiledMap->getObjectGroup("Collision");
 
-    // »ñÈ¡Ëõ·Å±ÈÀı
+    // è·å–ç¼©æ”¾æ¯”ä¾‹
     auto scaleX = tiledMap->getScaleX();
     auto scaleY = tiledMap->getScaleY();
 
-    // »ñÈ¡µ±Ç°ÍßÆ¬µØÍ¼´óĞ¡
+    // è·å–å½“å‰ç“¦ç‰‡åœ°å›¾å¤§å°
     cocos2d::Size mapSize = tiledMap->getMapSize();
 
-    // »ñÈ¡ÍßÆ¬µØÍ¼ÍßÆ¬´óĞ¡
+    // è·å–ç“¦ç‰‡åœ°å›¾ç“¦ç‰‡å¤§å°
     cocos2d::Size tileSize = tiledMap->getTileSize();
 
-    // »ñÈ¡µ±Ç°ÍßÆ¬µØÍ¼×ø±ê
+    // è·å–å½“å‰ç“¦ç‰‡åœ°å›¾åæ ‡
     cocos2d::Vec2 currentMapPos = tiledMap->getPosition();
 
-    // ¼ÆËãÍßÆ¬Ëõ·Åºó´óĞ¡
+    // è®¡ç®—ç“¦ç‰‡ç¼©æ”¾åå¤§å°
     cocos2d::Size playerSize = tileSize;
     playerSize.width *= scaleX;
     playerSize.height *= scaleY;
 
-    // Í¨¹ıÊÀ½ç×ø±ê»ñÈ¡¾«ÁéÔÚÍßÆ¬²ãÖĞµÄÏà¶Ô×ø±ê
+    // é€šè¿‡ä¸–ç•Œåæ ‡è·å–ç²¾çµåœ¨ç“¦ç‰‡å±‚ä¸­çš„ç›¸å¯¹åæ ‡
     cocos2d::Vec2 tilePos = tiledMap->convertToNodeSpace(newPos);
 
-    // Èç¹ûÓĞÅö×²¼ì²â²ã£¬ÕÒCollisionÊôĞÔ
+    // å¦‚æœæœ‰ç¢°æ’æ£€æµ‹å±‚ï¼Œæ‰¾Collisionå±æ€§
     if (collisionLayer) {
         auto collisionObjects = collisionLayer->getObjects();
         for (const auto& object : collisionObjects) {
@@ -63,80 +63,68 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
             auto y = collisionProperties["y"].asFloat();
             auto width = collisionProperties["width"].asFloat();
             auto height = collisionProperties["height"].asFloat();
-            /*if (collisionProperties["walkable"].isNull()) {
-                walkable = true;
-                break;
-            }
-            bool walkable = collisionProperties["walkable"].asBool();
-            */
             if (tilePos.x >= x && tilePos.x <= x + width && tilePos.y >= y && tilePos.y <= y + height) {
                 walkable = false;
                 break;
             }
-            // ¼ì²âÊÇ·ñÊÇĞèÒªµÄÍßÆ¬
-            /*if (playerTile.x >= (x - tileSize.width / 2) && playerTile.x <= (x + tileSize.width / 2)
-                && playerTile.y >= (y - tileSize.height/2) && playerTile.y <= (y + tileSize.height/2)) {
-                walkable = false;
-                break;
-            }*/
         }
     }
 
-    // »ñÈ¡µ±Ç°¿ÉÊÓÇøÓòÔ­µã×ø±ê
+    // è·å–å½“å‰å¯è§†åŒºåŸŸåŸç‚¹åæ ‡
     cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
-    // »ñÈ¡µ±Ç°¿ÉÊÓÇøÓòµÄ´óĞ¡
+    // è·å–å½“å‰å¯è§†åŒºåŸŸçš„å¤§å°
     cocos2d::Size visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 
-    // ¼ÆËãÊÓ´°ÖĞĞÄµÄÊÀ½ç×ø±ê
+    // è®¡ç®—è§†çª—ä¸­å¿ƒçš„ä¸–ç•Œåæ ‡
     cocos2d::Vec2 centralWorldPos = cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2);
 
-    // ¶¨ÒåÇøÓò±ß½çÊÀ½ç×ø±ê
+    // å®šä¹‰åŒºåŸŸè¾¹ç•Œä¸–ç•Œåæ ‡
     float minWorldX = centralWorldPos.x - visibleSize.width / 4;
     float minWorldY = centralWorldPos.y - visibleSize.height / 4;
     float maxWorldX = centralWorldPos.x + visibleSize.width / 4;
     float maxWorldY = centralWorldPos.y + visibleSize.height / 4;
 
-    // Èç¹ûÄÜÇ°Íù¸Ã×ø±ê
+    // å¦‚æœèƒ½å‰å¾€è¯¥åæ ‡
     if (walkable) {
-        // ¸üĞÂÖ÷¿Ø×ø±ê
+        // æ›´æ–°ä¸»æ§åæ ‡
         //hero.setPosition(newPos);
-        // ÉèÖÃÆ«ÒÆÁ¿
+        // è®¾ç½®åç§»é‡
         auto offset = SPEED * cocos2d::Director::getInstance()->getDeltaTime();
 
-        // ¾«ÁéÏò×ó
+        // ç²¾çµå‘å·¦
         if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW && newPos.x <= minWorldX && tilePos.x > 0
             && currentMapPos.x < 0) {
             cocos2d::Vec2 newMapPosition = currentMapPos + cocos2d::Vec2(offset, 0.0f);
             tiledMap->setPosition(newMapPosition);
         }
-        // ¾«ÁéÏòÓÒ
+        // ç²¾çµå‘å³
         else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW && newPos.x >= maxWorldX
             && tilePos.x < mapSize.width * tileSize.width && currentMapPos.x + (mapSize.width - 2) * tileSize.width * scaleX > visibleSize.width) {
             cocos2d::Vec2 newMapPosition = currentMapPos + cocos2d::Vec2(-offset, 0.0f);
             tiledMap->setPosition(newMapPosition);
         }
-        // ¾«ÁéÏòÉÏ
+        // ç²¾çµå‘ä¸Š
         else if (newPos.y >= maxWorldY && keyCode == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW && tilePos.y > 0
             && currentMapPos.y + (mapSize.height - 2) * tileSize.height * scaleY > visibleSize.height) {
             cocos2d::Vec2 newMapPosition = currentMapPos + cocos2d::Vec2(0.0f, -offset);
             tiledMap->setPosition(newMapPosition);
         }
-        // ¾«ÁéÏòÏÂ
+        // ç²¾çµå‘ä¸‹
         else if (newPos.y <= minWorldY && keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW
             && tilePos.y < mapSize.height * tileSize.height && currentMapPos.y < 0) {
             cocos2d::Vec2 newMapPosition = currentMapPos + cocos2d::Vec2(0.0f, offset);
             tiledMap->setPosition(newMapPosition);
         }
         else if (newPos.x > 0 && newPos.x < visibleSize.width && newPos.y>0 && newPos.y < visibleSize.height) {
-            // ´´½¨Æ½»¬ÒÆ¶¯µÄ¶¯×÷
+            // åˆ›å»ºå¹³æ»‘ç§»åŠ¨çš„åŠ¨ä½œ
             auto moveTo = cocos2d::MoveTo::create(0.1f, newPos);
 
-            // Ö´ĞĞ¶¯×÷
+            // æ‰§è¡ŒåŠ¨ä½œ
             player->runAction(moveTo);
         }
     }
     else {
-        CCLOG("ÎŞ·¨Ç°Íù(%f,%f)", newPos.x, newPos.y);
+        CCLOG("æ— æ³•å‰å¾€(%f,%f)", newPos.x, newPos.y);
     }
 }

@@ -1,102 +1,100 @@
-/*2351271 »Æß®º­*/
+/*2351271 é»„å¼‹æ¶µ*/
 #include "MiniMap.h"
 #include "cocos2d.h"
 
-// »®´¬È¥ÏàÁÚµØÍ¼£º½ðÄ¾Ë®»ðÍÁ´å×¯³Ç±¤
+// åˆ’èˆ¹åŽ»ç›¸é‚»åœ°å›¾ï¼šé‡‘æœ¨æ°´ç«åœŸæ‘åº„åŸŽå ¡
 void MiniMap::BoatingToMap(const std::string& objectMap)
 {
-	// »ñÈ¡¿É¼ûÇøÓòµÄ´óÐ¡
+	// èŽ·å–å¯è§åŒºåŸŸçš„å¤§å°
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 
-	// ´´½¨¹ý¶É³¡¾°
+	// åˆ›å»ºè¿‡æ¸¡åœºæ™¯
 	auto boatScene = cocos2d::Scene::create();
 
-	// ´´½¨¹ý¶É³¡¾°µÄ±³¾°¾«Áé
+	// åˆ›å»ºè¿‡æ¸¡åœºæ™¯çš„èƒŒæ™¯ç²¾çµ
 	auto boatSprite = cocos2d::Sprite::create("boat.png");
 
-	// ÉèÖÃ¾«ÁéµÄ´óÐ¡ÓëÆÁÄ»Ò»Ñù´ó
+	// è®¾ç½®ç²¾çµçš„å¤§å°ä¸Žå±å¹•ä¸€æ ·å¤§
 	boatSprite->setContentSize(visibleSize);
 
-	// ÉèÖÃ¾«ÁéµÄÎ»ÖÃÎªÆÁÄ»ÖÐÐÄ
+	// è®¾ç½®ç²¾çµçš„ä½ç½®ä¸ºå±å¹•ä¸­å¿ƒ
 	boatSprite->setPosition(visibleSize / 2);
 
-	// °Ñ±³¾°¾«ÁéÌí¼Óµ½¹ý¶É³¡¾°
+	// æŠŠèƒŒæ™¯ç²¾çµæ·»åŠ åˆ°è¿‡æ¸¡åœºæ™¯
 	boatScene->addChild(boatSprite);
 
-	// Ìí¼Ó¹ý¶É¶¯»­
+	// æ·»åŠ è¿‡æ¸¡åŠ¨ç”»
 	auto boatTransition1 = cocos2d::TransitionSlideInT::create(0.5f, boatScene);
 
-	// ÊÍ·ÅµôÉÏ´Î³¡¾°£¬Õ¹Ê¾¹ý¶ÉÍ¼Ïñ
+	// é‡Šæ”¾æŽ‰ä¸Šæ¬¡åœºæ™¯ï¼Œå±•ç¤ºè¿‡æ¸¡å›¾åƒ
 	cocos2d::Director::getInstance()->replaceScene(boatTransition1);
 
-	// ´´½¨ÐÂ³¡¾°
-	MiniMap newMap(objectMap,false);
-	auto newScene = newMap.createScene();
+	// åˆ›å»ºæ–°åœºæ™¯
+	auto newScene = createWithMap(objectMap, false);
 
-	// Ìí¼Ó¹ý¶É¶¯»­
+	// æ·»åŠ è¿‡æ¸¡åŠ¨ç”»
 	auto boatTransition2 = cocos2d::TransitionSlideInT::create(0.5f, newScene);
 
-	// ¼ÓÔØÐÂ³¡¾°£¬ÊÍ·Åµô¹ý¶É³¡¾°
+	// åŠ è½½æ–°åœºæ™¯ï¼Œé‡Šæ”¾æŽ‰è¿‡æ¸¡åœºæ™¯
 	cocos2d::Director::getInstance()->replaceScene(boatTransition2);
 }
 
-// ´«ËÍÈ¥ÏàÁÚµØÍ¼£ºÌø×ªÖÁ½ðÄ¾Ë®»ðÍÁ´å×¯³Ç±¤£¬Ç°ÍùÃÔ¹¬/¾º¼¼³¡»ò´ÓÃÔ¹¬/¾º¼¼³¡ÍË³ö
+// ä¼ é€åŽ»ç›¸é‚»åœ°å›¾ï¼šè·³è½¬è‡³é‡‘æœ¨æ°´ç«åœŸæ‘åº„åŸŽå ¡ï¼Œå‰å¾€è¿·å®«/ç«žæŠ€åœºæˆ–ä»Žè¿·å®«/ç«žæŠ€åœºé€€å‡º
 void MiniMap::FlyToMap(const std::string& objectMap)
 {
-	// »ñÈ¡¿É¼ûÇøÓòµÄ´óÐ¡
+	// èŽ·å–å¯è§åŒºåŸŸçš„å¤§å°
 	auto visibleSize = cocos2d::Director::getInstance()->getVisibleSize();
 
-	// ´´½¨¹ý¶É³¡¾°
+	// åˆ›å»ºè¿‡æ¸¡åœºæ™¯
 	auto flyScene = cocos2d::Scene::create();
 
-	// ´´½¨¹ý¶É³¡¾°µÄ±³¾°¾«Áé
+	// åˆ›å»ºè¿‡æ¸¡åœºæ™¯çš„èƒŒæ™¯ç²¾çµ
 	auto flySprite = cocos2d::Sprite::create("fly.png");
 
-	// ÉèÖÃ¾«ÁéµÄ´óÐ¡ÓëÆÁÄ»Ò»Ñù´ó
+	// è®¾ç½®ç²¾çµçš„å¤§å°ä¸Žå±å¹•ä¸€æ ·å¤§
 	flySprite->setContentSize(visibleSize);
 
-	// ÉèÖÃ¾«ÁéµÄÎ»ÖÃÎªÆÁÄ»ÖÐÐÄ
+	// è®¾ç½®ç²¾çµçš„ä½ç½®ä¸ºå±å¹•ä¸­å¿ƒ
 	flySprite->setPosition(visibleSize / 2);
 
-	// °Ñ±³¾°¾«ÁéÌí¼Óµ½¹ý¶É³¡¾°
+	// æŠŠèƒŒæ™¯ç²¾çµæ·»åŠ åˆ°è¿‡æ¸¡åœºæ™¯
 	flyScene->addChild(flySprite);
 
-	// Ìí¼Ó¹ý¶É¶¯»­
+	// æ·»åŠ è¿‡æ¸¡åŠ¨ç”»
 	auto flyTransition1 = cocos2d::TransitionSlideInT::create(0.5f, flyScene);
 
-	if (objectMap == "maze.tmx" || objectMap == "battle.tmx") { // Èç¹ûÊÇÇ°ÍùÃÔ¹¬»ò¾º¼¼³¡
-		// °ÑÉÏ´ÎµØÍ¼Ñ¹ÈëÕ»ÖÐ£¬Õ¹Ê¾¹ý¶ÉÍ¼Ïñ
+	if (objectMap == "maze.tmx" || objectMap == "battle.tmx") { // å¦‚æžœæ˜¯å‰å¾€è¿·å®«æˆ–ç«žæŠ€åœº
+		// æŠŠä¸Šæ¬¡åœ°å›¾åŽ‹å…¥æ ˆä¸­ï¼Œå±•ç¤ºè¿‡æ¸¡å›¾åƒ
 		cocos2d::Director::getInstance()->pushScene(flyTransition1);
 	}
-	else { // È¥ÆäËûµØ·½
-		// °ÑÉÏ´Î³¡¾°ÊÍ·Åµô£¬Õ¹Ê¾¹ý¶ÉÍ¼Ïñ
+	else { // åŽ»å…¶ä»–åœ°æ–¹
+		// æŠŠä¸Šæ¬¡åœºæ™¯é‡Šæ”¾æŽ‰ï¼Œå±•ç¤ºè¿‡æ¸¡å›¾åƒ
 		cocos2d::Director::getInstance()->replaceScene(flyTransition1);
 	}
 
-	if (mapName == "maze.tmx" || mapName == "battle.tmx") { // Èç¹ûÊÇ´ÓÃÔ¹¬»ò¾º¼¼³¡ÍË³ö
-		// ´´½¨Ò»¸öµ­³ö¶¯»­
+	if (mapName == "maze.tmx" || mapName == "battle.tmx") { // å¦‚æžœæ˜¯ä»Žè¿·å®«æˆ–ç«žæŠ€åœºé€€å‡º
+		// åˆ›å»ºä¸€ä¸ªæ·¡å‡ºåŠ¨ç”»
 		auto fadeOut = cocos2d::FadeOut::create(0.5f);
 
-		// ÔÚ¶¯»­Íê³Éºóµ÷ÓÃ popScene
+		// åœ¨åŠ¨ç”»å®ŒæˆåŽè°ƒç”¨ popScene
 		auto callFunc = cocos2d::CallFunc::create([]() {
 			cocos2d::Director::getInstance()->popScene();
 			});
 
-		// ´´½¨Ò»¸öÐòÁÐ£¬ÏÈµ­³öÔÙµ÷ÓÃ popScene
+		// åˆ›å»ºä¸€ä¸ªåºåˆ—ï¼Œå…ˆæ·¡å‡ºå†è°ƒç”¨ popScene
 		auto sequence = cocos2d::Sequence::create(fadeOut, callFunc, nullptr);
 
-		// ½«ÐòÁÐ¶¯×÷Ìí¼Óµ½¹ý¶É³¡¾°
+		// å°†åºåˆ—åŠ¨ä½œæ·»åŠ åˆ°è¿‡æ¸¡åœºæ™¯
 		flyScene->runAction(sequence);
 	}
-	else { // ÆäËû×ª»»
-		// ´´½¨ÐÂ³¡¾°
-		MiniMap newMap(objectMap, true);
-		auto newScene = newMap.createScene();
+	else { // å…¶ä»–è½¬æ¢
+		// åˆ›å»ºæ–°åœºæ™¯
+		auto newScene = createWithMap(objectMap, true);
 
-		// Ìí¼Ó¹ý¶É¶¯»­
+		// æ·»åŠ è¿‡æ¸¡åŠ¨ç”»
 		auto flyTransition2 = cocos2d::TransitionSlideInT::create(0.5f, newScene);
 
-		// ¼ÓÔØÐÂ³¡¾°£¬ÊÍ·Åµô¹ý¶É³¡¾°
+		// åŠ è½½æ–°åœºæ™¯ï¼Œé‡Šæ”¾æŽ‰è¿‡æ¸¡åœºæ™¯
 		cocos2d::Director::getInstance()->replaceScene(flyTransition2);
 	}
 }

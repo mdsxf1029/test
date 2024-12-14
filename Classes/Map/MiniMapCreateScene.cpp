@@ -1,38 +1,20 @@
 #include "MiniMap.h"
 #include "cocos2d.h"
 
-// 确保给出的值在某个范围内，主要用于设置相机中心位置
-template<typename T>
-T clamp(const T& value, const T& min, const T& max)
+cocos2d::Scene* MiniMap::createWithMap(const std::string& mapFile, bool fly)
 {
-	if (value < min)
-		return min;
-	else if (value > max)
-		return max;
-	else
-		return value;
+	MiniMap* scene = new(std::nothrow) MiniMap(mapFile);
+	if (scene && scene->initWithMap(mapFile)) {
+		scene->autorelease();
+		scene->isFly = fly;
+		scene->mapName = mapFile;
+		return scene;
+	}
+	CC_SAFE_DELETE(scene);
+	return nullptr;
 }
 
-// 初始化
-MiniMap::MiniMap(const std::string& map, bool fly)
-{
-	mapName.assign(map);
-	CCLOG("mapName:%s", mapName);
-	isFly = fly;
-	tiledMap = nullptr;
-	player = nullptr;
-	keyboardListener = nullptr;
-}
-
-cocos2d::Scene* MiniMap::createScene()
-{
-	auto current_scene = cocos2d::Scene::create();
-	auto map = MiniMap::create();
-	current_scene->addChild(map);
-	return current_scene;
-}
-
-bool MiniMap::init()
+bool MiniMap::initWithMap(const std::string& mapFile)
 {
 	if (!Scene::init()) {
 		return false;
@@ -44,9 +26,11 @@ bool MiniMap::init()
 	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
 	// 获取地图
-	tiledMap = cocos2d::TMXTiledMap::create(mapName);
-	if (!tiledMap)
+	tiledMap = cocos2d::TMXTiledMap::create(mapFile);
+	if (!tiledMap) {
 		CCLOG("noMap");
+		return false;
+	}
 
 	//设置缩放比例
 	float scaleX = 3.0f;
@@ -54,6 +38,9 @@ bool MiniMap::init()
 
 	// 加载地图
 	tiledMap->setScale(scaleX, scaleY);
+
+	// 获取当前瓦片地图大小
+	cocos2d::Size mapSize = tiledMap->getMapSize();
 
 	// 获取瓦片地图瓦片大小
 	auto tileSize = tiledMap->getTileSize();
@@ -71,10 +58,10 @@ bool MiniMap::init()
 
 	// 获取主控精灵需要到达的逻辑坐标
 	float bornPointX = 0.0f, bornPointY = 0.0f;
-	
+
 	// 创建对象层
 	auto transportPoint = (isFly == true ? tiledMap->getObjectGroup("TransportPoint") : tiledMap->getObjectGroup("Boat"));
-	
+
 	// 获取传送位置的逻辑坐标
 	if (transportPoint) {
 		auto transportObject = (isFly == true ? transportPoint->getObject("Fly") : transportPoint->getObject("Boat"));
@@ -94,8 +81,21 @@ bool MiniMap::init()
 	// 获取偏移量
 	cocos2d::Vec2 offset = centerWorldPosition - bornWorld + cocos2d::Vec2(0.0f, -tileSize.height * scaleY);
 
+	// 调整偏移量，以防边界出现在视窗内部
+	if (offset.x > 0)
+		offset.x = 0;
+	else if (offset.x + mapSize.width * tileSize.width * scaleX < visibleSize.width)
+		offset.x = visibleSize.width - mapSize.width * tileSize.width * scaleX;
+	if (offset.y > 0)
+		offset.y = 0;
+	else if (offset.y + mapSize.height * tileSize.height * scaleY < visibleSize.height)
+		offset.y = visibleSize.height - mapSize.height * tileSize.height * scaleY;
+
+	// 调整主控精灵位置
+	cocos2d::Vec2 playerPos = offset + bornWorld - cocos2d::Vec2(0.0f, -tileSize.height * scaleY);
+
 	// 设置主控精灵位置
-	player->setPosition(centerWorldPosition);
+	player->setPosition(playerPos);
 	tiledMap->setPosition(offset);
 
 	// 把精灵添加到场景
