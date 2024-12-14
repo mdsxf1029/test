@@ -16,10 +16,11 @@ T clamp(const T& value, const T& min, const T& max)
 // 初始化
 MiniMap::MiniMap(const std::string& map, bool fly)
 {
-	mapName = map;
+	mapName.assign(map);
+	CCLOG("mapName:%s", mapName);
 	isFly = fly;
-	tiledMap = cocos2d::TMXTiledMap::create(map);
-	player = cocos2d::Sprite::create("player.png");
+	tiledMap = nullptr;
+	player = nullptr;
 	keyboardListener = nullptr;
 }
 
@@ -42,81 +43,64 @@ bool MiniMap::init()
 	// 获取当前可视区域原点坐标
 	cocos2d::Vec2 origin = cocos2d::Director::getInstance()->getVisibleOrigin();
 
+	// 获取地图
+	tiledMap = cocos2d::TMXTiledMap::create(mapName);
+	if (!tiledMap)
+		CCLOG("noMap");
+
+	//设置缩放比例
+	float scaleX = 3.0f;
+	float scaleY = 3.0f;
+
 	// 加载地图
-	MiniMap::addChild(tiledMap);
-
-	// 创建相机
-	auto camera = cocos2d::Camera::create();
-	this->addChild(camera);
-
-	// 设置缩放比例
-	float scaleX = 4.0f;
-	float scaleY = 4.0f;
-	camera->setScaleX(scaleX);
-	camera->setScaleY(scaleY);
+	tiledMap->setScale(scaleX, scaleY);
 
 	// 获取瓦片地图瓦片大小
-	cocos2d::Size tileSize = tiledMap->getTileSize();
+	auto tileSize = tiledMap->getTileSize();
 
 	// 计算瓦片缩放后大小
-	cocos2d::Size playerSize = tileSize;
+	auto playerSize = tileSize;
 	playerSize.width *= scaleX;
 	playerSize.height *= scaleY;
+
+	// 加载主控精灵
+	player = cocos2d::Sprite::create("HelloWorld.png");
 
 	// 设置主控精灵大小
 	player->setContentSize(playerSize);
 
-	// 创建对象层
-	cocos2d::TMXLayer* objectLayer = tiledMap->getLayer("Object");
-
-	// 获取层的大小
-	auto layerSize = objectLayer->getLayerSize();
-
 	// 获取主控精灵需要到达的逻辑坐标
-	float bornPointX, bornPointY;
-	for (int y = 0; y < layerSize.height; ++y) { // 遍历每个瓦片
-		for (int x = 0; x < layerSize.width; ++x) {
-			// 获取瓦片的 GID
-			int tileGID = objectLayer->getTileGIDAt(cocos2d::Vec2(x, y));
-
-			// 检查 GID 是否有效
-			if (tileGID != 0) {
-				// 获取瓦片的所有属性
-				auto properties = tiledMap->getPropertiesForGID(tileGID).asValueMap();
-
-				//获取瓦片的type
-				auto tileType = properties["type"].asString();
-
-				// 判断该瓦片是否是目标瓦片
-				if (isFly && tileType == "flyPoint") { // 传送方式
-					bornPointX = properties["X"].asFloat();
-					bornPointY = properties["Y"].asFloat();
-				}
-				else if (!isFly && tileType == "boatPoint") { // 划船方式
-					bornPointX = properties["X"].asFloat();
-					bornPointY = properties["Y"].asFloat();
-				}
-			}
-		}
+	float bornPointX = 0.0f, bornPointY = 0.0f;
+	
+	// 创建对象层
+	auto transportPoint = (isFly == true ? tiledMap->getObjectGroup("TransportPoint") : tiledMap->getObjectGroup("Boat"));
+	
+	// 获取传送位置的逻辑坐标
+	if (transportPoint) {
+		auto transportObject = (isFly == true ? transportPoint->getObject("Fly") : transportPoint->getObject("Boat"));
+		bornPointX = transportObject["x"].asFloat();
+		bornPointY = transportObject["y"].asFloat();
 	}
 
+	if (!bornPointX && !bornPointY)
+		CCLOG("noBornPoint");
+
 	// 计算主控精灵的世界坐标
-	float bornWorldX = bornPointX * tileSize.width * scaleX;
-	float bornWorldY = bornPointY * tileSize.height * scaleY;
+	auto bornWorld = tiledMap->convertToWorldSpace(cocos2d::Vec2(bornPointX, bornPointY));
+
+	// 计算视窗中心的世界坐标
+	cocos2d::Vec2 centerWorldPosition = cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2);
+
+	// 获取偏移量
+	cocos2d::Vec2 offset = centerWorldPosition - bornWorld + cocos2d::Vec2(0.0f, -tileSize.height * scaleY);
 
 	// 设置主控精灵位置
-	player->setPosition(cocos2d::Vec2(bornWorldX, bornWorldY));
+	player->setPosition(centerWorldPosition);
+	tiledMap->setPosition(offset);
 
-	// 计算可视区域的实际尺寸
-	float visibleWidth = visibleSize.width / scaleX;
-	float visibleHeight = visibleSize.height / scaleY;
-
-	// 计算相机中心位置
-	float cameraX = clamp<float>(bornWorldX, visibleWidth / 2, tiledMap->getMapSize().width * tileSize.width - visibleWidth / 2);
-	float cameraY = clamp<float>(bornWorldY, visibleHeight / 2, tiledMap->getMapSize().height * tileSize.height - visibleHeight / 2);
-
-	// 设置相机的位置
-	camera->setPosition(cocos2d::Vec2(cameraX,cameraY));
+	// 把精灵添加到场景
+	this->addChild(tiledMap);
+	this->addChild(player);
 
 	// 设置键盘事件监听器
 	StartListening();
