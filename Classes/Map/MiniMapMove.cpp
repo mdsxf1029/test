@@ -1,6 +1,8 @@
 #include <cmath>
+#include <vector>
 #include "MiniMap.h"
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 #include "Classes/manager/manager.h"
 
 // 更新主控精灵位置
@@ -91,35 +93,203 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
     if (boat) {
         // 创建对话框的背景精灵
         auto background = cocos2d::Sprite::create();
-        float width = visibleSize.width / 4, height = visibleSize.height / 5; // 设置对话框的大小
+        float width = visibleSize.width / 2, height = visibleSize.height; // 设置对话框的大小
         background->setTextureRect(cocos2d::Rect(0.0f, 0.0f, width, height)); // 设为矩形
         background->setColor(Color3B(255, 255, 255)); // 设置对话框背景为白色        
         background->setPosition(centralWorldPos); // 设置对话框位置为视窗中心       
-        background->setOpacity(200); // 设置对话框透明度为较高
+        background->setOpacity(200); // 设置对话框不透明度为较高
         this->addChild(background);
 
         // 创建文字标签
-        auto label = cocos2d::Label::createWithSystemFont("Where do you want to go?", "Arial", 24); // 设置文本
-        label->setPosition(centralWorldPos + cocos2d::Vec2(0.0f, visibleSize.height / 20)); // 设置位置
-        label->setColor(cocos2d::Color3B(255, 255, 255)); // 设置文本颜色为白色
+        auto label = cocos2d::Label::createWithSystemFont("Where do you want to go?", "Arial", 64); // 设置文本
+        label->setPosition(centralWorldPos + cocos2d::Vec2(0.0f, visibleSize.height / 4)); // 设置位置
+        label->setColor(cocos2d::Color3B(0, 0, 0)); // 设置文本颜色为黑色
         this->addChild(label);
 
-        // 查找相邻地图
-        std::string newMap1, newMap2;
-        GetNeighborMap(newMap1, newMap2);
+        // 不同地图
+        std::vector<std::string> map = { "gold","wood","water","fire","earth","none","village"};
 
-        // 创建按钮
-        auto label1 = cocos2d::Label::createWithSystemFont(newMap1, "Arial", 24);
-        auto label2 = cocos2d::Label::createWithSystemFont(newMap2, "Arial", 24);
-        auto label3 = cocos2d::Label::createWithSystemFont("None", "Arial", 24);
-        auto button1 = cocos2d::MenuItemLabel::create(label1, CC_CALLBACK_1(MiniMap::ButtonCallback, this));
-        auto button2 = cocos2d::MenuItemLabel::create(label2, CC_CALLBACK_1(MiniMap::ButtonCallback, this));
-        auto button3 = cocos2d::MenuItemLabel::create(label3, CC_CALLBACK_1(MiniMap::ButtonCallback, this));
-        button1->setPosition(centralWorldPos + cocos2d::Vec2(-visibleSize.width / 8, -visibleSize.height / 20));
-        button2->setPosition(centralWorldPos + cocos2d::Vec2(0.0f, -visibleSize.height / 20));
-        button3->setPosition(centralWorldPos + cocos2d::Vec2(visibleSize.width / 8, -visibleSize.height / 20));
+        // 如果现在是村庄
+        if (mapName == "village.tmx") {
+            for (int i = 0; i < 6; i++) {
+                // 创建按钮
+                auto button = ui::Button::create("button_normal.png", "button_pressed.png", "button_disabled.png");
+
+                // 设置按钮标题
+                button->setTitleText(map[i]); // 设置文本
+                button->setTitleFontSize(48); // 设置字号
+                button->setTitleColor(Color3B(0, 0, 0)); // 设置标题为黑色
+                button->setTitleFontName("Arial"); // 设置标题字体
+
+                // 获取任务
+                const auto& tasks = GlobalManager::getInstance().getTasks();
+                std::string targetID = "TASK_";
+                std::string need = map[i];
+                std::transform(need.begin(), need.end(), need.begin(),
+                    [](unsigned char c) { return std::toupper(c); }); // 转大写
+                targetID += need;
+
+                // 查询任务是否完成
+                auto it = std::find_if(tasks.begin(), tasks.end(), [targetID](const std::shared_ptr<Task>& obj) {
+                    return (obj->getTaskName() == targetID && obj->isTaskFinished());
+                    });
+
+                // 如果未完成，禁用按钮
+                if (it == tasks.end()) {
+                    button->setEnabled(false); // 禁用按钮
+                }
+
+                // 添加按钮点击事件
+                button->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));
+
+                // 设置按钮位置
+                button->setPosition(cocos2d::Vec2(centralWorldPos.x, visibleSize.height * 3 / 4 - i * 100));
+
+                // 将按钮添加到场景中
+                this->addChild(button);
+            }
+        }
+        else if (mapName == "castle.tmx") {
+            // 创建按钮
+            auto button1 = ui::Button::create("button_normal.png", "button_pressed.png", "button_disabled.png");
+            auto button2 = ui::Button::create("button_normal.png", "button_pressed.png", "button_disabled.png");
+
+            // 设置按钮的位置
+            button1->setPosition(cocos2d::Vec2(centralWorldPos.x, centralWorldPos.y - visibleSize.height / 3));
+            button2->setPosition(cocos2d::Vec2(centralWorldPos.x, centralWorldPos.y + visibleSize.height / 3));
+
+            // 设置按钮标题
+            button1->setTitleText(map[6]); // 设置文本
+            button1->setTitleFontSize(48); // 设置字号
+            button1->setTitleColor(Color3B(0, 0, 0)); // 设置标题为黑色
+            button1->setTitleFontName("Arial"); // 设置标题字体
+            button2->setTitleText(map[5]); // 设置文本
+            button2->setTitleFontSize(48); // 设置字号
+            button2->setTitleColor(Color3B(0, 0, 0)); // 设置标题为黑色
+            button2->setTitleFontName("Arial"); // 设置标题字体
+
+            // 添加按钮点击事件
+            button1->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));
+            button2->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));
+
+            // 将按钮添加到场景中
+            this->addChild(button1);
+            this->addChild(button2);
+        }
+        else {
+            // 查找相邻地图
+            std::string newMap1, newMap2;
+            GetNeighborMap(newMap1, newMap2);
+            
+            for (int i = 0; i < 4; i++) {
+                // 创建按钮
+                auto button = ui::Button::create("button_normal.png", "button_pressed.png", "button_disabled.png");
+
+                // 设置按钮位置
+                button->setPosition(cocos2d::Vec2(centralWorldPos.x, visibleSize.height * 3 / 4 - i * 100));
+
+                // 设置按钮标题
+                button->setTitleFontSize(48); // 设置字号
+                button->setTitleColor(Color3B(0, 0, 0)); // 设置标题为黑色
+                button->setTitleFontName("Arial"); // 设置标题字体
+                
+                // 设置标题文本
+                if (i == 0 || i == 1) {
+                    std::string need;
+                    if (i == 0) {
+                        button->setTitleText(newMap1);
+                        need = newMap1;
+                    }
+                    else {
+                        button->setTitleText(newMap2);
+                        need = newMap2;
+                    }
+
+                    // 获取任务
+                    const auto& tasks = GlobalManager::getInstance().getTasks();
+                    std::string targetID = "TASK_";
+                    std::transform(need.begin(), need.end(), need.begin(),
+                        [](unsigned char c) { return std::toupper(c); }); // 转大写
+                    targetID += need;
+
+                    // 查询任务是否完成
+                    auto it = std::find_if(tasks.begin(), tasks.end(), [targetID](const std::shared_ptr<Task>& obj) {
+                        return (obj->getTaskName() == targetID && obj->isTaskFinished());
+                        });
+
+                    // 如果未完成，禁用按钮
+                    if (it == tasks.end()) {
+                        button->setEnabled(false); // 禁用按钮
+                    }
+                }
+                else if (i == 3) {
+                    button->setTitleText("village");
+                }
+                else
+                    button->setTitleText("none");
+
+                // 添加按钮点击事件
+                button->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));
+
+                // 将按钮添加到场景中
+                this->addChild(button);
+            }
+        }
     }
 
+    // 如果是村庄
+    if (mapName == "village.tmx") {
+        // 寻找是否有gate点
+        auto gateLayer = tiledMap->getObjectGroup("Gate");
+
+        // 标记传送与否
+        bool gate = false;
+
+        // 如果有gate点，找gate属性
+        if (gateLayer) {
+            auto gateObjects = gateLayer->getObjects();
+            for (const auto& object : gateObjects) {
+                cocos2d::ValueMap boatProperties = object.asValueMap();
+                auto x = boatProperties["x"].asFloat();
+                auto y = boatProperties["y"].asFloat();
+                auto width = boatProperties["width"].asFloat();
+                auto height = boatProperties["height"].asFloat();
+                if (tilePos.x >= x && tilePos.x <= x + width && tilePos.y >= y && tilePos.y <= y + height) {
+                    gate = true;
+                    break;
+                }
+            }
+        }
+
+        // 如果在gate点
+        if (gate) {
+            // 创建按钮
+            auto button1 = ui::Button::create("button_normal.png", "button_pressed.png", "button_disabled.png");
+            auto button2 = ui::Button::create("button_normal.png", "button_pressed.png", "button_disabled.png");
+
+            // 设置按钮的位置
+            button1->setPosition(cocos2d::Vec2(centralWorldPos.x, centralWorldPos.y - visibleSize.height / 3));
+            button2->setPosition(cocos2d::Vec2(centralWorldPos.x, centralWorldPos.y + visibleSize.height / 3));
+
+            // 设置按钮标题
+            button1->setTitleText("castle"); // 设置文本
+            button1->setTitleFontSize(48); // 设置字号
+            button1->setTitleColor(Color3B(0, 0, 0)); // 设置标题为黑色
+            button1->setTitleFontName("Arial"); // 设置标题字体
+            button2->setTitleText("none"); // 设置文本
+            button2->setTitleFontSize(48); // 设置字号
+            button2->setTitleColor(Color3B(0, 0, 0)); // 设置标题为黑色
+            button2->setTitleFontName("Arial"); // 设置标题字体
+
+            // 添加按钮点击事件
+            button1->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));
+            button2->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));
+
+            // 将按钮添加到场景中
+            this->addChild(button1);
+            this->addChild(button2);
+        }
+    }
     // 定义区域边界世界坐标
     float minWorldX = centralWorldPos.x - visibleSize.width / 4;
     float minWorldY = centralWorldPos.y - visibleSize.height / 4;
@@ -185,47 +355,25 @@ void MiniMap::ButtonCallback(Ref* sender)
     removeChildByName("background");
 
     // 移除文字标签
-    removeChildByName("label1");
-    removeChildByName("label2");
-    removeChildByName("label3");
+    removeChildByName("label");
 
-    // 移除按钮菜单
-    removeChildByName("button1");
-    removeChildByName("button2");
-    removeChildByName("button3");
+    // 将 Ref 指针转换为 Button 指针
+    ui::Button* button = static_cast<ui::Button*>(sender);
 
-    // 从按钮中获取 Label
-    auto menuItemLabel = static_cast<cocos2d::MenuItemLabel*>(sender);
-    auto label = dynamic_cast<cocos2d::Label*>(menuItemLabel->getLabel());
+    // 获取按钮标题
+    std::string title = button->getTitleText();
 
-    // 获取 Label 的文本
-    std::string labelText = label->getString();
-    if (labelText == "None")
-        return;
-    else {
-        const auto& tasks = GlobalManager::getInstance().getTasks();
-        std::string targetID = "TASK_";
-        if (labelText == "gold")
-            targetID += "GOLD";
-        else if (labelText == "wood")
-            targetID += "WOOD";
-        else if (labelText == "water")
-            targetID += "WATER";
-        else if (labelText == "fire")
-            targetID += "FIRE";
-        else
-            targetID += "EARTH";
-        auto it = std::find_if(tasks.begin(), tasks.end(), [targetID](const std::shared_ptr<Task>& obj) {
-            return (obj->getTaskName() == targetID && obj->isTaskFinished());
-            });
-        if (it != tasks.end()) {
-            if (labelText == "gold")
-                labelText += "1.tmx";
-            else
-                labelText += ".tmx";
-            BoatingToMap(labelText);
-        }
-    }
+    // 补充标题为完整文件名
+    if (title == "gold")
+        title += "1.tmx";
+    else
+        title += ".tmx";
+
+    // 移除按钮
+    button->removeFromParent();
+
+    // 前往新地图
+    BoatingToMap(title);
 }
 
 void MiniMap::GetNeighborMap(std::string& newMap1, std::string& newMap2)

@@ -3,7 +3,7 @@
 
 cocos2d::Scene* MiniMap::createWithMap(const std::string& mapFile, bool fly)
 {
-	MiniMap* scene = new(std::nothrow) MiniMap(mapFile);
+	MiniMap* scene = new(std::nothrow) MiniMap(mapFile, fly);
 	if (scene && scene->initWithMap(mapFile)) {
 		scene->autorelease();
 		scene->isFly = fly;

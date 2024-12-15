@@ -12,7 +12,13 @@ void MiniMap::BoatingToMap(const std::string& objectMap)
 	auto boatScene = cocos2d::Scene::create();
 
 	// 创建过渡场景的背景精灵
-	auto boatSprite = cocos2d::Sprite::create("boat.png");
+	cocos2d::Sprite* boatSprite;
+	if (mapName == "castle.tmx" || (mapName == "village.tmx" && objectMap == "castle.tmx")) {
+		boatSprite = cocos2d::Sprite::create("gate.png");
+	}
+	else {
+		boatSprite = cocos2d::Sprite::create("boat.png");
+	}
 
 	// 设置精灵的大小与屏幕一样大
 	boatSprite->setContentSize(visibleSize);
