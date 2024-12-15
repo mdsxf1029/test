@@ -4,7 +4,7 @@
 
 #include "cocos2d.h"  
 #include "BackgroundManager.h"  
-
+#include "MiniMap.h"
 class Setting : public cocos2d::Scene
 {
 public:

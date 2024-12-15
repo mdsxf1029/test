@@ -3,7 +3,7 @@
 #include "HelloWorldScene.h"
 #include "BackpackLayer.h"
 #include <ui/UIButton.h>
-#include <proj.win32/MiniMap.h>
+#include "MiniMap.h"
 USING_NS_CC;
 
 
@@ -24,8 +24,7 @@ bool Setting::init()
 	mapParentNode->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
 	this->addChild(mapParentNode);
 
-	/*
-	// 创建背包按钮（使用 UIButton）
+	/*//创建背包按钮（使用 UIButton）
 	auto backpackButton = ui::Button::create("backpack.png");  // 使用你自己的图标
 	backpackButton->setPosition(Vec2(2000, -1000));  // 按钮位置
 	backpackButton->addClickEventListener([this](Ref* sender) {
@@ -34,30 +33,17 @@ bool Setting::init()
 		});
 
 	mapParentNode->addChild(backpackButton, 1);  // 将背包按钮添加到场景中
-	*/
-	/*
-	// 创建大地图（使用 UIButton）
-	auto circleButton = ui::Button::create("circle.png");  // 使用你自己的图标
-	circleButton->setPosition(Vec2(2000, -1000));  // 按钮位置
-	circleButton->addClickEventListener([this](Ref* sender) {
-
-		 auto sc = Setting::createScene();
-           Director::getInstance()->replaceScene(sc);
-		});
-
-	mapParentNode->addChild(backpackButton, 1);  // 将背包按钮添加到场景中
-	*/
-
 	
 
+	*/
 	
-	// 创建并添加背景到父节点
+
+	//创建并添加背景到父节点
 	auto bg = Sprite::create("Gold.png");
 	bg->setPosition(Vec2::ZERO); // 相对于父节点的位置
 	bg->setName("bgSprite");
 	mapParentNode->addChild(bg);
 
-	
 
 	// 添加鼠标滚轮事件监听器
 	auto mouseListener = EventListenerMouse::create();
@@ -67,20 +53,15 @@ bool Setting::init()
 	
 	// 创建背景管理实例
 	_backgroundManager = new BackgroundManager(this);
-
+	CCLOG("Showing popup with message: 1");  
 	// 创建菜单项
+	std::string fullPath = "Resources/maps"; 
+	CCLOG("Full path to map: %s", fullPath.c_str());
 
-	/*
-	auto tmxMap = TMXTiledMap::create("your_map.tmx");
-	auto tmxMap = TMXTiledMap::create("your_map.tmx");
-	auto tmxMap = TMXTiledMap::create("your_map.tmx");
-	auto tmxMap = TMXTiledMap::create("your_map.tmx");
-	auto tmxMap = TMXTiledMap::create("your_map.tmx");
-	*/
-	auto downtownMenuItem = createTextButton("Downtown", "fonts/Marker Felt.ttf", 300, "boss.tmx");
-	auto castleMenuItem = createTextButton("Castle", "fonts/Marker Felt.ttf", 300, "castle.tmx");
-	auto goldMenuItem = createTextButton("Gold", "fonts/Marker Felt.ttf", 300, "goldMap.tmx");
-
+	auto downtownMenuItem = createTextButton("Downtown", "fonts/Marker Felt.ttf", 300, "maps/downtown.tmx");
+	auto castleMenuItem = createTextButton("Castle", "fonts/Marker Felt.ttf", 300, "maps/castle.tmx");
+	auto goldMenuItem = createTextButton("Gold", "fonts/Marker Felt.ttf", 300, "maps/goldMap.tmx");
+	CCLOG("Showing popup with message: 2");
 	// 创建菜单
 	auto menu = Menu::create(downtownMenuItem, castleMenuItem, goldMenuItem, nullptr);
 	menu->setPosition(Vec2::ZERO);
@@ -90,7 +71,6 @@ bool Setting::init()
 	downtownMenuItem->setPosition(Vec2(-500, -100));
 	castleMenuItem->setPosition(Vec2(0, 500));
 	goldMenuItem->setPosition(Vec2(3000, -1000));
-
 	
 	return true;
 }
@@ -106,55 +86,49 @@ void Setting::menuItemCallback1(Ref* sender, const std::string& backgroundImage)
 	// 禁用 BigMap 的滚轮缩放
 	disableBigMapScrolling();
 
-	// 使用背景管理器设置背景为TMX地图
+	// 切换背景
 	auto miniMapScene = MiniMap::createWithMap(backgroundImage, true);
 	cocos2d::Director::getInstance()->replaceScene(miniMapScene);
 
 	// 隐藏或移除 BigMap
-	auto mapParentNode = this->getChildByTag(100);  // 获取包含 BigMap 的父节点
-	if (mapParentNode)
-	{
-		auto tmxMap = mapParentNode->getChildByName("tmxMap");
-		if (tmxMap)
-		{
-			tmxMap->setVisible(false);  // 隐藏或移除当前背景地图
+	auto mapParentNode = this->getChildByTag(100); // 获取包含 BigMap 的父节点
+	if (mapParentNode) {
+		auto bgSprite = mapParentNode->getChildByName("bgSprite");
+		if (bgSprite) {
+			bgSprite->setVisible(false); // 或使用 mapParentNode->removeChild(bgSprite);
 		}
 	}
 
 	// 隐藏菜单
-	auto menuNode = this->getChildByTag(200);  // 获取菜单节点
-	if (menuNode)
-	{
-		menuNode->setVisible(false);  // 隐藏菜单
+	auto menuNode = this->getChildByTag(200); // 获取菜单节点
+	if (menuNode) {
+		menuNode->setVisible(false); // 隐藏菜单
 		auto menuRef = dynamic_cast<Menu*>(menuNode);
-		if (menuRef)
-		{
-			menuRef->setEnabled(false);  // 禁用交互
+		if (menuRef) {
+			menuRef->setEnabled(false); // 禁用交互
 		}
 	}
 }
 
 
-
-cocos2d::MenuItemLabel* Setting::createTextButton(const std::string& text, const std::string& fontFile, int fontSize, const std::string& tmxFile)
+cocos2d::MenuItemLabel* Setting::createTextButton(const std::string& text, const std::string& fontFile, int fontSize, const std::string& backgroundImage)
 {
-	// 创建按钮的文字标签
+	// 创建文字标签
 	auto label = Label::createWithTTF(text, fontFile, fontSize);
 
 	// 设置文字颜色
-	label->setTextColor(Color4B::BLACK);
+	label->setTextColor(Color4B::BLACK); 
 
-	// 创建按钮，并绑定回调函数
-	auto button = MenuItemLabel::create(
-		label, [this, tmxFile](Ref* sender)
-		{
-			this->menuItemCallback1(sender, tmxFile);  // 这里传入的是TMX文件路径
-		}
+	// 创建文字按钮，并绑定回调函数
+	auto button = MenuItemLabel::create
+	(label, [this, backgroundImage](Ref* sender) 
+	{
+		this->menuItemCallback1(sender, backgroundImage);
+	}
 	);
 
 	return button;
 }
-
 
 //小地图的放大缩小功能
 void Setting::onMouseScroll(cocos2d::Event* event) {
@@ -225,18 +199,31 @@ void Setting::onMouseScroll(cocos2d::Event* event) {
 void Setting::openBackpack()
 {
 	// 创建背包对象并添加物品
-	auto backpack = new Backpack();  // 假设你已经在 Backpack 类中实现了物品的管理
-	backpack->addItem("helmet");
-	backpack->addItem("shangyi");
-	backpack->addItem("xiazhuang");
-	backpack->addItem("xie");
-	backpack->addItem("ring");
-	backpack->addItem("shuijing");
-	backpack->addItem("juanzhou");
-
+	auto _backpack = new Backpack();  // 假设你已经在 Backpack 类中实现了物品的管理
+	_backpack->addItem("HELMET");
+	_backpack->addItem("ARMOR");
+	_backpack->addItem("SHOES");
+	_backpack->addItem("MAGIC_RING");
+	_backpack->addItem("MAGIC_CRYSTAL");
+	_backpack->addItem("MAGIC_SCROLL");
+	/*
+	_backpack->addItem("FISH");
+	_backpack->addItem("FRUIT");
+	_backpack->addItem("VEGETABLE");
+	_backpack->addItem("HERB");
+	_backpack->addItem("MEAT");
+	_backpack->addItem("MUSHROOM");
+	_backpack->addItem("RICE");
+	_backpack->addItem("APPLE");
+	_backpack->addItem("TREE");
+	_backpack->addItem("WOOD");
+	_backpack->addItem("GOLD_MINE");
+	_backpack->addItem("STONE");
+	_backpack->addItem("CHEST");
+	*/
 	// 创建背包层并设置背包数据
 	auto backpackLayer = BackpackLayer::create();
-	backpackLayer->setBackpack(backpack);  // 将背包数据传递给背包层
+	backpackLayer->setBackpack(_backpack);  // 将背包数据传递给背包层
 
 	// 将背包层添加到场景中
 	this->addChild(backpackLayer, 1000);  // 高 z-order 确保背包显示在上层

@@ -1,6 +1,7 @@
 #include "SoilWaterGoldFireWood.h"
 #include "SimpleAudioEngine.h"
 #include "HelloWorldScene.h"
+#include "MiniMap.h"
 USING_NS_CC;
 
 bool Setting5::init()
@@ -34,13 +35,13 @@ bool Setting5::init()
 	// 创建背景管理实例
 	_backgroundManager = new BackgroundManager(this);
 	// 创建菜单项
-	auto downtownMenuItem = createTextButton("Downtown", "fonts/Marker Felt.ttf", 300, "downtown.png");
-	auto castleMenuItem = createTextButton("Castle", "fonts/Marker Felt.ttf", 300, "castle.png");
-	auto soilMenuItem = createTextButton("Soil", "fonts/Marker Felt.ttf", 300, "soilMap.png");
-	auto fireMenuItem = createTextButton("Fire", "fonts/Marker Felt.ttf", 300, "fireMap.png");
-	auto woodMenuItem = createTextButton("Wood", "fonts/Marker Felt.ttf", 300, "woodMap.png");
-	auto waterMenuItem = createTextButton("Water", "fonts/Marker Felt.ttf", 300, "waterMap.png");
-	auto goldMenuItem = createTextButton("Gold", "fonts/Marker Felt.ttf", 300, "goldMap.png");
+	auto downtownMenuItem = createTextButton("Downtown", "fonts/Marker Felt.ttf", 300, "maps/downtown.tmx");
+	auto castleMenuItem = createTextButton("Castle", "fonts/Marker Felt.ttf", 300, "maps/castle.tmx");
+	auto soilMenuItem = createTextButton("Soil", "fonts/Marker Felt.ttf", 300, "maps/soilMap.tmx");
+	auto fireMenuItem = createTextButton("Fire", "fonts/Marker Felt.ttf", 300, "maps/fireMap.tmx");
+	auto woodMenuItem = createTextButton("Wood", "fonts/Marker Felt.ttf", 300, "maps/woodMap.tmx");
+	auto waterMenuItem = createTextButton("Water", "fonts/Marker Felt.ttf", 300, "maps/waterMap.tmx");
+	auto goldMenuItem = createTextButton("Gold", "fonts/Marker Felt.ttf", 300, "maps/goldMap.tmx");
 
 	// 创建菜单
 	auto menu = Menu::create(downtownMenuItem, castleMenuItem, soilMenuItem, fireMenuItem, woodMenuItem, waterMenuItem, goldMenuItem, nullptr);
@@ -71,7 +72,8 @@ void Setting5::menuItemCallback1(Ref* sender, const std::string& backgroundImage
 	disableBigMapScrolling();
 
 	// 切换背景
-	_backgroundManager->setBackground(backgroundImage);
+	auto miniMapScene = MiniMap::createWithMap(backgroundImage, true);
+	cocos2d::Director::getInstance()->replaceScene(miniMapScene);
 
 	// 隐藏或移除 BigMap
 	auto mapParentNode = this->getChildByTag(100); // 获取包含 BigMap 的父节点

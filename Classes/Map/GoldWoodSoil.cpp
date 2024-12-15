@@ -1,6 +1,8 @@
 #include "GoldWoodSoil.h"
 #include "SimpleAudioEngine.h"
 #include "HelloWorldScene.h"
+#include "MiniMap.h"
+#include <proj.win32/MiniMap.h>
 USING_NS_CC;
 
 bool Setting3::init()
@@ -34,11 +36,11 @@ bool Setting3::init()
 	// 创建背景管理实例
 	_backgroundManager = new BackgroundManager(this);
 	// 创建菜单项
-	auto downtownMenuItem = createTextButton("Downtown", "fonts/Marker Felt.ttf", 300, "downtown.png");
-	auto castleMenuItem = createTextButton("Castle", "fonts/Marker Felt.ttf", 300, "castle.png");
-	auto soilMenuItem = createTextButton("Soil", "fonts/Marker Felt.ttf", 300, "soilMap.png");
-	auto woodMenuItem = createTextButton("Wood", "fonts/Marker Felt.ttf", 300, "woodMap.png");
-	auto goldMenuItem = createTextButton("Gold", "fonts/Marker Felt.ttf", 300, "goldMap.png");
+	auto downtownMenuItem = createTextButton("Downtown", "fonts/Marker Felt.ttf", 300, "maps/downtown.tmx");
+	auto castleMenuItem = createTextButton("Castle", "fonts/Marker Felt.ttf", 300, "maps/castle.tmx");
+	auto soilMenuItem = createTextButton("Soil", "fonts/Marker Felt.ttf", 300, "maps/soilMap.tmx");
+	auto woodMenuItem = createTextButton("Wood", "fonts/Marker Felt.ttf", 300, "maps/woodMap.tmx");
+	auto goldMenuItem = createTextButton("Gold", "fonts/Marker Felt.ttf", 300, "maps/goldMap.tmx");
 
 	// 创建菜单
 	auto menu = Menu::create(downtownMenuItem, castleMenuItem, soilMenuItem,woodMenuItem, goldMenuItem, nullptr);
@@ -67,7 +69,8 @@ void Setting3::menuItemCallback1(Ref* sender, const std::string& backgroundImage
 	disableBigMapScrolling();
 
 	// 切换背景
-	_backgroundManager->setBackground(backgroundImage);
+	auto miniMapScene = MiniMap::createWithMap(backgroundImage, true);
+	cocos2d::Director::getInstance()->replaceScene(miniMapScene);
 
 	// 隐藏或移除 BigMap
 	auto mapParentNode = this->getChildByTag(100); // 获取包含 BigMap 的父节点
@@ -110,13 +113,15 @@ cocos2d::MenuItemLabel* Setting3::createTextButton(const std::string& text, cons
 }
 
 //小地图的放大缩小功能
-void Setting3::onMouseScroll(cocos2d::Event* event) {
+void Setting3::onMouseScroll(cocos2d::Event* event) 
+{
 	auto mouseEvent = static_cast<cocos2d::EventMouse*>(event);
 	float scrollY = mouseEvent->getScrollY();
 
 	// 获取父节点（包含地图和标签）
 	auto mapParentNode = this->getChildByTag(100);
-	if (mapParentNode) {
+	if (mapParentNode)
+	{
 		// 获取当前缩放比例
 		float currentScale = mapParentNode->getScale();
 
@@ -161,8 +166,7 @@ void Setting3::onMouseScroll(cocos2d::Event* event) {
 		newMapPosition.y = origin.y + visibleSize.height - 2000;
 
 
-		if ((currentMapPosition.x == (origin.x + visibleSize.width - 3100)) &&
-			(currentMapPosition.y == origin.y + visibleSize.height - 2000))
+		if ((currentMapPosition.x == (origin.x + visibleSize.width - 3100)) &&(currentMapPosition.y == origin.y + visibleSize.height - 2000))
 		{
 			mapParentNode->setPosition(mousePositionGL);
 		}
@@ -170,11 +174,5 @@ void Setting3::onMouseScroll(cocos2d::Event* event) {
 		{
 			mapParentNode->setPosition(newMapPosition);
 		}
-
-
 	}
 }
-
-
-
-
