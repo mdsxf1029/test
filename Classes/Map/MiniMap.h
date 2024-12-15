@@ -13,8 +13,8 @@ class MiniMap : public cocos2d::Scene
 {
 public:
 	// 构造函数
-	MiniMap(const std::string& mapFile = "village.tmx") :mapName(mapFile), isFly(true), tiledMap(nullptr), player(nullptr), keyboardListener(nullptr) {}
-	//MiniMap(const std::string& map, bool fly);
+	MiniMap(const std::string& mapFile = "village.tmx", bool fly = true) :mapName(mapFile), isFly(fly), tiledMap(nullptr), player(nullptr), keyboardListener(nullptr) {}
+	MiniMap(const std::string& map, bool fly);
 
 	// 创建方法
 	static cocos2d::Scene* createWithMap(const std::string&mapName,bool fly);
