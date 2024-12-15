@@ -33,6 +33,22 @@ const std::string SIDE_TASK_SEVEN_DESCRIPTION = "The key is hidden in the cave, 
 
 const std::string NON_TASK = "NON_TASK";//无任务	
 const std::string NON_TASK_DESCRIPTION = "No task";//无任务描述
+
+const std::string MAIN_TASK_GOLD = "TASK_GOLD";//金任务
+const std::string MAIN_TASK_GOLD_DESCRIPTION = "TASK_GOLD";//待补充
+
+const std::string MAIN_TASK_WOOD = "TASK_WOOD";//木任务
+const std::string MAIN_TASK_WOOD_DESCRIPTION = "TASK_WOOD";//待补充
+
+const std::string MAIN_TASK_WATER = "TASK_WATER";//水任务
+const std::string MAIN_TASK_WATER_DESCRIPTION = "TASK_WATER";//待补充
+
+const std::string MAIN_TASK_FIRE = "TASK_FIRE";//火任务
+const std::string MAIN_TASK_FIRE_DESCRIPTION = "TASK_FIRE";//待补充
+
+const std::string MAIN_TASK_EARTH = "TASK_EARTH";//土任务
+const std::string MAIN_TASK_EARTH_DESCRIPTION = "TASK_EARTH";//待补充
+
 class Task {
 public:
 
@@ -41,6 +57,7 @@ public:
 	void finish() noexcept;//完成任务
 	std::string getTaskName() const { return name; };
 	std::string getTaskDescription() const { return description; };
+	bool isTaskFinished() const { return isFinished; };
 
 protected:
 

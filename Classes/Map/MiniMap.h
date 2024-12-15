@@ -49,6 +49,13 @@ public:
 	// 更新人物位置
 	void UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode);
 
+	// 查找相邻地图
+	void GetNeighborMap(std::string& map1, std::string& map2);
+
+	// 按钮回调函数
+	void ButtonCallback(Ref* sender);
+
+
 private:
 	std::string mapName; // 当前地图的名称
 	bool isFly; // 是否传送
