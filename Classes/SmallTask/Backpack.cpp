@@ -1,23 +1,15 @@
 #include "Backpack.h"
-#include "items.h"
-#include <memory>
 
-Backpack::Backpack() = default;
-Backpack::~Backpack() = default;
+Backpack::Backpack() {}
 
-void Backpack::addItem(const std::string& itemName) {
-    // Check if the item already exists in the backpack
-    for (auto& existingItem : _items) {
-        if (existingItem->getItemName() == itemName) {
-            // Increment the quantity of the existing item
-            existingItem->setNum(existingItem->getNum() + 1);
-            return;
-        }
-    }
+Backpack::~Backpack() {}
 
-    //_items.push_back(newItem);
+void Backpack::addItem(const std::string& item)
+{
+    _items.push_back({ 1,item });
 }
 
-const std::vector<std::shared_ptr<Item>>& Backpack::getItems() const {
+std::vector<item>& Backpack::getItems() 
+{
     return _items;
 }

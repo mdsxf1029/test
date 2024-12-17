@@ -1,13 +1,11 @@
 #include "BackpackLayer.h"
 #include "PopupLayer.h"
 #include "ui/UIScrollView.h"
-#include "manager.h"
-#include "items.h"
 
 USING_NS_CC;
-std::vector<std::shared_ptr<Item>> items;
+
 BackpackLayer::BackpackLayer()
-    : _backpack(nullptr) // 默认初始化为 nullptr
+    : _backpack(nullptr)  // 默认初始化为 nullptr
 {
 }
 
@@ -31,44 +29,11 @@ bool BackpackLayer::init()
     return true;
 }
 
-
-
-void BackpackLayer::onItemClicked(Ref* sender)
-{
-    // 处理物品点击事件
-    CCLOG("Item clicked!");
-}
-
+// 创建背包界面 UI
+// 创建背包中的物品，假设背包是一个物品名称的列表
 // 创建背包界面 UI
 void BackpackLayer::createBackpackUI()
 {
-    // 获取背包中所有物品（可以通过 GlobalManager 获取）
-    const auto& weaponsList = GlobalManager::getInstance().getWeapons();
-    const auto& armorsList = GlobalManager::getInstance().getArmors();
-    const auto& foodsList = GlobalManager::getInstance().getFoods();
-    const auto& materialsList = GlobalManager::getInstance().getMaterials();
-
-    // 清空之前的物品
-    items.clear();
-
-    // 遍历所有物品并添加到 items 容器
-    for (const auto& weapon : weaponsList) {
-        items.push_back(weapon);  // 将 weapon 添加到 items 容器中
-    }
-
-    for (const auto& armor : armorsList) {
-        items.push_back(armor);  // 将 armor 添加到 items 容器中
-    }
-
-    for (const auto& food : foodsList) {
-        items.push_back(food);  // 将 food 添加到 items 容器中
-    }
-
-    for (const auto& material : materialsList) {
-        items.push_back(material);  // 将 material 添加到 items 容器中
-    }
-
-
     // 创建滚动视图，用于显示物品
     auto scrollView = ui::ScrollView::create();
     scrollView->setContentSize(Size(3100, 2600));  // 设置滚动视图的大小
@@ -80,6 +45,14 @@ void BackpackLayer::createBackpackUI()
     // 设置滚动视图的内部容器大小（适应所有物品）
     scrollView->setInnerContainerSize(Size(760, 1000));  // 内部容器的高度足够容纳多个物品
 
+
+    auto closeButton = ui::Button::create("CloseNormal.png");
+    closeButton->setPosition(Vec2(5700, 3500));  // 设置关闭按钮的位置
+    closeButton->addClickEventListener([=](Ref* sender) {
+        this->removeFromParent();  // 关闭弹窗
+        });
+    this->addChild(closeButton);
+
     // 每个按钮的宽度
     const float itemWidth = 765; // 物品按钮的宽度
     const float itemHeight = 765; // 物品按钮的高度
@@ -90,71 +63,92 @@ void BackpackLayer::createBackpackUI()
 
     // 创建物品的图标图片映射（物品名称与图片之间的对应关系）
     std::map<std::string, std::string> itemImageMap = {
-     {"HELMET", "helmet.png"},
-     {"ARMOR", "armor.png"},
-     {"SHOES", "shoes.png"},
-     {"MAGIC_RING", "magic_ring.png"},
-     {"MAGIC_CRYSTAL", "magic_crystal.png"},
-     {"MAGIC_SCROLL", "magic_scroll.png"},
-     {"FISH", "fish.png"},
-     {"FRUIT", "fruit.png"},
-     {"VEGETABLE", "vegetable.png"},
-     {"HERB", "herb.png"},
-     {"MEAT", "meat.png"},
-     {"MUSHROOM", "mushroom.png"},
-     {"RICE", "rice.png"},
-     {"APPLE", "apple.png"},
-     {"TREE", "tree.png"},
-     {"WOOD", "wood.png"},
-     {"GOLD_MINE", "gold_mine.png"},
-     {"STONE", "stone.png"},
-     {"CHEST", "chest.png"},
-     {"KEY", "key.png"},
-     {"LETTER", "letter.png"}
+     {"HELMET", "helmet(1).png"},										// 头盔
+     {"ARMOR", "shangyi.png"},											// 盔甲
+     {"SHOES", "xiazhuang.png"},											// 鞋子
+     {"MAGIC_RING", "ring.png"},								// 魔法戒指
+     {"MAGIC_CRYSTAL", "shuijing.png"},							// 魔法水晶
+     {"MAGIC_SCROLL", "shuijing.png"},							// 魔法卷轴
+     {"FISH", "shuijing.png"},											// 鱼
+     {"FRUIT", "shuijing.png"},											// 水果
+     {"VEGETABLE", "shuijing.png"},									// 蔬菜
+     {"HERB", "shuijing.png"},											// 草药
+     {"MEAT", "shuijing.png"},											// 肉
+     {"MUSHROOM", "shuijing.png"},									// 蘑菇
+     {"RICE", "shuijing.png"},											// 稻谷
+     {"APPLE", "shuijing.png"},											// 苹果
+     {"TREE", "shuijing.png"},											// 树
+     {"WOOD", "shuijing.png"},											// 木头
+     {"GOLD_MINE", "shuijing.png"},									// 金矿
+     {"STONE", "shuijing.png"},											// 石头
+     {"CHEST", "shuijing.png"},											// 宝箱
+     {"KEY", "shuijing.png"},												// 钥匙
+     {"LETTER", "shuijing.png"}										// 信件
     };
 
+
     int i = 0;
-    for (const auto& item :items) {
-        // 处理每个物品，获取对应图片等
-        std::string itemImage = itemImageMap[item->getItemName()];
+    if (_backpack)
+    {
+        for (auto& item : _backpack->getItems())
+        {
+            // 查找物品对应的图片
+            std::string itemImage = itemImageMap[item.name]; //获取物品图片路径
 
-        // 计算当前物品在当前行的 x 坐标
-        int row = i / itemsPerRow;
-        int col = i % itemsPerRow;
+            // 计算当前物品在当前行的 x 坐标
+            int row = i / itemsPerRow; // 当前物品所在行数
+            int col = i % itemsPerRow; // 当前物品在当前行的位置
 
-        float xPos = 380 + (col * itemWidth);
-        float yPos = 2200 - (row * itemHeight);
+            float xPos = 380 + (col * itemWidth);  // 计算物品的 X 坐标
+            float yPos = 2200 - (row * itemHeight);  // 计算物品的 Y 坐标
 
-        auto itemButton = ui::Button::create(itemImage, itemImage);
-        itemButton->setPosition(Vec2(xPos, yPos));
-        itemButton->setTitleText(std::to_string(item->getNum()));
-        itemButton->setTitleFontSize(24);
+            // 创建物品按钮，并使用不同的图片
+            auto itemButton = ui::Button::create(itemImage, itemImage);  // 设置按钮的图片
+            itemButton->setPosition(Vec2(xPos, yPos));  // 设置按钮位置
+            itemButton->setTitleText(item.name + "*" + std::to_string(item.num));  // 设置按钮标题为物品名称
+            itemButton->setTitleFontSize(70);
 
-        itemButton->addClickEventListener([=](Ref* sender) {
-            CCLOG("Clicked item: %s", item->getItemName().c_str());
+            // 添加按钮点击事件
+            itemButton->addClickEventListener([=](Ref* sender) {
 
-            // 弹出物品已配备的提示框
-            std::string message = "has been equipped";
-            auto popup = PopupLayer::create(message);
-            auto scene = Director::getInstance()->getRunningScene();
-            if (scene) {
-                scene->addChild(popup, 999);  // 确保弹窗显示在最上层
-            }
 
-            // 弹窗显示2秒后自动消失
-            popup->runAction(Sequence::create(DelayTime::create(2.0f), RemoveSelf::create(), nullptr));
-            });
+                // 弹出物品已配备的提示框
+                std::string message = "has been equipped";
+                CCLOG("Showing popup with message: %s", message.c_str());  // 打印弹窗消息
+                auto popup = PopupLayer::create(message);
+                CCLOG("Showing popup with message: %s", message.c_str());  // 打印弹窗消息
+                // 确保弹窗显示在场景最上方，避免被覆盖
+                auto scene = Director::getInstance()->getRunningScene();
+                if (scene) {
+                    scene->addChild(popup, 999);  // 确保弹窗显示在最上层
+                }
 
-        scrollView->addChild(itemButton);
-        i++;
+                // 如果你想在弹窗显示一段时间后自动消失，可以这样做
+                popup->runAction(Sequence::create(
+                    DelayTime::create(2.0f),  // 弹窗显示2秒
+                    RemoveSelf::create(),      // 自动移除弹窗
+                    nullptr
+                ));
+                });
+            // 将按钮添加到滚动视图中
+            scrollView->addChild(itemButton);
+            
+            i++;
+        }
     }
 }
+
+
+
+
+
 
 // 设置背包数据（物品）
 void BackpackLayer::setBackpack(Backpack* backpack)
 {
     _backpack = backpack;  // 设置背包数据
-    createBackpackUI();  // 更新背包 UI
+    // 更新背包 UI（例如重新绘制物品）
+    createBackpackUI();
 }
 
 // 创建静态的 create 方法，简化创建对象的过程

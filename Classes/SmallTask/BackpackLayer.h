@@ -3,7 +3,8 @@
 
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
-#include "Backpack.h"  // 背包类
+#include "Backpack.h"  // 引入背包类
+#include "items.h"      
 
 USING_NS_CC;
 
@@ -17,10 +18,6 @@ public:
     // 初始化函数
     virtual bool init();
 
-    void createItemUI(const Item& item);
-
-    void onItemClicked(Ref* sender);
-
     // 创建背包层的静态方法
     static BackpackLayer* create();
 
@@ -30,7 +27,7 @@ public:
 private:
     // 背包数据
     Backpack* _backpack;
-
+    std::vector<Item*> _items;  // 存储物品的容器
     // 创建并显示背包内容的函数
     void createBackpackUI();
 };
