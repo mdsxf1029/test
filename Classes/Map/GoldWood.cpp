@@ -45,9 +45,8 @@ bool Setting2::init()
 	menu->setPosition(Vec2::ZERO);																				// ÉèÖÃ²Ëµ¥µÄÎ»ÖÃ
 	mapParentNode->addChild(menu); // ½«²Ëµ¥Ìí¼Óµ½¸¸½Úµã
 
-	// ÉèÖÃ°´Å¥µÄÎ»ÖÃ£¨Ïà¶ÔÓÚ¸¸½Úµã£©
-	// ÉèÖÃ°´Å¥µÄÎ»ÖÃ£¨Ïà¶ÔÓÚ¸¸½Úµã£©
-	downtownMenuItem->setPosition(Vec2(-100, -2.22));														                                      //ÉèÖÃ²Ëµ¥ÏîµÄÎ»ÖÃ ÏÂÍ¬
+	// ÉèÖÃ°´Å¥µÄÎ»ÖÃ£¨Ïà¶ÔÓÚ¸¸½Úµã£© 
+	downtownMenuItem->setPosition(Vec2(-100, -2.22));														    //ÉèÖÃ²Ëµ¥ÏîµÄÎ»ÖÃ ÏÂÍ¬
 	castleMenuItem->setPosition(Vec2(0, 61.11));
 	woodMenuItem->setPosition(Vec2(-300, -455.55));
 	goldMenuItem->setPosition(Vec2(600, -132.22));
@@ -57,7 +56,7 @@ bool Setting2::init()
 
 cocos2d::Scene* Setting2::createScene()
 {
-	auto scene = Setting2::create();																			    // ´´½¨³¡¾°		
+	auto scene = Setting2::create();																			// ´´½¨³¡¾°		
 	return scene;
 }
 
@@ -69,28 +68,27 @@ void Setting2::disableBigMapScrolling()																			// ÒÆ³ıÊó±ê¹öÂÖÊÂ¼ş¼àÌ
 void Setting2::menuItemCallback1(Ref* sender, const std::string& backgroundImage)
 {
 	disableBigMapScrolling();																					// ÒÆ³ıÊó±ê¹öÂÖÊÂ¼ş¼àÌıÆ÷
-	MiniMap* miniMap = new MiniMap();																	      // ´´½¨ MiniMap ÊµÀı
+	MiniMap* miniMap = new MiniMap();																	        // ´´½¨ MiniMap ÊµÀı
 	if (miniMap)
 	{
-		miniMap->autorelease();																				  // ÊÍ·Å MiniMap ÊµÀı
-		miniMap->FlyToMap(backgroundImage);																	  // Ìø×ªµ½Ö¸¶¨µØÍ¼
+		miniMap->autorelease();																				    // ÊÍ·Å MiniMap ÊµÀı
+		miniMap->FlyToMap(backgroundImage);																	    // Ìø×ªµ½Ö¸¶¨µØÍ¼
 	}
-													// ÉèÖÃ±³¾°
-	// Òş²Ø»òÒÆ³ı BigMap
+						 
 	auto mapParentNode = this->getChildByTag(100);																// »ñÈ¡°üº¬ BigMap µÄ¸¸½Úµã
-	if (mapParentNode) {
+	if (mapParentNode) {																						// Èç¹û¸¸½Úµã´æÔÚ
 		auto bgSprite = mapParentNode->getChildByName("bgSprite");												// »ñÈ¡±³¾°¾«Áé
-		if (bgSprite) {
+		if (bgSprite) {																							// Èç¹û±³¾°¾«Áé´æÔÚ
 			bgSprite->setVisible(false);                                                                        // ½«±³¾°¾«ÁéÉèÖÃÎª²»¿É¼û
 		}
 	}
 
-	// Òş²Ø²Ëµ¥
+	/*Òş²Ø²Ëµ¥*/ 
 	auto menuNode = this->getChildByTag(200);																	// »ñÈ¡²Ëµ¥½Úµã
-	if (menuNode) {
+	if (menuNode) {																								// Èç¹û²Ëµ¥½Úµã´æÔÚ
 		menuNode->setVisible(false);																			// Òş²Ø²Ëµ¥
-		auto menuRef = dynamic_cast<Menu*>(menuNode);
-		if (menuRef) {
+		auto menuRef = dynamic_cast<Menu*>(menuNode);															// ½«²Ëµ¥½Úµã×ª»»Îª Menu ÀàĞÍ
+		if (menuRef) {																							// Èç¹û²Ëµ¥½Úµã´æÔÚ
 			menuRef->setEnabled(false);																			// ½ûÓÃ½»»¥
 		}
 	}
@@ -102,7 +100,7 @@ cocos2d::MenuItemLabel* Setting2::createTextButton(const std::string& text, cons
 	auto label = Label::createWithTTF(text, fontFile, fontSize);												// ´´½¨ÎÄ×Ö±êÇ©
 	label->setTextColor(Color4B::BLACK);																		// ÉèÖÃÎÄ×ÖÑÕÉ«
 
-	// ´´½¨ÎÄ×Ö°´Å¥£¬²¢°ó¶¨»Øµ÷º¯Êı
+	/*´´½¨ÎÄ×Ö°´Å¥£¬²¢°ó¶¨»Øµ÷º¯Êı*/ 
 	auto button = MenuItemLabel::create                                                                         //´´½¨ÎÄ×Ö°´Å¥
 	(label, [this, backgroundImage](Ref* sender)
 		{
@@ -112,43 +110,40 @@ cocos2d::MenuItemLabel* Setting2::createTextButton(const std::string& text, cons
 	return button;
 }
 
-//Ğ¡µØÍ¼µÄ·Å´óËõĞ¡¹¦ÄÜ
+/*Ğ¡µØÍ¼µÄ·Å´óËõĞ¡¹¦ÄÜ*/
 void Setting2::onMouseScroll(cocos2d::Event* event) {
-	auto mouseEvent = static_cast<cocos2d::EventMouse*>(event);
-	float scrollY = mouseEvent->getScrollY();
-	auto mapParentNode = this->getChildByTag(100);
+	auto mouseEvent = static_cast<cocos2d::EventMouse*>(event);													// »ñÈ¡Êó±êÊÂ¼ş
+	float scrollY = mouseEvent->getScrollY();																	// »ñÈ¡Êó±ê¹öÂÖµÄ¹ö¶¯Öµ
+	auto mapParentNode = this->getChildByTag(100);																// »ñÈ¡°üº¬ BigMap µÄ¸¸½Úµã
 
-	if (!mapParentNode) return;
+	if (!mapParentNode) return;																					// Èç¹û¸¸½Úµã²»´æÔÚ£¬Ö±½Ó·µ»Ø
 
-	// »ñÈ¡µ±Ç°Ëõ·ÅºÍĞÂµÄËõ·ÅÖµ
-	float currentScale = mapParentNode->getScale();
-	float scaleChange = scrollY > 0 ? 0.1f : -0.1f;
-	float newScale = currentScale + scaleChange;
-	// ÏŞÖÆËõ·Å·¶Î§
-	newScale = std::max(0.5f, std::min(newScale, 5.0f));
-
-	// Èç¹ûËõ·ÅÖµÃ»ÓĞ¸Ä±ä£¬Ö±½Ó·µ»Ø
-	if (std::abs(newScale - currentScale) < 0.001f) return;
+	/*»ñÈ¡µ±Ç°Ëõ·ÅºÍĞÂµÄËõ·ÅÖµ*/ 
+	float currentScale = mapParentNode->getScale();																// »ñÈ¡µ±Ç°Ëõ·ÅÖµ
+	float scaleChange = scrollY > 0 ? 0.1f : -0.1f;																// ¸ù¾İ¹ö¶¯ÖµÉèÖÃËõ·Å±ä»¯Öµ
+	float newScale = currentScale + scaleChange;																// ¼ÆËãĞÂµÄËõ·ÅÖµ
+	newScale = std::max(0.5f, std::min(newScale, 5.0f));														// ÏŞÖÆËõ·Å·¶Î§
+	if (std::abs(newScale - currentScale) < 0.001f) return;														// Èç¹ûËõ·ÅÖµÃ»ÓĞ¸Ä±ä£¬Ö±½Ó·µ»Ø
 
 	// Æ½»¬Ëõ·ÅĞ§¹û
-	mapParentNode->stopAllActions();
-	auto scaleTo = ScaleTo::create(0.1f, newScale);
-	auto easeAction = EaseOut::create(scaleTo, 2.0f);
-	mapParentNode->runAction(easeAction);
+	mapParentNode->stopAllActions();																			// Í£Ö¹ËùÓĞ¶¯×÷
+	auto scaleTo = ScaleTo::create(0.1f, newScale);																// ´´½¨Ëõ·Å¶¯×÷
+	auto easeAction = EaseOut::create(scaleTo, 2.0f);															// ´´½¨»º¶¯¶¯×÷
+	mapParentNode->runAction(easeAction);																		// ÔËĞĞ¶¯×÷
 
 	// »ñÈ¡ÆÁÄ»±ß½ç
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	auto origin = Director::getInstance()->getVisibleOrigin();
+	auto visibleSize = Director::getInstance()->getVisibleSize();												// »ñÈ¡¿É¼ûÇøÓòµÄ´óĞ¡
+	auto origin = Director::getInstance()->getVisibleOrigin();													// »ñÈ¡¿É¼ûÇøÓòµÄÔ­µã
 
 	// È·±£Î»ÖÃÔÚÓĞĞ§·¶Î§ÄÚ
-	Vec2 currentPos = mapParentNode->getPosition();
-	float minX = origin.x + visibleSize.width - 3100;
-	float minY = origin.y + visibleSize.height - 2000;
+	Vec2 currentPos = mapParentNode->getPosition();																// »ñÈ¡µ±Ç°Î»ÖÃ
+	float minX = origin.x + visibleSize.width - 3100;															// ÉèÖÃ×îĞ¡ x ×ø±ê
+	float minY = origin.y + visibleSize.height - 2000;															// ÉèÖÃ×îĞ¡ y ×ø±ê
 
-	currentPos.x = std::max(currentPos.x, minX);
-	currentPos.y = std::max(currentPos.y, minY);
+	currentPos.x = std::max(currentPos.x, minX);																// ÉèÖÃ x ×ø±ê
+	currentPos.y = std::max(currentPos.y, minY);																// ÉèÖÃ y ×ø±ê
 
-	mapParentNode->setPosition(currentPos);
+	mapParentNode->setPosition(currentPos);																		// ÉèÖÃĞÂÎ»ÖÃ
 }
 
 

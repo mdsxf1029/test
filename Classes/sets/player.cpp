@@ -48,13 +48,8 @@ Player::Player() : level(0), hp(PLAYRT_BASE_HP), attack(PLAYRR_BASE_ATTACK), isA
 	my_helmet = nullptr;																			//头盔
 	my_shoes = nullptr;																				//鞋子
 	weapon = nullptr;																				//武器
-	position = Vec2(0, 0);																			//初始位置
-	bag = Inventory();																				//背包		
-}
-/*
-* name:upgrade
-* level ++， hp+25， attack+5
-*/
+	position = Vec2(0, 0);																			//初始位置 
+} 
 //升级
 void Player::Upgrade()																				//升级
 {
@@ -147,26 +142,4 @@ bool Player::initWithFile(const std::string& filename)												//初始化图像文
 	}
 	return true;
 }
-
-void Player::clone(Player& hero)
-{ 
-	this->setHp(hero.getHp());																		//设置血量
-	this->setAttack(hero.getAttack());																//设置攻击力
-	this->setLevel(hero.GetLevel());																//设置等级
-	this->setName(hero.GetName());																	//设置名字
-	this->setElement(hero.getElement());															//设置元素属性
-	this->setMoney(hero.money);																		//设置金钱
-	this->setArmor(hero.my_armor);																    //设置护甲
-	this->setHelmet(hero.my_helmet);																//设置头盔
-	this->setShoes(hero.my_shoes);																	//设置鞋子
-	this->setWeapon(hero.weapon);																	//设置武器
-	this->setBag(hero.bag);																			//设置背包
-	this->setAlive(hero.isAlive);																	//设置是否存活
-	this->setState(hero.state);																		//设置状态
-	this->setMoving(hero.isMoving);																	//设置是否移动
-	this->setMovingUp(hero.isMovingUp);																//设置是否向上移动
-	this->setMovingDown(hero.isMovingDown);														    //设置是否向下移动
-	this->setMovingLeft(hero.isMovingLeft);														    //设置是否向左移动
-	this->setMovingRight(hero.isMovingRight);														//设置是否向右移动
-	this->setSpeed(hero.getSpeed());																//设置速度 
-}
+ 

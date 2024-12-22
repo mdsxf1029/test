@@ -35,30 +35,23 @@ public:
     CREATE_FUNC(BattleScene);
 
 private:
-	cocos2d::TMXTiledMap* _tileMap;		      // 地图
-    BattleState _battleState;                 // 当前战斗状态
+	cocos2d::TMXTiledMap* _tileMap;		                                                                // 地图
+    BattleState _battleState;                                                                           // 当前战斗状态
     std::shared_ptr<EnemyNpc> rawEnemy ;                                                                //敌人
 	std::vector<std::shared_ptr<Skill>>askillList = GlobalManager::getInstance().getSkills();			//技能
 	std::shared_ptr<Skill>enemyskill;                       											//敌人技能
 
     // 战斗数据
-    bool _isPlayerTurn;                       // 判断是否轮到玩家行动
-    cocos2d::Vec2 _skillDirection;            // 技能方向
-    cocos2d::Label* _enemyHealthLabel;		  // 敌人生命值显示
-    cocos2d::Label* _playerHealthLabel;		  // 玩家生命值显示
-	SkillState _currentSkillState;			  // 当前技能状态
-	float _coolDownTime = 3.0f;			      // 技能冷却时间
-	bool _ableToAttack = true;                //能够攻击  
-    bool gameOver = false;                    //战斗结束初始化为false
-	float cooldownTime = 2.0f;                 //冷却时间
-    /*
-    void playerAttack();                      // 玩家攻击
-    void enemyAttack();                       // 敌人攻击
-    void displayBattleInfo();                 // 显示战斗信息（血量、状态等）
-    void displayAttackAnimation();            // 播放攻击动画
-    void handleBattleState();  		          // 处理战斗状态
-    void displayDialogue(const std::string& text);  // 显示对话框、状态等界面
-*/
+    bool _isPlayerTurn;                                                                                 // 判断是否轮到玩家行动
+    cocos2d::Vec2 _skillDirection;                                                                      // 技能方向
+    cocos2d::Label* _enemyHealthLabel;		                                                            // 敌人生命值显示
+    cocos2d::Label* _playerHealthLabel;		                                                            // 玩家生命值显示
+	SkillState _currentSkillState;			                                                            // 当前技能状态
+	float _coolDownTime = 3.0f;			                                                                // 技能冷却时间
+	bool _ableToAttack = true;                                                                          //能够攻击  
+    bool gameOver = false;                                                                              //战斗结束初始化为false
+	float cooldownTime = 2.0f;                                                                          //冷却时间
+    
 
 };
 

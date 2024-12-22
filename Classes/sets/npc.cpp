@@ -9,20 +9,11 @@ class Skill;
 
 //基类 NPC类
 //构造函数 传入名称
-NPC::NPC(const std::string name) : name(name) {} 
-
+NPC::NPC(const std::string name) : name(name) {}								//构造函数	
 //子类
 //友方NPC
-//构造函数
-FriendNpc::FriendNpc(const std::string name) : name(name)
-{
-
-}
-
-void FriendNpc::GiveTask()
-{
-
-}
+FriendNpc::FriendNpc(const std::string name) : name(name) {}					//构造函数 
+void FriendNpc::GiveTask(){}													//基于任务		
 
 //敌方NPC   
 //构造函数 传入元素类型和等级 
@@ -50,17 +41,17 @@ void EnemyNpc::TakeDamage(int damage)											//敌人受到伤害
   
 
 
-void EnemyNpc::setPosition(Vec2 position)							//设置位置
+void EnemyNpc::setPosition(Vec2 position)										//设置位置
 {
 	this->position = position;
 	Sprite::setPosition(position);
 };
 
 
-bool EnemyNpc::initWithFile()                                         //加载图像
+bool EnemyNpc::initWithFile()													//加载图像
 {
 	if (!Sprite::initWithFile(filename)) {
-		std::cerr << "无法加载文件：" << filename << std::endl;
+		CCLOG("fail to init with the filename：%s", filename.c_str());			//用文件加载图像		
 		return false;
 	}
 	return true;

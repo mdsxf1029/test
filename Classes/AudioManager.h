@@ -23,11 +23,11 @@ public:
 
 	void resetIntroMusicFlag()									    //重置音乐标志
     {
-		hasPlayedIntroMusic = false;								 //设置为没有播放音乐
+		hasPlayedIntroMusic = false;								//设置为没有播放音乐
     }
 
 private:
-	AudioManager() : hasPlayedIntroMusic(false) {} 			   //构造函数
+	AudioManager() : hasPlayedIntroMusic(false) {} 			        //构造函数
     bool hasPlayedIntroMusic;
 };
 

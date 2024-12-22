@@ -18,7 +18,6 @@ Task::Task(std::string name, std::string description, std::string reward) : name
 //完成任务
 void Task::finish() noexcept                               //完成任务时调用该函数
 {
-	//如果未完成， 状态改为完成
-	if (state==0)
+	if (state == 0)										   //如果任务状态为0
 		state = 1;
 }

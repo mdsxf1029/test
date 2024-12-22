@@ -6,9 +6,9 @@
 class Setting6 : public cocos2d::Scene
 {
 public:
-	static cocos2d::Scene* createScene();                                           // 创建场景  
-	virtual bool init();															// 初始化
-	CREATE_FUNC(Setting6);															// 创建方法
+	static cocos2d::Scene* createScene();												// 创建场景  
+	virtual bool init();																// 初始化
+	CREATE_FUNC(Setting6);																// 创建方法
 
 private:
 

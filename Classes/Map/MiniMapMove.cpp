@@ -8,7 +8,7 @@
 
 std::shared_ptr<Player> _player = GlobalManager::getInstance().getPlayer();
 
-// 更新主控精灵位置
+/*更新主控精灵位置*/ 
 void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode)
 {
     cocos2d::Vec2 currentPos = _player->getPosition();                                                              // 获取主控精灵原位置
@@ -21,7 +21,7 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
 	bool walkable = true;																						   // 标记是否可行走
     auto collisionLayer = tiledMap->getObjectGroup("Collision");                                                   //获取碰撞检测的动态对象组  
 
-    // 获取缩放比例
+    /*获取缩放比例*/ 
 	auto scaleX = tiledMap->getScaleX();                                                                            // 获取x轴缩放比例
 	auto scaleY = tiledMap->getScaleY();																			// 获取y轴缩放比例
 	CCLOG("Scale factors: (%f, %f)", scaleX, scaleY);															    // 输出缩放比例
@@ -33,28 +33,24 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
 	cocos2d::Vec2 centralWorldPos = cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2);					// 计算视窗中心的世界坐标
 	CCLOG("Window center world position: (%f, %f)", centralWorldPos.x, centralWorldPos.y);						    // 输出视窗中心的世界坐标
 
-    // 获取当前瓦片地图大小
 	cocos2d::Size mapSize = tiledMap->getMapSize();															       // 获取地图大小
-    CCLOG("Tile map size: (%f, %f)", mapSize.width, mapSize.height);
+	CCLOG("Tile map size: (%f, %f)", mapSize.width, mapSize.height);											   // 输出地图大小
 
-    // 获取瓦片地图瓦片大小
 	cocos2d::Size tileSize = tiledMap->getTileSize();															   // 获取瓦片大小
-    CCLOG("Tile size: (%f, %f)", tileSize.width, tileSize.height);
+	CCLOG("Tile size: (%f, %f)", tileSize.width, tileSize.height);												   // 输出瓦片大小
 
-    // 获取当前瓦片地图坐标
 	cocos2d::Vec2 currentMapPos = tiledMap->getPosition();														   // 获取地图位置
 	CCLOG("Current tile map position: (%f, %f)", currentMapPos.x, currentMapPos.y);                                // 输出地图位置
 
-    // 计算瓦片缩放后大小
-	cocos2d::Size playerSize = tileSize;                                                                           // 获取瓦片大小
+	cocos2d::Size playerSize = tileSize;                                                                           // 获取瓦片缩放后大小
 	playerSize.width *= scaleX;																					   // 计算缩放后宽度
 	playerSize.height *= scaleY;																				   // 计算缩放后高度
 
-    // 通过世界坐标获取精灵在瓦片层中的相对坐标
+    /*通过世界坐标获取精灵在瓦片层中的相对坐标*/ 
 	cocos2d::Vec2 tilePos = tiledMap->convertToNodeSpace(newPos);												   // 获取新位置的瓦片坐标
 	CCLOG("Relative tile position: (%f, %f)", tilePos.x, tilePos.y);										       // 输出瓦片坐标
 
-    // 如果有碰撞检测层，找Collision属性
+    /*如果有碰撞检测层，找Collision属性*/ 
     if (collisionLayer) {
 		auto collisionObjects = collisionLayer->getObjects();                                                       // 获取碰撞对象
 		CCLOG("Number of collision objects: %lu", collisionObjects.size());										    // 输出碰撞对象数量
@@ -73,9 +69,9 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
         }
     }
 
-    // 寻找是否有boat点
+    /*寻找是否有boat点*/ 
 	auto boatLayer = tiledMap->getObjectGroup("Boat");															   // 获取boat层 
-    // 标记传送与否
+    /*标记传送与否*/ 
 	bool boat = false;																							   // 标记是否在boat点
      
 	if (boatLayer) {                                                                                               // 如果有boat层
@@ -96,11 +92,11 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
         }
     }
 
-    // 如果可以boat，调对话框
+    /*如果可以boat，调对话框*/ 
     if (boat) {
         CCLOG("Entering boat dialog");
 
-        // 创建对话框的背景精灵
+        /*创建对话框的背景精灵*/ 
         auto background = cocos2d::Sprite::create();
         float width = visibleSize.width / 2, height = visibleSize.height / 2;                                    // 设置对话框的大小
         background->setTextureRect(cocos2d::Rect(0.0f, 0.0f, width, height));                                    // 设为矩形
@@ -111,7 +107,7 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
 		this->addChild(background); 																		     // 添加背景精灵                    
 		CCLOG("Background sprite has been added.");
 
-        // 创建文字标签
+        /*创建文字标签*/ 
         auto label = cocos2d::Label::createWithSystemFont("Where do you want to go?", "fonts/arial.ttf", 64);    // 设置文本
         label->setPosition(centralWorldPos + cocos2d::Vec2(0.0f, visibleSize.height / 3));                       // 设置位置
         label->setColor(cocos2d::Color3B(0, 0, 0));                                                              // 设置文本颜色为黑色
@@ -119,7 +115,7 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
 		this->addChild(label);  																		         // 添加文本标签                 
 		CCLOG("Label has been added.");
 
-        // 创建父节点管理所有按钮
+        /*创建父节点管理所有按钮*/ 
 		auto buttonParentNode = cocos2d::Node::create();														// 创建父节点
 		this->addChild(buttonParentNode);																		// 添加父节点 
 		auto closeButton = ui::Button::create("CloseSelected.png");												// 创建关闭按钮
@@ -144,7 +140,7 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
 
 		std::vector<std::string> map = { "gold","wood","earth","water","fire","none","village" };			    // 创建地图名称
 
-        // 获取任务
+        /*获取任务*/ 
         const auto& tasks = GlobalManager::getInstance().getTasks();										    // 获取任务
 
         if (mapName == "smallmap/village.tmx")                                                                  //如果当前是village
@@ -152,15 +148,15 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
             for (int i = 0; i < 6; i++)
             {
                 auto button = ui::Button::create("CloseSelected.png", "CloseSelected.png", "CloseSelected.png");                // 创建按钮
-                // 设置按钮标题
+                /*设置按钮标题*/ 
                 button->setTitleText(map[i]);                                                                                   // 设置文本
 				CCLOG("Build button %s", map[i].c_str());																		// 输出按钮信息   
                 button->setTitleFontSize(48);                                                                                   // 设置字号
                 button->setTitleColor(Color3B(0, 0, 0));                                                                        // 设置标题为黑色
                 button->setTitleFontName("Arial");                                                                              // 设置标题字体
 
-				// 查询前一个地图的任务是否完成（除了金地图）
-                if (tasks[i]->state <= 0 && i < 5 && i != 0)      														            // 如果未完成，禁用按钮                                              
+				/*查询前一个地图的任务是否完成（除了金地图）*/ 
+                if (tasks[i]->state <= 0 && i < 5 && i != 0)      														        // 如果未完成，禁用按钮                                              
                 {
                     button->setEnabled(false);
                 }
@@ -172,48 +168,46 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
         }
         else if (mapName == "smallmap/castle.tmx")
         {
-            // 创建按钮
-			auto button1 = ui::Button::create("CloseNormal.png", "CloseNormal.png", "CloseNormal.png");                  // 创建按钮
-            auto button2 = ui::Button::create("CloseSelected.png", "CloseSelected.png", "CloseSelected.png");
+             
+			auto button1 = ui::Button::create("CloseNormal.png", "CloseNormal.png", "CloseNormal.png");                  // 创建按钮1
+			auto button2 = ui::Button::create("CloseSelected.png", "CloseSelected.png", "CloseSelected.png");			 // 创建按钮2
 
-            // 设置按钮的位置
-			button1->setPosition(cocos2d::Vec2(centralWorldPos.x, centralWorldPos.y - visibleSize.height / 10));		 // 设置按钮位置
-            button2->setPosition(cocos2d::Vec2(centralWorldPos.x, centralWorldPos.y + visibleSize.height / 10));
+			button1->setPosition(cocos2d::Vec2(centralWorldPos.x, centralWorldPos.y - visibleSize.height / 10));		 // 设置按钮1位置
+			button2->setPosition(cocos2d::Vec2(centralWorldPos.x, centralWorldPos.y + visibleSize.height / 10));		 // 设置按钮2位置
 
-            // 设置按钮标题
             button1->setTitleText(map[6]);                                                                               // 设置文本
-            CCLOG("Build button %s", map[6].c_str());
+			CCLOG("Build button %s", map[6].c_str());                                                                    // 输出按钮信息
             button1->setTitleFontSize(48);                                                                               // 设置字号
             button1->setTitleColor(Color3B(0, 0, 0));                                                                    // 设置标题为黑色
             button1->setTitleFontName("Arial");                                                                          // 设置标题字体
             button2->setTitleText(map[5]);                                                                               // 设置文本
-            CCLOG("Build button %s", map[5].c_str());                                                                          
+			CCLOG("Build button %s", map[5].c_str());                                                                    // 输出按钮信息
             button2->setTitleFontSize(48);                                                                               // 设置字号
             button2->setTitleColor(Color3B(0, 0, 0));                                                                    // 设置标题为黑色
             button2->setTitleFontName("Arial");                                                                          // 设置标题字体
 
-			button1->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));		     // 添加按钮点击事件
-            button2->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));
+			button1->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));		     // 添加按钮1点击事件
+			button2->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));		     // 添加按钮2点击事件
 
-			buttonParentNode->addChild(button1);																	     // 将按钮添加到父节点中
-            buttonParentNode->addChild(button2);
+			buttonParentNode->addChild(button1);																	     // 将按钮1添加到父节点中
+			buttonParentNode->addChild(button2);																	     // 将按钮2添加到父节点中
         }
         else
         {
-			std::string newMap1, newMap2;
-            int map1, map2;
+			std::string newMap1, newMap2;																			     // 创建新地图
+			int map1, map2;																							     // 创建地图1和地图2
             GetNeighborMap(newMap1, newMap2, map1, map2);															     // 获取相邻地图
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)                                                                                  //遍历
             {
 				auto button = ui::Button::create("CloseSelected.png", "CloseSelected.png", "CloseSelected.png");	     // 创建按钮
 				button->setPosition(cocos2d::Vec2(centralWorldPos.x, visibleSize.height * 2 / 3 - i * 100));		     // 设置按钮位置
 
-                // 设置按钮标题
+                /*设置按钮标题*/ 
                 button->setTitleFontSize(48);                                                                            // 设置字号
                 button->setTitleColor(Color3B(0, 0, 0));                                                                 // 设置标题为黑色
                 button->setTitleFontName("Arial");                                                                       // 设置标题字体
 
-                // 设置标题文本
+                /*设置标题文本*/ 
                 if (i == 0 || i == 1)
                 {
                     if (i == 0)
@@ -225,7 +219,7 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
 						button->setTitleText(newMap2);																    // 设置文本
                     }
 
-                    // 获取任务
+                    /*获取任务*/ 
                     if ((i == 0 && tasks[map1]->state <= 0) || (i == 1 && tasks[map2]->state <= 0))                                                                              // 如果未完成
                     {
                         button->setEnabled(false);                                                                      // 禁用按钮
@@ -244,13 +238,13 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
         }
     }
 
-    // 如果是村庄
+    /*如果是村庄*/ 
     if (mapName == "smallmap/village.tmx")
     {
         auto gateLayer = tiledMap->getObjectGroup("Gate");                                                            // 寻找是否有gate点
         bool gate = false;                                                                                            // 标记传送与否
 
-        // 如果有gate点，找gate属性
+        /*如果有gate点，找gate属性*/ 
         if (gateLayer) {
 			auto gateObjects = gateLayer->getObjects();															      // 获取gate对象
             for (const auto& object : gateObjects) {
@@ -266,37 +260,37 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
             }
         }
 
-        // 如果在gate点
+        /*如果在gate点*/ 
         if (gate)
         {
-			auto buttonParentNode = cocos2d::Node::create();													  // 创建父节点
+			auto buttonParentNode = cocos2d::Node::create();													    // 创建父节点
             this->addChild(buttonParentNode);																	    // 管理所有按钮
 
-            // 创建按钮
+            /*创建按钮*/ 
 			auto button1 = ui::Button::create("CloseNormal.png", "CloseNormal.png", "CloseNormal.png");		        // 创建按钮
             auto button2 = ui::Button::create("CloseSelected.png", "CloseSelected.png", "CloseSelected.png");
 
-            // 设置按钮的位置
+            /*设置按钮的位置*/ 
 			button1->setPosition(cocos2d::Vec2(centralWorldPos.x, centralWorldPos.y - visibleSize.height / 3));     // 设置按钮位置
             button2->setPosition(cocos2d::Vec2(centralWorldPos.x, centralWorldPos.y + visibleSize.height / 3));
 
-            // 设置按钮标题
-            button1->setTitleText("castle");                                                                        // 设置文本
-            button1->setTitleFontSize(48);                                                                          // 设置字号
-            button1->setTitleColor(Color3B(0, 0, 0));                                                               // 设置标题为黑色
-            button1->setTitleFontName("Arial");                                                                     // 设置标题字体
-            button2->setTitleText("none");                                                                          // 设置文本
-            button2->setTitleFontSize(48);                                                                          // 设置字号
-            button2->setTitleColor(Color3B(0, 0, 0));                                                               // 设置标题为黑色
-            button2->setTitleFontName("Arial");                                                                     // 设置标题字体
+            /*设置按钮标题*/ 
+            button1->setTitleText("castle");                                                                        // 设置文本        1
+            button1->setTitleFontSize(48);                                                                          // 设置字号        1
+            button1->setTitleColor(Color3B(0, 0, 0));                                                               // 设置标题为黑色  1
+            button1->setTitleFontName("Arial");                                                                     // 设置标题字体    1
+            button2->setTitleText("none");                                                                          // 设置文本        2
+            button2->setTitleFontSize(48);                                                                          // 设置字号        2
+            button2->setTitleColor(Color3B(0, 0, 0));                                                               // 设置标题为黑色  2
+            button2->setTitleFontName("Arial");                                                                     // 设置标题字体    2
 
-            // 添加按钮点击事件
-			button1->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));	  // 添加按钮点击事件
-            button2->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));
+            /*添加按钮点击事件*/ 
+			button1->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));	  // 添加按钮1点击事件
+			button2->addClickEventListener(std::bind(&MiniMap::ButtonCallback, this, std::placeholders::_1));	  // 添加按钮2点击事件
 
-            // 将按钮添加到父节点中
-			buttonParentNode->addChild(button1);																  // 将按钮添加到父节点中
-            buttonParentNode->addChild(button2);
+            /*将按钮添加到父节点中*/ 
+			buttonParentNode->addChild(button1);																  // 将按钮1添加到父节点中
+			buttonParentNode->addChild(button2);																  // 将按钮2添加到父节点中
         }
     }
     // 定义区域边界世界坐标
@@ -324,7 +318,7 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
             }
         }
     }
-    // 如果能前往该坐标
+    /*如果能前往该坐标*/ 
     if (walkable)
     {
 		float offset;                                                                                   // 定义偏移量
@@ -333,7 +327,7 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
         else
 			offset = abs(newPos.y - currentPos.y);													    // 计算y轴偏移
 
-        // 精灵向左
+        /*精灵向左*/ 
         if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW && newPos.x <= minWorldX && tilePos.x > 0
             && currentMapPos.x < 0) {
 			cocos2d::Vec2 newMapPosition = currentMapPos + cocos2d::Vec2(offset, 0.0f);                 // 计算新地图位置
@@ -350,7 +344,7 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
 			itemNode->setPosition(newItemPos);															// 设置新物品位置
         }
 
-        // 精灵向右
+        /*精灵向右*/ 
 		else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW && newPos.x >= maxWorldX    
             && tilePos.x < mapSize.width * tileSize.width && currentMapPos.x + (mapSize.width - 2) * tileSize.width * scaleX > visibleSize.width) {
 			cocos2d::Vec2 newMapPosition = currentMapPos - cocos2d::Vec2(offset, 0.0f);                 // 计算新地图位置
@@ -365,7 +359,7 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
 			itemNode->setPosition(newItemPos);															// 设置新物品位置
         }
 
-        // 精灵向上
+        /*精灵向上*/ 
         else if (newPos.y >= maxWorldY && keyCode == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW && tilePos.y > 0
             && currentMapPos.y + (mapSize.height - 2) * tileSize.height * scaleY > visibleSize.height) {
             cocos2d::Vec2 newMapPosition = currentMapPos - cocos2d::Vec2(0.0f, offset);                 //同上
@@ -380,7 +374,7 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
             itemNode->setPosition(newItemPos);
         }
 
-        // 精灵向下
+        /*精灵向下*/ 
         else if (newPos.y <= minWorldY && keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW
             && tilePos.y < mapSize.height * tileSize.height && currentMapPos.y < 0) {
 			cocos2d::Vec2 newMapPosition = currentMapPos + cocos2d::Vec2(0.0f, offset);				 //同上   
@@ -394,7 +388,7 @@ void MiniMap::UpdatePlayerPosition(const cocos2d::EventKeyboard::KeyCode keyCode
             npcNode->setPosition(newNPCPos);
             itemNode->setPosition(newItemPos);
         }
-
+		// 如果在可见区域内
         else if (newPos.x > 0 && newPos.x < visibleSize.width && newPos.y>0 && newPos.y < visibleSize.height) {
 			auto moveTo = cocos2d::MoveTo::create(0.1f, newPos);									     		// 创建平滑动作
 			_player->runAction(moveTo);																			// 运行动作
@@ -413,7 +407,7 @@ void MiniMap::ButtonCallback(Ref* sender)
 	this->removeChildByName("label");																		  // 移除文本标签
     ui::Button* button = static_cast<ui::Button*>(sender);													  // 获取按钮 将 Ref 指针转换为 Button 指针
 	std::string title = button->getTitleText();																  // 获取按钮标题
-    // 补充标题为完整文件名
+    /*补充标题为完整文件名*/ 
 	title = "smallmap/" + title;    																          // 补充标题                           
 	if (title == "smallmap/gold")                                                                             // 如果是gold
 		title += "1.tmx";                                                                                     // 补充标题
@@ -423,16 +417,15 @@ void MiniMap::ButtonCallback(Ref* sender)
 		title += ".tmx";                                                                                      // 补充标题
 
 	auto parentNode = button->getParent();                                                                    //获取父节点
- 
-    if (parentNode)
-		parentNode->removeAllChildren();																	  // 移除所有子节点-- 按钮
+	if (parentNode)                                                                                           // 如果有父节点
+		parentNode->removeAllChildren();																	  // 移除所有子节点
     else
 		button->removeFromParentAndCleanup(true);															  // 移除按钮
     if (title != "smallmap/none.tmx")
 		BoatingToMap(title);    																              // 航行到地图                     
 }
 
-void MiniMap::GetNeighborMap(std::string& newMap1, std::string& newMap2, int& map1, int& map2)                                      // 获取相邻地图
+void MiniMap::GetNeighborMap(std::string& newMap1, std::string& newMap2, int& map1, int& map2)                // 获取相邻地图
 {
     if (mapName == "smallmap/gold1.tmx")                                                                      // 如果是gold1
     {
@@ -451,13 +444,13 @@ void MiniMap::GetNeighborMap(std::string& newMap1, std::string& newMap2, int& ma
     else if (mapName == "smallmap/earth.tmx")                                                                 //如果是earth
     {
         newMap1 = "wood";                                                                                     //相邻地图1是wood
-        newMap2 = "water";                                                                                     //相邻地图2是water
+        newMap2 = "water";                                                                                    //相邻地图2是water
         map1 = 1;
         map2 = 3;
     }
-    else if (mapName == "smallmap/whole3.tmx")                                                                 //如果是water
+    else if (mapName == "smallmap/whole3.tmx")                                                                //如果是water
     {
-        newMap1 = "earth";                                                                                     //相邻地图1是earth
+        newMap1 = "earth";                                                                                    //相邻地图1是earth
         newMap2 = "fire";                                                                                     //相邻地图2是fire          
         map1 = 2;
         map2 = 4;
@@ -465,7 +458,7 @@ void MiniMap::GetNeighborMap(std::string& newMap1, std::string& newMap2, int& ma
     else if (mapName == "smallmap/fire.tmx")                                                                  //如果是fire
     {
         newMap1 = "water";                                                                                    //相邻地图1是water
-        newMap2 = "gold";                                                                                    //相邻地图2是gold
+        newMap2 = "gold";                                                                                     //相邻地图2是gold
         map1 = 3;
         map2 = 1;
     }

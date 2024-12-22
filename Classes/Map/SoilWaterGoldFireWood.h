@@ -16,7 +16,7 @@ private:
 	void onMouseScroll(cocos2d::Event* event);											// 鼠标滚轮事件
 	void menuItemCallback1(cocos2d::Ref* sender, const std::string& backgroundImage);   // 菜单项回调函数
 	void disableBigMapScrolling();														// 禁用大地图滚动
-    // 确保这里有函数声明  
+    /*确保这里有函数声明*/   
     cocos2d::MenuItemLabel* createTextButton(const std::string& text,						
         const std::string& fontFile,
         int fontSize,

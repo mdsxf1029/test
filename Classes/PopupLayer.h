@@ -7,15 +7,10 @@ class PopupLayer : public cocos2d::LayerColor {
 public:
     PopupLayer();
     ~PopupLayer();
-
-    // 创建方法
-    static PopupLayer* create(const std::string& message);
-
-    // 初始化
-    bool init(const std::string& message);
-
+    static PopupLayer* create(const std::string& message);              // 创建方法
+	bool init(const std::string& message);  					        // 初始化方法   
 private:
-    cocos2d::Label* _messageLabel;
+	cocos2d::Label* _messageLabel;									    // 消息标签
 };
 
 #endif // __POPUP_LAYER_H__

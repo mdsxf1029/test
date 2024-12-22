@@ -7,8 +7,7 @@
 
 #include <string>
 #include <string.h>
-#include "elements.h"
-#include "inventory.h"
+#include "elements.h" 
 #include "items.h"
 #include "tasks.h"
 #include "npc.h"
@@ -27,8 +26,7 @@
  - level: 玩家等级
  - hp: 玩家当前血量
  - player_element: 玩家元素属性
- - attack: 玩家攻击力
- - inventory: 玩家背包
+ - attack: 玩家攻击力 
 
 *******************************************************************************************/
 
@@ -52,8 +50,7 @@ enum PlayerState {
     DEAD
 };
 class Player : public cocos2d::Sprite {
-    CREATE_FUNC(Player);
-    friend class Inventory;
+    CREATE_FUNC(Player); 
     friend class Item;
     friend class Weapon;
     friend class Armor;
@@ -87,7 +84,6 @@ public:
     void setHelmet(Armor* helmet) { my_helmet = helmet; }								 //设置头盔
     void setShoes(Armor* shoes) { my_shoes = shoes; }									 //设置鞋子
     void setWeapon(Weapon* weapon) { this->weapon = weapon; }							 //设置武器
-    void setBag(Inventory bag) { this->bag = bag; }									     //设置背包
     void setAlive(bool isAlive) { this->isAlive = isAlive; }							 //设置是否存活
     void setState(PlayerState state) { this->state = state; }							 //设置状态
     void setMoving(bool isMoving) { this->isMoving = isMoving; }						 //设置是否移动
@@ -128,13 +124,12 @@ private:
     std::string filename;                                   //玩家图像名
     std::string name;                                       //名字
     int level;                                              //等级
-    int max_hp=100;                                             //最大血量
+    int max_hp=100;                                         //最大血量
     int hp;                                                 //当前血量
     int basic_attack;                                       //攻击力(根据等级)
     int attack;                                             //最终攻击力
     int money = 0;                                          //金钱
     int speed = SPEED;									    //速度
-    //std::string file;									    //文件名
     ElementType player_element;							    //元素属性
     Vec2 position;                                          //位置
 
@@ -148,7 +143,7 @@ private:
     Armor* my_shoes;                                        //鞋子
     //武器
     Weapon* weapon;                                         //武器为空  
-    Inventory bag;                                          //背包
+    
 };
 
 #endif

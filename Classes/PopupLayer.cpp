@@ -13,7 +13,6 @@ bool PopupLayer::init(const std::string& message) {
     if (!LayerColor::init()) {
         return false;
     }
-
                                                                                                                 // 设置背景颜色和透明度
     this->setColor(Color3B(0, 0, 255));                                                                         // 背景颜色为蓝色
     this->setOpacity(255);                                                                                      // 设置透明度
@@ -40,13 +39,13 @@ bool PopupLayer::init(const std::string& message) {
 }
 
 PopupLayer* PopupLayer::create(const std::string& message) {
-    PopupLayer* ret = new PopupLayer();
-    if (ret && ret->init(message)) {
-        ret->autorelease();
-        return ret;
+	PopupLayer* ret = new PopupLayer();                                                                         // 创建弹窗对象
+	if (ret && ret->init(message)) {                                                                            // 初始化弹窗
+		ret->autorelease();																					    // 自动释放
+		return ret;																							    // 返回弹窗对象
     }
     else {
-        delete ret;
-        return nullptr;
+		delete ret;																							    // 删除弹窗对象
+		return nullptr;																						    // 返回空指针
     }
 }

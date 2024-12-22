@@ -8,18 +8,17 @@
 #include"SmallTask/QuizGame.h"
 std::shared_ptr<Player> rawPlayer = GlobalManager::getInstance().getPlayer();
 
-const int ATTACKRADIUS = 1000.0f;//最大攻击半径
-const int NEARESTLENGTH = 100.0f;//最近距离
+const float NEARESTLENGTH = 100.0f;//最近距离
 // 获取智能指针指向的 Player 对象的指针
 
 // 构造函数和析构函数
 BattleScene::BattleScene()
-    : _battleState(BattleState::IDLE),
+    : _battleState(BattleState::IDLE),  
     _tileMap(nullptr),
-    _skillDirection(cocos2d::Vec2::ZERO),
-    _currentSkillState(SkillState::NONE), // 初始技能状态为NONE
-    _enemyHealthLabel(nullptr),
-    _playerHealthLabel(nullptr)
+	_skillDirection(cocos2d::Vec2::ZERO),										    // 初始化技能方向为 0
+    _currentSkillState(SkillState::NONE),                                           // 初始技能状态为NONE
+	_enemyHealthLabel(nullptr),                                                     // 初始化敌人生命值的 Label 为 nullptr
+	_playerHealthLabel(nullptr)                                                     // 初始化玩家生命值的 Label 为 nullptr
 {
 }
 
@@ -27,55 +26,48 @@ BattleScene::~BattleScene() {}
 
 bool BattleScene::init()
 {
-    const  auto visibleSize = Director::getInstance()->getVisibleSize();
-    const  auto origin = Director::getInstance()->getVisibleOrigin();
+	const  auto visibleSize = Director::getInstance()->getVisibleSize();			    //获取size
+	const  auto origin = Director::getInstance()->getVisibleOrigin();				    //获取原点
      
-	if (!Scene::init())                                                             //如果 初始化失败  返回false
+	if (!Scene::init())                                                                 //如果 初始化失败  返回false
     {
         return false;
     }
 
-    // 加载 TMX 地图
-    _tileMap = cocos2d::TMXTiledMap::create("smallmap/battlefeild.tmx");
-    _tileMap->setScale(8.0f);
-    if (_tileMap == nullptr)
+    /*加载 TMX 地图*/ 
+	_tileMap = cocos2d::TMXTiledMap::create("smallmap/battlefeild.tmx");			    // 加载地图
+	_tileMap->setScale(8.0f);														    // 设置地图缩放比例
+	if (_tileMap == nullptr)														    //如果地图为空
     {
         cocos2d::log("Failed to load map.");
         return false;
     }
-    this->addChild(_tileMap);  // 将地图添加到场景
+    this->addChild(_tileMap);                                                           // 将地图添加到场景
      
-    //设置缩放比例
+    /*设置缩放比例*/
 	float scaleX = 3.0f;                                                                // 设置 X 轴缩放比例
 	float scaleY = 3.0f;																// 设置 Y 轴缩放比例
     auto tileSize = _tileMap->getTileSize();                                            //获取size    
 
-    // 计算瓦片缩放后大小
+    /*计算瓦片缩放后大小*/ 
 	auto playerSize = tileSize;														    // 获取玩家的大小
 	playerSize.width *= scaleX * 2;                                                     // 计算玩家的宽度
 	playerSize.height *= scaleY * 2;													// 计算玩家的高度
 
-    // 从地图的 objects 层中获取玩家和敌人的信息
+    /*从地图的 objects 层中获取玩家和敌人的信息*/ 
     const cocos2d::TMXObjectGroup* objectGroup = _tileMap->getObjectGroup("Objects");
     if (objectGroup != nullptr)
     { 
-        cocos2d::ValueMap playerData = objectGroup->getObject("Player");                 // 获取玩家的信息  
+        cocos2d::ValueMap playerData = objectGroup->getObject("Player");                                // 获取玩家的信息  
         if (!playerData.empty())
         {
             float playerX = playerData["x"].asFloat();
             float playerY = playerData["y"].asFloat();
-            try {
-               // rawPlayer = GlobalManager::getInstance().getPlayer();
-
-                                                                                                        // 1. 空指针检查
+            try {  
+                                                                                                        //  空指针检查
                 if (rawPlayer == nullptr) {
                     throw std::runtime_error("Player initialization failed: null pointer");
-                }
-
-                                                                                                        // 2. 初始化检查
-               // if (!rawPlayer->init()) {
-                   // throw std::runtime_error("Player initialization failed");
-               // }
+                } 
             }
             catch (const std::exception& e) {
                 CCLOG("Exception during initialization: %s", e.what());
@@ -83,22 +75,20 @@ bool BattleScene::init()
 				throw;                                                                                  // 重新抛出异常给上层处理
             } 
 			rawPlayer->initWithFile(rawPlayer->getFileName());											// 初始化玩家
-            rawPlayer->setContentSize(playerSize);
-            rawPlayer->setPosition(Vec2(playerX * 8, playerY * 8));
-            rawPlayer->Sprite::setPosition(rawPlayer->getPosition());
-            this->addChild(rawPlayer.get(),10);  // 将玩家添加到场景中
+			rawPlayer->setContentSize(playerSize);														// 设置玩家的大小
+			rawPlayer->setPosition(Vec2(playerX * 8, playerY * 8));										// 设置玩家位置变量
+			rawPlayer->Sprite::setPosition(rawPlayer->getPosition());									// 设置玩家图上位置
+			this->addChild(rawPlayer.get(), 10);                                                        // 将玩家添加到场景中
         }
-
-        // 获取敌人的信息 
-        cocos2d::ValueMap enemyData = objectGroup->getObject("NPC");
+		cocos2d::ValueMap enemyData = objectGroup->getObject("NPC");									// 获取敌人的信息
 
         if (!enemyData.empty())
         {
-            float enemyX = enemyData["x"].asFloat();
-            float enemyY = enemyData["y"].asFloat();
+			float enemyX = enemyData["x"].asFloat();                                                    // 获取敌人的 x 坐标
+			float enemyY = enemyData["y"].asFloat();													// 获取敌人的 y 坐标
             
             try {
-                rawEnemy = GlobalManager::getInstance().getBattleNpc();
+				rawEnemy = GlobalManager::getInstance().getBattleNpc();                                 // 获取敌人
                 // 1. 空指针检查
                 if (rawEnemy == nullptr) {
                     throw std::runtime_error("Player initialization failed: null pointer");
@@ -115,47 +105,44 @@ bool BattleScene::init()
                 // 重新抛出异常给上层处理
                 throw;
             }
-			rawEnemy->initWithFile();                                               // 初始化敌人
-			rawEnemy->setContentSize(playerSize);                                   // 设置敌人的大小
-			rawEnemy->setPosition(Vec2(enemyX * 8, enemyY * 8));					// 设置敌人的位置
-			enemyskill = rawEnemy->getSkill();                                      // 获取敌人的技能
-            this->addChild(rawEnemy.get(), 10);                                     // 将敌人添加到场景中
+			rawEnemy->initWithFile();                                                                   // 初始化敌人
+			rawEnemy->setContentSize(playerSize);                                                       // 设置敌人的大小
+			rawEnemy->setPosition(Vec2(enemyX * 8, enemyY * 8));					                    // 设置敌人的位置
+			enemyskill = rawEnemy->getSkill();                                                          // 获取敌人的技能
+            this->addChild(rawEnemy.get(), 10);                                                         // 将敌人添加到场景中
         }
-    }
-
-    
-
+    } 
     // 创建技能粒子效果
     askillList.at(0)->_effect = cocos2d::ParticleSystemQuad::create(askillList.at(0)->_info.particleFile);//初始化特效
     askillList.at(0)->_effect->setVisible(false);                                                         //初始时隐藏 
-    this->addChild(askillList.at(0)->_effect, 10);
+	this->addChild(askillList.at(0)->_effect, 10);                                                        //将特效添加到场景中
     askillList.at(1)->_effect = cocos2d::ParticleSystemQuad::create(askillList.at(1)->_info.particleFile);//初始化特效
     askillList.at(1)->_effect->setVisible(false);                                                         //初始时隐藏
-    this->addChild(askillList.at(1)->_effect, 10);
+    this->addChild(askillList.at(1)->_effect, 10);                                                        //将特效添加到场景中  
     askillList.at(2)->_effect = cocos2d::ParticleSystemQuad::create(askillList.at(2)->_info.particleFile);//初始化特效
     askillList.at(2)->_effect->setVisible(false);                                                         //初始时隐藏
-    this->addChild(askillList.at(2)->_effect, 10);
+	this->addChild(askillList.at(2)->_effect, 10);														  //将特效添加到场景中
 
     enemyskill->_effect = cocos2d::ParticleSystemQuad::create(enemyskill->_info.particleFile);            //初始化特效
     enemyskill->_effect->setVisible(false);                                                               //初始时隐藏
-    this->addChild(enemyskill->_effect, 10);
+	this->addChild(enemyskill->_effect, 10);															  //将特效添加到场景中
 
-	askillList.at(0)->setColor(rawPlayer->getElement());                                                    //设置技能颜色
+	askillList.at(0)->setColor(rawPlayer->getElement());                                                  //设置技能颜色
     askillList.at(1)->setColor(rawPlayer->getElement());
     askillList.at(2)->setColor(rawPlayer->getElement());
     enemyskill->setColor(rawEnemy->getElement());
     
-    _playerHealthLabel = cocos2d::Label::createWithTTF("Health: 100", "fonts/Marker Felt.ttf", 48);// 创建一个 Label 来显示玩家当前的生命值 
+    _playerHealthLabel = cocos2d::Label::createWithTTF("Health: 100", "fonts/Marker Felt.ttf", 48);       // 创建一个 Label 来显示玩家当前的生命值 
     if (_playerHealthLabel != nullptr)
     {
-        _playerHealthLabel->setPosition(cocos2d::Vec2(rawPlayer->getPosition().x, rawPlayer->getPosition().y + 150));
-        this->addChild(_playerHealthLabel, 1);                                                     // 将 Label 添加到场景中
+		_playerHealthLabel->setPosition(cocos2d::Vec2(rawPlayer->getPosition().x, rawPlayer->getPosition().y + 150));// 设置 Label 的位置
+        this->addChild(_playerHealthLabel, 1);                                                            // 将 Label 添加到场景中
     }         
-	_enemyHealthLabel = cocos2d::Label::createWithTTF("Health: 100", "fonts/Marker Felt.ttf", 48);// 创建一个 Label 来显示敌人当前的生命值
+	_enemyHealthLabel = cocos2d::Label::createWithTTF("Health: 100", "fonts/Marker Felt.ttf", 48);        // 创建一个 Label 来显示敌人当前的生命值
     if (_enemyHealthLabel != nullptr)
     {
-        _enemyHealthLabel->setPosition(cocos2d::Vec2(rawEnemy->getPosition().x, rawEnemy->getPosition().y + 150));
-        this->addChild(_enemyHealthLabel, 1);                                                      // 将 Label 添加到场景中
+		_enemyHealthLabel->setPosition(cocos2d::Vec2(rawEnemy->getPosition().x, rawEnemy->getPosition().y + 150));// 设置 Label 的位置
+        this->addChild(_enemyHealthLabel, 1);                                                             // 将 Label 添加到场景中
     }
 
     // 设置场景更新
@@ -187,13 +174,11 @@ void BattleScene::update(float delta)
         if (askillList.at(0)->_effect->isVisible())
         {
             askillList.at(0)->_effect->setPosition(rawPlayer->getPosition());                   // 设置粒子系统的位置
-        }
-
+        } 
         if (askillList.at(1)->_effect->isVisible())
         {
             askillList.at(1)->_effect->setPosition(rawPlayer->getPosition());                   // 设置粒子系统的位置
-        }
-
+        } 
         if (askillList.at(2)->_effect->isVisible())
         {
             askillList.at(2)->_effect->setPosition(rawPlayer->getPosition());                   // 设置粒子系统的位置
@@ -203,32 +188,24 @@ void BattleScene::update(float delta)
             enemyskill->_effect->setPosition(rawEnemy->getPosition());                          // 设置粒子系统的位置    
         }
         enemyMove();                                                                            // 敌人移动
-        EnemyAttack();  														    		    // 敌人攻击                                       
-
+        EnemyAttack();  														    		    // 敌人攻击 
         if (rawEnemy != nullptr)                                                                // 更新敌人生命值的显示
         {
-            // 更新显示的敌人生命值
-            _enemyHealthLabel->setString("Health: " + std::to_string(rawEnemy->getHp()));
-            // 更新 Label 位置，使其始终跟随敌人
-            _enemyHealthLabel->setPosition(cocos2d::Vec2(rawEnemy->getPosition().x, rawEnemy->getPosition().y + 150));
+            _enemyHealthLabel->setString("Health: " + std::to_string(rawEnemy->getHp()));       // 更新显示的敌人生命值
+            _enemyHealthLabel->setPosition(cocos2d::Vec2(rawEnemy->getPosition().x, rawEnemy->getPosition().y + 150)); // 更新 Label 位置，使其始终跟随敌人
         }
         if (rawPlayer != nullptr)   												            // 更新玩家生命值的显示                                                
         {
-            // 更新显示的玩家生命值
-            _playerHealthLabel->setString("Health: " + std::to_string(rawPlayer->getHp()));
-            // 更新 Label 位置，使其始终跟随敌人
-            _playerHealthLabel->setPosition(cocos2d::Vec2(rawPlayer->Sprite::getPosition().x, rawPlayer->Sprite::getPosition().y + 150));
+            _playerHealthLabel->setString("Health: " + std::to_string(rawPlayer->getHp()));     // 更新显示的玩家生命值
+            _playerHealthLabel->setPosition(cocos2d::Vec2(rawPlayer->Sprite::getPosition().x, rawPlayer->Sprite::getPosition().y + 150)); // 更新 Label 位置，使其始终跟随敌人
         }
-
-        // 检查战斗是否结束
-        checkBattleOver();
+		checkBattleOver();																	    // 检查战斗是否结束
     }
 }
 
 void BattleScene::onMouseDown(cocos2d::Event* event)
 {
-    // 将通用事件转换为鼠标事件
-    cocos2d::EventMouse* mouseEvent = dynamic_cast<cocos2d::EventMouse*>(event);
+	cocos2d::EventMouse* mouseEvent = dynamic_cast<cocos2d::EventMouse*>(event);				// 获取鼠标事件   
     if (mouseEvent&&!gameOver)
     {
         float degrees;
@@ -274,10 +251,10 @@ void BattleScene::onMouseDown(cocos2d::Event* event)
                 askillList.at(2)->_effect->resetSystem();                                       // 启动粒子系统
                  
                 scheduleOnce([this](float dt) {
-                                                                                                // 2秒后停止粒子效果
+                                                                                                // 1秒后停止粒子效果
                     askillList.at(2)->_effect->stopSystem();                                    // 停止粒子系统
                     askillList.at(2)->_effect->setVisible(false);                               // 隐藏粒子系统
-                    }, 1.0f, "stop_skill_effect");                                              // 2秒后调用
+                    }, 1.0f, "stop_skill_effect");                                              // 1秒后调用
                 _battleState = BattleState::ATTACKING;
                 if (askillList.at(2)->isInRange(rawPlayer->getPosition(), rawEnemy->getPosition(), mapclickPosition))//判断是否在攻击范围内
                 {
@@ -304,7 +281,7 @@ void BattleScene::onMouseDown(cocos2d::Event* event)
                 // 2秒后停止粒子效果
                 askillList.at(0)->_effect->stopSystem();                                                    // 停止粒子系统
                 askillList.at(0)->_effect->setVisible(false);                                               // 隐藏粒子系统
-                }, 1.0f, "stop_skill_effect");                                                              // 2秒后调用
+                }, 1.0f, "stop_skill_effect");                                                              // 1秒后调用
             _battleState = BattleState::ATTACKING;
             if (askillList.at(0)->isInRange(rawPlayer->getPosition(), rawEnemy->getPosition(), mapclickPosition))
             {
@@ -361,15 +338,15 @@ void BattleScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d:
         default:
             break;
     }
-    rawPlayer->setPosition(nextpos);
-    rawPlayer->Sprite::setPosition(nextpos);
-    CCLOG("next_position:%f %f", nextpos.x, nextpos.y);
+	rawPlayer->setPosition(nextpos);                                                                            // 设置玩家的位置
+	rawPlayer->Sprite::setPosition(nextpos);																	// 设置玩家的图像位置
+	CCLOG("next_position:%f %f", nextpos.x, nextpos.y);                                                         // 输出玩家的位置
 }
 
 void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
     if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_Z || keyCode == cocos2d::EventKeyboard::KeyCode::KEY_X) {
-        _currentSkillState = SkillState::NONE;  // 释放技能键后将技能状态设置为NONE
+        _currentSkillState = SkillState::NONE;                                                                  // 释放技能键后将技能状态设置为NONE
     }
     else {
         switch (keyCode)
@@ -422,86 +399,78 @@ void BattleScene::checkBattleOver()
 		}
     }
     if (rawPlayer->getHp() == 0)                                                        //如果我输了
-    {
-        // 创建文字标签
-        auto winLabel = Label::createWithTTF("YOU LOSE", "fonts/arial.ttf", 80);
+    { 
+        auto winLabel = Label::createWithTTF("YOU LOSE", "fonts/arial.ttf", 80);        // 创建文字标签
         Size visibleSize = Director::getInstance()->getVisibleSize();                   //获取visibleSize
         winLabel->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));     //定位到中央
         winLabel->setColor(Color3B::YELLOW);                                            // 设置颜色
         this->addChild(winLabel);                                                       //加入child
     }
     else if (rawEnemy->getHp() == 0)                                                    //如果我赢了
-    { // 创建文字标签
-        auto winLabel = Label::createWithTTF("YOU WIN!", "fonts/arial.ttf", 80);
+    { 
+        auto winLabel = Label::createWithTTF("YOU WIN!", "fonts/arial.ttf", 80);        // 创建文字标签
         Size visibleSize = Director::getInstance()->getVisibleSize();                  //获取visibleSize
         winLabel->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));    //定位到中央
         winLabel->setColor(Color3B::RED);                                              // 设置颜色
-        this->addChild(winLabel,99);
-        rawEnemy->dead();
-        //rawEnemy->removeFromParent();
-        //Director::getInstance()->replaceScene(TransitionFade::create(1.0f, MiniMap::create()));
-        //为了调试zhushidiao
+		this->addChild(winLabel, 99);												   //加入child
+        rawEnemy->dead(); 
     }
 	if (rawPlayer->getHp() == 0 || rawEnemy->getHp() == 0)
 	{
-        rawPlayer->setHp(rawPlayer->getMaxHp());
-        const auto& taskListbat = GlobalManager::getInstance().getTasks();
-		int id=taskListbat[0]->getid();
-		taskListbat[id]->state = 1;
-        gameOver = true;
-		endBattle();
+		rawPlayer->setHp(rawPlayer->getMaxHp());									  //重置玩家生命值
+		const auto& taskListbat = GlobalManager::getInstance().getTasks();			  //获取任务列表
+		int id = taskListbat[0]->getid();											  //获取任务id
+		taskListbat[id]->state = 1;													  //标记任务完成
+		gameOver = true;															  //游戏结束
+		endBattle();																  //结束战斗
 	}
 }
 
 void BattleScene::endBattle()
 {
-    auto exitButton = cocos2d::ui::Button::create("CloseNormal.png", "CloseSelected.png");
+	auto exitButton = cocos2d::ui::Button::create("CloseNormal.png", "CloseSelected.png"); // 创建按钮
     if (!exitButton)
     {
         CCLOGERROR("Failed to create exit button.");
         return;
     }
 
-    // 设置按钮位置（屏幕右上角）
-    auto visibleSize = Director::getInstance()->getVisibleSize();               // 获取屏幕尺寸
-    auto origin = Director::getInstance()->getVisibleOrigin();				    // 获取屏幕原点
-    exitButton->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2-100));						    // 设置按钮位置
+    /*设置按钮位置（屏幕右上角）*/ 
+    auto visibleSize = Director::getInstance()->getVisibleSize();                                   // 获取屏幕尺寸
+    auto origin = Director::getInstance()->getVisibleOrigin();				                        // 获取屏幕原点
+    exitButton->setPosition(cocos2d::Vec2(visibleSize.width / 2, visibleSize.height / 2-100));	    // 设置按钮位置
 
-    // 设置按钮点击事件
-    
+    /*设置按钮点击事件*/  
     exitButton->addClickEventListener([](Ref* sender) {
-        CCLOG("Exit button clicked. Exiting game.");
-        rawPlayer->removeFromParent();
-        auto newScene = MiniMap::createWithMap(GlobalManager::getInstance().getLastMap(), false);
-        Director::getInstance()->replaceScene(TransitionFade::create(1.0f, newScene));  // 退出游戏
-        });
-
-    this->addChild(exitButton, 10);                                             // 添加按钮到场景
+		CCLOG("Exit button clicked. Exiting game.");							                    // 输出信息
+		rawPlayer->removeFromParent();											                    // 移除玩家
+		auto newScene = MiniMap::createWithMap(GlobalManager::getInstance().getLastMap(), false);   // 创建新场景
+        Director::getInstance()->replaceScene(TransitionFade::create(1.0f, newScene));              // 退出游戏
+        }); 
+    this->addChild(exitButton, 10);                                                                 // 添加按钮到场景
 }
 
 
 void BattleScene::enemyMove()
-{
-    // 敌人移动逻辑
-    // 你可以在这里添加敌人移动的逻辑
-    Vec2 playerPos = rawPlayer->getPosition();
-    Vec2 enemyPos = rawEnemy->getPosition();
-    float thedistance = playerPos.distance(enemyPos);
-    if (thedistance > NEARESTLENGTH)
+{ 
+	Vec2 playerPos = rawPlayer->getPosition();                                                      //获取玩家位置
+	Vec2 enemyPos = rawEnemy->getPosition();														//获取敌人位置
+	float thedistance = playerPos.distance(enemyPos);											    //获取距离
+	if (thedistance > NEARESTLENGTH)																//如果距离大于最近距离
     {
-        if (playerPos.y < enemyPos.y) {//如果玩家得y坐标小于敌人的y坐标
-            enemyPos.y -= 50 * Director::getInstance()->getDeltaTime();
+        if (playerPos.y < enemyPos.y) {                                                             //如果玩家得y坐标小于敌人的y坐标
+			enemyPos.y -= 50 * Director::getInstance()->getDeltaTime();							    //敌人向下移动
         }
         else
-            enemyPos.y += 50 * Director::getInstance()->getDeltaTime();
+			enemyPos.y += 50 * Director::getInstance()->getDeltaTime();							    //否则敌人向上移动
 
-        if (playerPos.x < enemyPos.x) {//
-            enemyPos.x -= 50 * Director::getInstance()->getDeltaTime();
+		if (playerPos.x < enemyPos.x) {                                                             //如果玩家得x坐标小于敌人的x坐标
+			enemyPos.x -= 50 * Director::getInstance()->getDeltaTime();                             //敌人向左移动
         }
         else
-            enemyPos.x += 50 * Director::getInstance()->getDeltaTime();
-        CCLOG("enemy position:%f %f", enemyPos.x, enemyPos.y);
-        CCLOG("player position:%f %f", playerPos.x, playerPos.y);
+			enemyPos.x += 50 * Director::getInstance()->getDeltaTime();							    //否则敌人向右移动
+		CCLOG("enemy position:%f %f", enemyPos.x, enemyPos.y);                                      //输出敌人位置
+		CCLOG("player position:%f %f", playerPos.x, playerPos.y);								    //输出玩家位置
     }
     rawEnemy->setPosition(enemyPos);
 
@@ -509,46 +478,44 @@ void BattleScene::enemyMove()
 
 void BattleScene::EnemyAttack()
 {// 敌人攻击逻辑
-    std::srand(std::time(0));                                               // 设置随机数种子
-    Vec2 rawplayerpos = rawPlayer->getPosition();                           //玩家位置
-    Vec2 rawenemypos = rawEnemy->getPosition();                             //敌人位置  
-    float thedistance = rawplayerpos.distance(rawenemypos);                 //距离
-    float degrees = askillList.at(0)->cast(rawEnemy.get(), rawplayerpos);   // 执行攻击 的角度求解 
-    enemyskill->_effect->setAngle(degrees);                                 // 设置粒子的发射角度 
-	enemyskill->_effect->setPosition(rawEnemy->getPosition());			    // 设置粒子系统的位置
-    int randomnum1 = std::rand() % 100 + 1;                                 // 生成 1 到 100 之间的随机数
+    std::srand(std::time(0));                                                                       // 设置随机数种子
+    Vec2 rawplayerpos = rawPlayer->getPosition();                                                   //玩家位置
+    Vec2 rawenemypos = rawEnemy->getPosition();                                                     //敌人位置  
+    float thedistance = rawplayerpos.distance(rawenemypos);                                         //距离
+    float degrees = askillList.at(0)->cast(rawEnemy.get(), rawplayerpos);                           // 执行攻击 的角度求解 
+    enemyskill->_effect->setAngle(degrees);                                                         // 设置粒子的发射角度 
+	enemyskill->_effect->setPosition(rawEnemy->getPosition());			                            // 设置粒子系统的位置
+    int randomnum1 = std::rand() % 100 + 1;                                                         // 生成 1 到 100 之间的随机数
     
-	if (enemyskill->isInRange(rawPlayer->getPosition(), rawEnemy->getPosition()))//判断是否在攻击范围内
+	if (enemyskill->isInRange(rawPlayer->getPosition(), rawEnemy->getPosition()))                   //判断是否在攻击范围内
     {
-		if (randomnum1 > 50&&cooldownTime==0)                                                    // 10%的概率使用技能
+		if (randomnum1 > 50&&cooldownTime==0)                                                       // 50%的概率使用技能
         {
-			cocos2d::log("Enemy is attacking!");                                // 输出敌人正在攻击
-            enemyskill->_effect->setVisible(true);  						    // 启用粒子效果并播放                                
-            enemyskill->_effect->resetSystem();                                 // 启动粒子系统
+			cocos2d::log("Enemy is attacking!");                                                    // 输出敌人正在攻击
+            enemyskill->_effect->setVisible(true);  						                        // 启用粒子效果并播放                                
+            enemyskill->_effect->resetSystem();                                                     // 启动粒子系统
             scheduleOnce([this](float dt) {
-                enemyskill->_effect->stopSystem();                              // 停止粒子系统
-                enemyskill->_effect->setVisible(false);                         // 隐藏粒子系统
-				}, 2.0f, "stop_skill_effect");                                  // 2s后调用
-            _battleState = BattleState::ATTACKING;                              //更改战斗状态    
+                enemyskill->_effect->stopSystem();                                                  // 停止粒子系统
+                enemyskill->_effect->setVisible(false);                                             // 隐藏粒子系统
+				}, 2.0f, "stop_skill_effect");                                                      // 2s后调用
+            _battleState = BattleState::ATTACKING;                                                  //更改战斗状态    
         }
-        int randomnum = std::rand() % 100 + 1;                                  // 生成 1 到 100 之间的随机数
-        if (randomnum > 80&& cooldownTime == 0)                                                             //10%的击中概率
+        int randomnum = std::rand() % 100 + 1;                                                      // 生成 1 到 100 之间的随机数
+        if (randomnum > 50&& cooldownTime == 0)                                                     //50%的击中概率
         {
 			// 判断敌人元素与玩家元素的关系
-            if (rawEnemy->getElement() > rawPlayer->getElement())                                          //判断敌人的元素是否克制玩家的元素
-                rawPlayer->TakeDamage((askillList.at(1)->getAttack() + rawPlayer->getAttack()) * 2);       //玩家受到伤害加倍
-            else if (rawEnemy->getElement() > rawPlayer->getElement())  						           //判断玩家的元素是否克制敌人的元素
-                rawPlayer->TakeDamage((askillList.at(1)->getAttack() + rawPlayer->getAttack()) / 2);       //晚间受到伤害减半
+            if (rawEnemy->getElement() > rawPlayer->getElement())                                   //判断敌人的元素是否克制玩家的元素
+                rawPlayer->TakeDamage((askillList.at(1)->getAttack() + rawPlayer->getAttack()) * 2);//玩家受到伤害加倍
+            else if (rawEnemy->getElement() > rawPlayer->getElement())  						    //判断玩家的元素是否克制敌人的元素
+                rawPlayer->TakeDamage((askillList.at(1)->getAttack() + rawPlayer->getAttack()) / 2);//晚间受到伤害减半
             else
-                rawPlayer->TakeDamage(rawEnemy->getAttack() + enemyskill->getAttack());                    //玩家受到普通伤害    
-            cooldownTime = 2.0f;    								                                       // 重置冷却时间       
+                rawPlayer->TakeDamage(rawEnemy->getAttack() + enemyskill->getAttack());             //玩家受到普通伤害    
+            cooldownTime = 2.0f;    								                                // 重置冷却时间       
         }
     
         CCLOG("Player is HURT!");
-    }
-
-    // 改变战斗状态回到待机
-    _battleState = BattleState::IDLE;
+    } 
+	_battleState = BattleState::IDLE;															   // 更改战斗状态为待机
 
 }
 

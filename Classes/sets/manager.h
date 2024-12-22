@@ -50,20 +50,19 @@ private:
 	std::vector<std::shared_ptr<GameMaterial>> _materials;   							    		            		// 材料           
 	std::vector<std::shared_ptr<TaskItem>> _taskItems;   							    		                		// 任务物品 
 	std::vector<std::shared_ptr<Element>> _elements;   							    		                			// 元素
-	std::shared_ptr<Inventory> _bag;   							    		                            			    // 背包
 	std::string _lastMap;
 	// 构造函数
 	GlobalManager() {
 		// 初始化
-		_elements.emplace_back(std::make_shared<Element>(ElementType::Gold));				// 金
-		_elements.emplace_back(std::make_shared<Element>(ElementType::Wood));				// 木
-		_elements.emplace_back(std::make_shared<Element>(ElementType::Water));				// 水
-		_elements.emplace_back(std::make_shared<Element>(ElementType::Fire));				// 火
-		_elements.emplace_back(std::make_shared<Element>(ElementType::Earth));				// 土
+		_elements.emplace_back(std::make_shared<Element>(ElementType::Gold));											// 金
+		_elements.emplace_back(std::make_shared<Element>(ElementType::Wood));											// 木
+		_elements.emplace_back(std::make_shared<Element>(ElementType::Water));											// 水
+		_elements.emplace_back(std::make_shared<Element>(ElementType::Fire));											// 火
+		_elements.emplace_back(std::make_shared<Element>(ElementType::Earth));											// 土
 
 		// 初始化玩家
 		try {
-			_hero = std::make_shared<Player>();												// 玩家
+			_hero = std::make_shared<Player>();																			// 玩家
 			if(_hero==nullptr){
 				throw std::runtime_error("Player initialization failed: null pointer");
 			}
@@ -74,32 +73,32 @@ private:
 		}
 		// 初始化任务 
 		_tasks.emplace_back(std::make_shared<Task>(MAIN_TASK, MAIN_TASK_DESCRIPTION, SIDE_TASK_ONE_REWARD));					// 主线任务
-		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_ONE, SIDE_TASK_ONE_DESCRIPTION,SIDE_TASK_ONE_REWARD));			// 副任务1
-		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_TWO, SIDE_TASK_TWO_DESCRIPTION,SIDE_TASK_TWO_REWARD));			// 副任务2
+		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_ONE, SIDE_TASK_ONE_DESCRIPTION,SIDE_TASK_ONE_REWARD));				// 副任务1
+		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_TWO, SIDE_TASK_TWO_DESCRIPTION,SIDE_TASK_TWO_REWARD));				// 副任务2
 		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_THREE,SIDE_TASK_THREE_DESCRIPTION,SIDE_TASK_THREE_REWARD));		// 副任务3
-		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_FOUR, SIDE_TASK_FOUR_DESCRIPTION,SIDE_TASK_FOUR_REWARD));		// 副任务4
-		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_FIVE, SIDE_TASK_FIVE_DESCRIPTION,SIDE_TASK_FIVE_REWARD));		// 副任务5 
+		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_FOUR, SIDE_TASK_FOUR_DESCRIPTION,SIDE_TASK_FOUR_REWARD));			// 副任务4
+		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_FIVE, SIDE_TASK_FIVE_DESCRIPTION,SIDE_TASK_FIVE_REWARD));			// 副任务5 
 		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SIX, SIDE_TASK_SIX_DESCRIPTION, SIDE_TASK_SIX_REWARD));			// 副任务6		
-		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SEVEN, SIDE_TASK_SEVEN_DESCRIPTION, SIDE_TASK_SEVEN_REWARD));	// 副任务7	
-		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_EIGHT, SIDE_TASK_EIGHT_DESCRIPTION, SIDE_TASK_EIGHT_REWARD));	// 副任务8
-		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_NINE, SIDE_TASK_NINE_DESCRIPTION, SIDE_TASK_NINE_REWARD));		// 副任务9
+		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SEVEN, SIDE_TASK_SEVEN_DESCRIPTION, SIDE_TASK_SEVEN_REWARD));		// 副任务7	
+		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_EIGHT, SIDE_TASK_EIGHT_DESCRIPTION, SIDE_TASK_EIGHT_REWARD));		// 副任务8
+		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_NINE, SIDE_TASK_NINE_DESCRIPTION, SIDE_TASK_NINE_REWARD));			// 副任务9
 		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_TEN, SIDE_TASK_TEN_DESCRIPTION, SIDE_TASK_TEN_REWARD));			// 副任务10
 		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_ELEVEN, SIDE_TASK_ELEVEN_DESCRIPTION, SIDE_TASK_ELEVEN_REWARD));	// 副任务11	
-		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SHIER, SIDE_TASK_SHIER_DESCRIPTION, SIDE_TASK_SHIER_REWARD));	// 副任务12
+		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SHIER, SIDE_TASK_SHIER_DESCRIPTION, SIDE_TASK_SHIER_REWARD));		// 副任务12
 		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SHISAN, SIDE_TASK_SHISAN_DESCRIPTION, SIDE_TASK_SHISAN_REWARD));	// 副任务13
 		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SHISI, SIDE_TASK_SHISI_DESCRIPTION, SIDE_TASK_SHISI_REWARD));		// 副任务14
 		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SHIWU, SIDE_TASK_SHIWU_DESCRIPTION, SIDE_TASK_SHIWU_REWARD));		// 副任务14
-		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SHILIU, SIDE_TASK_SHILIU_DESCRIPTION, SIDE_TASK_SHILIU_REWARD));		// 副任务14
+		_tasks.emplace_back(std::make_shared<Task>(SIDE_TASK_SHILIU, SIDE_TASK_SHILIU_DESCRIPTION, SIDE_TASK_SHILIU_REWARD));	// 副任务14
 
-		_tasks.emplace_back(std::make_shared<Task>(NON_TASK, NON_TASK_DESCRIPTION, SIDE_TASK_ONE_REWARD));					// 无任务
+		_tasks.emplace_back(std::make_shared<Task>(NON_TASK, NON_TASK_DESCRIPTION, SIDE_TASK_ONE_REWARD));						// 无任务
 
 		// 初始化友方NPC
-		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(PRINCESS));								// 公主
-		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(KING));									// 国王
-		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(FishStoreManager));						// 鱼商
-		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(WeaponStoreManager));						// 武器商
-		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(VegetableStoreManager));					// 蔬菜商
-		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(OreStoreManager));							// 矿石商
+		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(PRINCESS));														// 公主
+		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(KING));															// 国王
+		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(FishStoreManager));												// 鱼商
+		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(WeaponStoreManager));												// 武器商
+		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(VegetableStoreManager));											// 蔬菜商
+		_friendNpcs.emplace_back(std::make_shared<FriendNpc>(OreStoreManager));													// 矿石商
 
 		// 初始化技能
 		skillInfoList.emplace_back(std::make_shared<SkillInfo>(SkillInfo{ "Element_Surge",  5,  90.0f,500.0f,"fire.plist" }));			//技能:Element_Surge
@@ -110,12 +109,12 @@ private:
 		skillInfoList.emplace_back(std::make_shared<SkillInfo>(SkillInfo{ "Energy_Vortex",  10,  150.0f,60.0f,"enemyskill3.plist" }));	//技能:Energy_Vortex 
 
 		// 初始化技能
-		std::shared_ptr<Skill> skill0 = std::make_shared<Skill>(*skillInfoList.at(0));       // 低级技能
-		std::shared_ptr<Skill> skill1 = std::make_shared<Skill>(*skillInfoList.at(1));       // 中级技能
-		std::shared_ptr<Skill> skill2 = std::make_shared<Skill>(*skillInfoList.at(2));       // 高级技能
-		std::shared_ptr<Skill> enemyskill1 = std::make_shared<Skill>(*skillInfoList.at(3));  // 低级技能
-		std::shared_ptr<Skill> enemyskill2 = std::make_shared<Skill>(*skillInfoList.at(4));  // 中级技能
-		std::shared_ptr<Skill> enemyskill3 = std::make_shared<Skill>(*skillInfoList.at(5));  // 高级技能 
+		std::shared_ptr<Skill> skill0 = std::make_shared<Skill>(*skillInfoList.at(0));											// 低级技能
+		std::shared_ptr<Skill> skill1 = std::make_shared<Skill>(*skillInfoList.at(1));											// 中级技能
+		std::shared_ptr<Skill> skill2 = std::make_shared<Skill>(*skillInfoList.at(2));											// 高级技能
+		std::shared_ptr<Skill> enemyskill1 = std::make_shared<Skill>(*skillInfoList.at(3));										// 低级技能
+		std::shared_ptr<Skill> enemyskill2 = std::make_shared<Skill>(*skillInfoList.at(4));										// 中级技能
+		std::shared_ptr<Skill> enemyskill3 = std::make_shared<Skill>(*skillInfoList.at(5));										// 高级技能 
 		try {
 			if (skill0 == nullptr) {
 				throw std::runtime_error("Skill0 initialization failed: null pointer");
@@ -169,13 +168,13 @@ private:
 		_enemyNpcsBoss = std::make_shared<EnemyNpc>(type, 3, enemyskill3, "enemyboss.png");
 
 		//初始化武器
-		_weapons.emplace_back(std::make_shared<Weapon>(MAGIC_RING));									//武器1
-		_weapons.emplace_back(std::make_shared<Weapon>(MAGIC_CRYSTAL));									//武器2	
-		_weapons.emplace_back(std::make_shared<Weapon>(MAGIC_SCROLL));									//武器3
+		_weapons.emplace_back(std::make_shared<Weapon>(MAGIC_RING));									    //武器1
+		_weapons.emplace_back(std::make_shared<Weapon>(MAGIC_CRYSTAL));									    //武器2	
+		_weapons.emplace_back(std::make_shared<Weapon>(MAGIC_SCROLL));									    //武器3
 
-		_armors.emplace_back(std::make_shared<Armor>(HELMET));											//头盔
-		_armors.emplace_back(std::make_shared<Armor>(ARMOR));											//护甲
-		_armors.emplace_back(std::make_shared<Armor>(SHOES));											//鞋子
+		_armors.emplace_back(std::make_shared<Armor>(HELMET));											    //头盔
+		_armors.emplace_back(std::make_shared<Armor>(ARMOR));											    //护甲
+		_armors.emplace_back(std::make_shared<Armor>(SHOES));											    //鞋子
 
 		// 食品
 		_foods.emplace_back(std::make_shared<Food>(FISH));													//鱼
@@ -195,8 +194,7 @@ private:
 		_materials.emplace_back(std::make_shared<GameMaterial>(CHEST));										//宝箱
 		_taskItems.emplace_back(std::make_shared<TaskItem>(KEY));											//钥匙
 		_taskItems.emplace_back(std::make_shared<TaskItem>(LETTER));										//信件
-		_bag = std::make_shared<Inventory>();																//背包
-
+		
 		// 上一个地图
 		_lastMap = "";
 	}
@@ -230,7 +228,6 @@ public:
 	const std::vector<std::shared_ptr<GameMaterial>>& getMaterials() const { return _materials; }								// 获取材料
 	const std::vector<std::shared_ptr<TaskItem>>& getTaskItems() const { return _taskItems; }									// 获取任务物品
 	const std::vector<std::shared_ptr<Element>>& getElements() const { return _elements; }										// 获取元素
-	const std::shared_ptr<Inventory> getInventory() const { return _bag; }														// 获取背包		
 	const std::shared_ptr<EnemyNpc> getBattleNpc() const { return _battleNpc; }													// 获取战斗NPC
 	std::string getLastMap() const { return _lastMap; }													     					// 获取上一个地图
 	

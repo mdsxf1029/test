@@ -15,15 +15,13 @@ public:
     BackpackLayer();
     ~BackpackLayer();
      
-    virtual bool init();                // 初始化函数
-	static BackpackLayer* create();     // 创建静态的 create 方法，简化创建对象的过程
-    void createBackpackUI();             // 创建并显示背包内容的函数
-    void setBackpack(Backpack* backpack);// 设置背包数据（物品）
-
-private:
-    // 背包数据
-    Backpack* _backpack;
-    std::vector<Item*> _items;  // 存储物品的容器
+    virtual bool init();                            // 初始化函数
+	static BackpackLayer* create();                 // 创建静态的 create 方法，简化创建对象的过程
+    void createBackpackUI();                        // 创建并显示背包内容的函数
+    void setBackpack(Backpack* backpack);           // 设置背包数据（物品） 
+private: 
+	Backpack* _backpack;							// 背包数据
+    std::vector<Item*> _items;                      // 存储物品的容器
 
 };
 

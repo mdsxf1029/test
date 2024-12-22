@@ -181,14 +181,14 @@ public:
 	TaskItem(const std::string& name) :name(name), id(0), isFinished(false) {};
 	~TaskItem() {};
 	void Finish();//完成
-	const std::string& getItemName() const { return "TaskItem"; };  //得到名字
+	const std::string& getItemName() const { return "TaskItem"; };		//得到名字
 
 protected:
 
 private:
-	std::string name;												//名字 
-	int id;															//id										
-	bool isFinished;												//是否完成
+	std::string name;													//名字 
+	int id;																//id										
+	bool isFinished;													//是否完成
 	 
 };
 #endif

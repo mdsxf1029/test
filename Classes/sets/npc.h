@@ -5,26 +5,23 @@
 #include <string>
 #include <string.h>
 #include "elements.h"
-#include "inventory.h"
 #include "tasks.h"
 
 #include "player.h"
 #include "skills.h"
 //友方
-const std::string PRINCESS = "PRINCESS";								//公主
-const std::string KING = "KING";										//国王
-const std::string MINISTER = "MINISTER";								//大臣
+const std::string PRINCESS = "PRINCESS";									//公主
+const std::string KING = "KING";											//国王
+const std::string MINISTER = "MINISTER";									//大臣
 
 
 // 鱼店  ，矿石店，蔬菜水果店，武器店  店长
-const std::string FishStoreManager = "FishStoreManager";				//鱼店
-const std::string OreStoreManager = "OreStoreManager";					//矿石店
-const std::string VegetableStoreManager = "VegetableStoreManager";		//蔬菜店
-const std::string WeaponStoreManager = "WeaponStoreManager";			//武器店
+const std::string FishStoreManager = "FishStoreManager";					//鱼店
+const std::string OreStoreManager = "OreStoreManager";						//矿石店
+const std::string VegetableStoreManager = "VegetableStoreManager";			//蔬菜店
+const std::string WeaponStoreManager = "WeaponStoreManager";				//武器店
 
-
-//`FishStoreManager` `WeaponStoreManager ` `VegetableStoreManager ` `OreStoreManager`
-
+ 
 //敌方
 
 constexpr int ENEMY_ATTACK = 10;											//初始化攻击力
@@ -39,26 +36,22 @@ public:
 	NPC(const std::string name);//含参构造函数
 	virtual ~NPC() {};
 
-	//获取位置
-	virtual const Vec2& getPosition() const { return this->position; };
+	virtual const Vec2& getPosition() const { return this->position; };		//获取位置
 
 protected:
-	Vec2 position;//位置
-private:
-	std::string name;
-
+	Vec2 position;															//位置
+	std::string name;														//名字
 };
 
 //友方NPC
 class FriendNpc : public NPC
 {
 public:
-	FriendNpc(const std::string name);
-	void GiveTask();//给任务
-
+	FriendNpc(const std::string name);										//含参构造函数
+	void GiveTask();														//给予任务
 private:
-	std::string name;
-	Task task;
+	std::string name;														//名字
+	Task task;																//任务
 };
 
 //敌方NPC
