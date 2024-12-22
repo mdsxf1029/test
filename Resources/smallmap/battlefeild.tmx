@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="16" height="8" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="10">
+ <tileset firstgid="1" name="battlefeild" tilewidth="16" tileheight="16" tilecount="400" columns="20">
+  <image source="battlefeild.png" width="320" height="320"/>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="16" height="8">
+  <data encoding="base64" compression="zlib">
+   eJwtzzVPngEABOD3Y8Fd/iwU9wUpUihlwV0WCK5dIFiLdUGK24I7TwLDk5suuUsPgiCDb2SSRTY55JJHPgUUUkQxJZRSRjkVVPKdKqqpoZYf1FHPTxr4RSNNNNNCK22000EnXXTTQy999DPAIEMMkxQKghE5yhjjTDDJFNPMMMsc8/xmgcWv/pJcZoVV1vjDX9bZYJMttvnHDrvssc9/DjjkiGNOOOWMcy645IprbrjljnseeOSJZ1545Y13AltDhBFOBJFEEU0MscQRTwKJoc+PyaSQShofUUBP9A==
+  </data>
+ </layer>
+ <objectgroup id="4" name="Boxs"/>
+ <objectgroup id="6" name="Objects">
+  <object id="4" name="NPC" x="47.2071" y="48.5184" width="16.3913" height="15.08"/>
+  <object id="5" name="Player" x="192.107" y="47.8627" width="14.4244" height="15.08"/>
+ </objectgroup>
+ <objectgroup id="8" name="Apple"/>
+ <objectgroup id="7" name="TransportPoint">
+  <object id="6" x="192.762" y="48.5184" width="15.08" height="13.1131"/>
+  <object id="9" name="Fly" x="199.974" y="56.3862">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="GoldOre"/>
+</map>

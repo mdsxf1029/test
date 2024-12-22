@@ -1,93 +1,95 @@
 #include "GoldWoodSoilWater.h"
 #include "SimpleAudioEngine.h"
 #include "HelloWorldScene.h"
-#include "MiniMap.h"
+#include "Map/MiniMap.h"
 USING_NS_CC;
 
-bool Setting4::init()
+//初始化
+bool Setting4::init()																						
 {
 	if (!Scene::init())
 	{
 		return false;
 	}
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	auto visibleSize = Director::getInstance()->getVisibleSize();														//获取可见区域的大小
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();															//获取可见区域的原点
 
 	// 创建一个父节点来包含地图和所有标签
-	auto mapParentNode = Node::create();
-	mapParentNode->setTag(100); // 设置父节点的 tag
-	mapParentNode->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
-	this->addChild(mapParentNode);
+	auto mapParentNode = Node::create();																				//创建父节点
+	mapParentNode->setTag(100);																							// 设置父节点的 tag
+	mapParentNode->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));				//设置父节点的位置
+	this->addChild(mapParentNode);																						//将父节点添加到场景
 
 	// 创建并添加背景到父节点
-	auto bg = Sprite::create("GoldWoodSoilWater.png");
-	bg->setPosition(Vec2::ZERO); // 相对于父节点的位置
-	bg->setName("bgSprite");
-	mapParentNode->addChild(bg);
+	auto bg = Sprite::create("GoldWoodSoilWater.png");																	//创建背景
+	bg->setPosition(Vec2::ZERO);																						// 相对于父节点的位置	
+	bg->setName("bgSprite");																							//设置背景的名字
+	mapParentNode->addChild(bg);																						//将背景添加到父节点
 
 	// 添加鼠标滚轮事件监听器
-	auto mouseListener = EventListenerMouse::create();
-	mouseListener->onMouseScroll = CC_CALLBACK_1(Setting4::onMouseScroll, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
+	auto mouseListener = EventListenerMouse::create();																	//创建鼠标滚轮事件监听器
+	mouseListener->onMouseScroll = CC_CALLBACK_1(Setting4::onMouseScroll, this);										//设置鼠标滚轮事件监听器的回调函数
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);										//添加鼠标滚轮事件监听器
 
-
-
-	// 创建背景管理实例
-	_backgroundManager = new BackgroundManager(this);
+	_backgroundManager = new BackgroundManager(this);																	//创建背景管理实例
 	// 创建菜单项
-	auto downtownMenuItem = createTextButton("Downtown", "fonts/Marker Felt.ttf", 300, "maps/downtown.tmx");
-	auto castleMenuItem = createTextButton("Castle", "fonts/Marker Felt.ttf", 300, "maps/castle.tmx");
-	auto waterMenuItem = createTextButton("Water", "fonts/Marker Felt.ttf", 300, "maps/waterMap.tmx");
-	auto soilMenuItem = createTextButton("Soil", "fonts/Marker Felt.ttf", 300, "maps/soilMap.tmx");
-	auto woodMenuItem = createTextButton("Wood", "fonts/Marker Felt.ttf", 300, "maps/woodMap.tmx");
-	auto goldMenuItem = createTextButton("Gold", "fonts/Marker Felt.ttf", 300, "maps/goldMap.tmx");
+	auto downtownMenuItem = createTextButton("Downtown", "fonts/Marker Felt.ttf", 80, "smallmap/village.tmx");					//创建菜单项，下同	
+	auto castleMenuItem = createTextButton("Castle", "fonts/Marker Felt.ttf", 80, "smallmap/castle.tmx");
+	auto waterMenuItem = createTextButton("Water", "fonts/Marker Felt.ttf", 80, "smallmap/whole3.tmx");
+	auto soilMenuItem = createTextButton("Soil", "fonts/Marker Felt.ttf", 80, "smallmap/earth.tmx");
+	auto woodMenuItem = createTextButton("Wood", "fonts/Marker Felt.ttf", 80, "smallmap/wood.tmx");
+	auto goldMenuItem = createTextButton("Gold", "fonts/Marker Felt.ttf", 80, "smallmap/gold1.tmx");
 	// 创建菜单
-	auto menu = Menu::create(downtownMenuItem, castleMenuItem, waterMenuItem, soilMenuItem, woodMenuItem, goldMenuItem, nullptr);
-	menu->setPosition(Vec2::ZERO);
-	mapParentNode->addChild(menu); // 将菜单添加到父节点
+	auto menu = Menu::create(downtownMenuItem, castleMenuItem, waterMenuItem, soilMenuItem, woodMenuItem, goldMenuItem, nullptr);//创建菜单
+	menu->setPosition(Vec2::ZERO);																								 //设置菜单的位置
+	mapParentNode->addChild(menu);																								 // 将菜单添加到父节点
 
 	// 设置按钮的位置（相对于父节点）
-	downtownMenuItem->setPosition(Vec2(-500, -100));
-	castleMenuItem->setPosition(Vec2(0, 500));
-	soilMenuItem->setPosition(Vec2(-4000, 500));
-	woodMenuItem->setPosition(Vec2(-1500, -2500));
-	waterMenuItem->setPosition(Vec2(-2500, 3000));
-	goldMenuItem->setPosition(Vec2(3000, -1000));
-
+	downtownMenuItem->setPosition(Vec2(-100, -2.22));														                                      //设置菜单项的位置 下同
+	castleMenuItem->setPosition(Vec2(0, 61.11));
+	soilMenuItem->setPosition(Vec2(-800, 11.11));
+	woodMenuItem->setPosition(Vec2(-300, -455.55));
+	waterMenuItem->setPosition(Vec2(-500, 566.66));
+	goldMenuItem->setPosition(Vec2(600, -132.22));
 	return true;
 }
-
+cocos2d::Scene* Setting4::createScene()
+{
+	auto scene = Setting4::create();																			    // 创建场景		
+	return scene;
+}
 void Setting4::disableBigMapScrolling()
 {
-	// 移除鼠标滚轮事件监听器
-	_eventDispatcher->removeEventListenersForTarget(this);
+	_eventDispatcher->removeEventListenersForTarget(this);																// 移除鼠标滚轮事件监听器
 }
 
 void Setting4::menuItemCallback1(Ref* sender, const std::string& backgroundImage)
 {
-	// 禁用 BigMap 的滚轮缩放
-	disableBigMapScrolling();
+	disableBigMapScrolling();																							// 禁用 BigMap 的滚轮缩放
 
-	// 切换背景
-	auto miniMapScene = MiniMap::createWithMap(backgroundImage, true);
-	cocos2d::Director::getInstance()->replaceScene(miniMapScene);
+	MiniMap* miniMap = new MiniMap();																	      // 创建 MiniMap 实例
+	if (miniMap)
+	{
+		miniMap->autorelease();																				  // 释放 MiniMap 实例
+		miniMap->FlyToMap(backgroundImage);																	  // 跳转到指定地图
+	}														// 设置背景
 
 	// 隐藏或移除 BigMap
-	auto mapParentNode = this->getChildByTag(100); // 获取包含 BigMap 的父节点
+	auto mapParentNode = this->getChildByTag(100);																		// 获取包含 BigMap 的父节点
 	if (mapParentNode) {
-		auto bgSprite = mapParentNode->getChildByName("bgSprite");
+		auto bgSprite = mapParentNode->getChildByName("bgSprite");														// 获取背景精灵
 		if (bgSprite) {
-			bgSprite->setVisible(false); // 或使用 mapParentNode->removeChild(bgSprite);
+			bgSprite->setVisible(false);																				//使得背景精灵不可见
 		}
 	}
 
 	// 隐藏菜单
-	auto menuNode = this->getChildByTag(200); // 获取菜单节点
+	auto menuNode = this->getChildByTag(200);																			// 获取菜单节点
 	if (menuNode) {
-		menuNode->setVisible(false); // 隐藏菜单
-		auto menuRef = dynamic_cast<Menu*>(menuNode);
+		menuNode->setVisible(false);																					// 隐藏菜单
+		auto menuRef = dynamic_cast<Menu*>(menuNode);																	// 转换为 Menu 类型
 		if (menuRef) {
-			menuRef->setEnabled(false); // 禁用交互
+			menuRef->setEnabled(false);																					// 禁用交互
 		}
 	}
 }
@@ -116,67 +118,41 @@ cocos2d::MenuItemLabel* Setting4::createTextButton(const std::string& text, cons
 void Setting4::onMouseScroll(cocos2d::Event* event) {
 	auto mouseEvent = static_cast<cocos2d::EventMouse*>(event);
 	float scrollY = mouseEvent->getScrollY();
-
-	// 获取父节点（包含地图和标签）
 	auto mapParentNode = this->getChildByTag(100);
-	if (mapParentNode) {
-		// 获取当前缩放比例
-		float currentScale = mapParentNode->getScale();
 
-		// 根据滚轮方向调整缩放比例
-		float newScale = currentScale + (scrollY > 0 ? 0.1f : -0.1f); // 上滑放大，下滑缩小
-		newScale = std::max(0.5f, std::min(newScale, 5.0f)); // 限制缩放范围
+	if (!mapParentNode) return;
 
-		// 获取鼠标屏幕坐标
-		Vec2 mousePositionScreen = Vec2(mouseEvent->getCursorX(), mouseEvent->getCursorY());
+	// 获取当前缩放和新的缩放值
+	float currentScale = mapParentNode->getScale();
+	float scaleChange = scrollY > 0 ? 0.1f : -0.1f;
+	float newScale = currentScale + scaleChange;
+	// 限制缩放范围
+	newScale = std::max(0.5f, std::min(newScale, 5.0f));
 
-		// 将鼠标屏幕坐标转换为 OpenGL 坐标
-		Vec2 mousePositionGL = Director::getInstance()->convertToGL(mousePositionScreen);
+	// 如果缩放值没有改变，直接返回
+	if (std::abs(newScale - currentScale) < 0.001f) return;
 
-		// 将鼠标坐标转换为父节点的局部坐标
-		Vec2 mousePositionLocalBeforeScale = mapParentNode->convertToNodeSpace(mousePositionGL);
+	// 平滑缩放效果
+	mapParentNode->stopAllActions();
+	auto scaleTo = ScaleTo::create(0.1f, newScale);
+	auto easeAction = EaseOut::create(scaleTo, 2.0f);
+	mapParentNode->runAction(easeAction);
 
-		// 缩放父节点
-		mapParentNode->setScale(newScale);
+	// 获取屏幕边界
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	auto origin = Director::getInstance()->getVisibleOrigin();
 
-		// 获取缩放后的地图大小
-		auto mapSize = mapParentNode->getContentSize() * newScale;
+	// 确保位置在有效范围内
+	Vec2 currentPos = mapParentNode->getPosition();
+	float minX = origin.x + visibleSize.width - 3100;
+	float minY = origin.y + visibleSize.height - 2000;
 
-		// 将鼠标位置重新转换为缩放后的相对坐标
-		Vec2 mousePositionLocalAfterScale = mapParentNode->convertToNodeSpace(mousePositionGL);
+	currentPos.x = std::max(currentPos.x, minX);
+	currentPos.y = std::max(currentPos.y, minY);
 
-		// 计算鼠标缩放前后的位置差异
-		Vec2 positionOffset = mousePositionLocalBeforeScale - mousePositionLocalAfterScale;
-
-		// 获取当前地图的位置
-		Vec2 currentMapPosition = mapParentNode->getPosition();
-
-		// 更新地图位置，使鼠标位置保持在相同的位置
-		Vec2 newMapPosition = currentMapPosition + positionOffset;
-
-		// 获取屏幕可见区域
-		auto visibleSize = Director::getInstance()->getVisibleSize();
-		auto origin = Director::getInstance()->getVisibleOrigin();
-
-		// 限制地图的位置，防止超出屏幕
-		newMapPosition.x = origin.x + visibleSize.width - 3100;
-
-		newMapPosition.y = origin.y + visibleSize.height - 2000;
-
-
-		if ((currentMapPosition.x == (origin.x + visibleSize.width - 3100)) &&
-			(currentMapPosition.y == origin.y + visibleSize.height - 2000))
-		{
-			mapParentNode->setPosition(mousePositionGL);
-		}
-		else
-		{
-			mapParentNode->setPosition(newMapPosition);
-		}
-
-
-	}
+	mapParentNode->setPosition(currentPos);
 }
+
 
 
 

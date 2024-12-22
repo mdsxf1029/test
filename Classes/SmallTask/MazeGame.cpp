@@ -13,24 +13,24 @@ bool MazeGame::init()
 	}
 
 	// 创建并初始化玩家精灵
-	player = Sprite::create("Maze/pacman_right.png");  // 默认向右
-	if (player == nullptr)  // 确保精灵创建成功
+	player = Sprite::create("HelloWorld.png");											// 默认向右
+	if (player == nullptr)																// 确保精灵创建成功
 	{
 		CCLOG("Failed to create player sprite!");
 		return false;
 	}
 
-	player->setScale(5000.0f);  // 放大精灵
-	player->setPosition(player_X * TILE_SIZE, (MAZE_HEIGHT - player_Y) * TILE_SIZE);
-	this->addChild(player);
+	player->setScale(5000.0f);															// 放大精灵
+	player->setPosition(Director::getInstance()->getVisibleSize().width / 2 + player_X * TILE_SIZE, Director::getInstance()->getVisibleSize().height / 2 + (MAZE_HEIGHT - player_Y) * TILE_SIZE);
+	this->addChild(player,5);
 
 	// 注册键盘事件监听器
 	auto listener = cocos2d::EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(MazeGame::onKeyPressed, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-	generateMaze();           // 初始化迷宫
-	renderMaze();             // 渲染迷宫
+	generateMaze();																		// 初始化迷宫
+	renderMaze();																		// 渲染迷宫
 
 	return true;
 }
@@ -40,10 +40,10 @@ MazeGame* MazeGame::create()
 	srand(time(0));
 
 	// 创建迷宫数组
-	MazeGame* mazeGame = new MazeGame();
-	if (mazeGame && mazeGame->init())
+	MazeGame* mazeGame = new MazeGame();												// 创建游戏实例
+	if (mazeGame && mazeGame->init())													// 初始化游戏
 	{
-		return mazeGame;
+		return mazeGame;																// 返回游戏实例
 	}
 	else
 	{
@@ -71,18 +71,16 @@ void MazeGame::generateMaze()
 	// 随机选择起点和终点
 	player_X = rand() % MAZE_WIDTH + 1;
 	player_Y = rand() % MAZE_HEIGHT + 1;
-	maze[player_X][player_Y] = 'S';  // 标记起点
+	maze[player_X][player_Y] = 'S';											// 标记起点
 
 	int exit_X, exit_Y;
 	do
 	{
 		exit_X = rand() % MAZE_WIDTH + 1;
 		exit_Y = rand() % MAZE_HEIGHT + 1;
-	} while (exit_X == player_X && exit_Y == player_Y);  // 确保终点不与起点重合
-
-	maze[exit_X][exit_Y] = 'E';  // 标记终点
-
-	CCLOG("Maze generated.");
+	} while (exit_X == player_X && exit_Y == player_Y);						// 确保终点不与起点重合 
+	maze[exit_X][exit_Y] = 'E';												// 标记终点 
+	CCLOG("Maze generated.");												// 输出迷宫生成成功
 }
 
 void MazeGame::renderMaze()
@@ -101,9 +99,9 @@ void MazeGame::renderMaze()
 				if (startSprite)
 				{
 					startSprite->setScale(50.0f);  // 放大精灵
-					startSprite->setPosition(j * TILE_SIZE, (MAZE_HEIGHT - i) * TILE_SIZE);
+					startSprite->setPosition(Director::getInstance()->getVisibleSize().width / 2 + j * TILE_SIZE, Director::getInstance()->getVisibleSize().height / 2 + (MAZE_HEIGHT - i) * TILE_SIZE);
 					this->addChild(startSprite);
-					CCLOG("Placed start sprite at (%d, %d)", j * TILE_SIZE, (MAZE_HEIGHT - i) * TILE_SIZE);
+					CCLOG("Placed start sprite at (%d, %d)", Director::getInstance()->getVisibleSize().width / 2 + j * TILE_SIZE, Director::getInstance()->getVisibleSize().height / 2 + (MAZE_HEIGHT - i) * TILE_SIZE);
 				}
 			}
 			else if (tile == 'E')
@@ -113,7 +111,7 @@ void MazeGame::renderMaze()
 				if (endSprite) 
 				{
 					endSprite->setScale(50.0f);  // 放大精灵
-					endSprite->setPosition(j * TILE_SIZE, (MAZE_HEIGHT - i) * TILE_SIZE);
+					endSprite->setPosition(Director::getInstance()->getVisibleSize().width / 2 + j * TILE_SIZE, Director::getInstance()->getVisibleSize().height / 2 + (MAZE_HEIGHT - i) * TILE_SIZE);
 					this->addChild(endSprite);
 					CCLOG("Placed end sprite at (%d, %d)", j * TILE_SIZE, (MAZE_HEIGHT - i) * TILE_SIZE);
 				}
@@ -125,7 +123,7 @@ void MazeGame::renderMaze()
 				if (wallSprite) 
 				{
 					wallSprite->setScale(500000.0f);  // 放大精灵
-					wallSprite->setPosition(j * TILE_SIZE, (MAZE_HEIGHT - i) * TILE_SIZE);
+					wallSprite->setPosition(Director::getInstance()->getVisibleSize().width / 2 + j * TILE_SIZE, Director::getInstance()->getVisibleSize().height / 2 + (MAZE_HEIGHT - i) * TILE_SIZE);
 					this->addChild(wallSprite,100);
 					CCLOG("Placed wall sprite at (%d, %d)", j * TILE_SIZE, (MAZE_HEIGHT - i) * TILE_SIZE);
 				}
@@ -142,7 +140,7 @@ void MazeGame::onKeyPressed(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Ev
 	// 删除旧的玩家精灵
 	if (player)
 	{
-		this->removeChild(player); // 删除之前的精灵
+		this->removeChild(player);											// 删除之前的精灵
 	}
 
 	int newPlayerX = player_X;
@@ -151,7 +149,7 @@ void MazeGame::onKeyPressed(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Ev
 	if (keycode == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW)
 	{
 		newPlayerY = player_Y + 1;
-		if (maze[newPlayerX][newPlayerY] != 'X')  // 如果不是墙，则移动
+		if (maze[newPlayerX][newPlayerY] != 'X')							// 如果不是墙，则移动
 		{
 			player->setTexture("Maze/pacman_up.png");
 		}
@@ -159,7 +157,7 @@ void MazeGame::onKeyPressed(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Ev
 	else if (keycode == cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW)
 	{
 		newPlayerY = player_Y - 1;
-		if (maze[newPlayerX][newPlayerY] != 'X')  // 如果不是墙，则移动
+		if (maze[newPlayerX][newPlayerY] != 'X')							// 如果不是墙，则移动
 		{
 			player->setTexture("Maze/pacman_down.png");
 		}
@@ -167,7 +165,7 @@ void MazeGame::onKeyPressed(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Ev
 	else if (keycode == cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW)
 	{
 		newPlayerX = player_X - 1;
-		if (maze[newPlayerX][newPlayerY] != 'X')  // 如果不是墙，则移动
+		if (maze[newPlayerX][newPlayerY] != 'X')							// 如果不是墙，则移动
 		{
 			player->setTexture("Maze/pacman_left.png");
 		}
@@ -175,34 +173,31 @@ void MazeGame::onKeyPressed(cocos2d::EventKeyboard::KeyCode keycode, cocos2d::Ev
 	else if (keycode == cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW)
 	{
 		newPlayerX = player_X + 1;
-		if (maze[newPlayerX][newPlayerY] != 'X')  // 如果不是墙，则移动
+		if (maze[newPlayerX][newPlayerY] != 'X')							// 如果不是墙，则移动
 		{
 			player->setTexture("Maze/pacman_right.png");
 		}
 	}
 
 	// 更新玩家坐标并移动精灵
-	if (maze[newPlayerX][newPlayerY] != 'X')  // 如果新的位置是可走的
+	if (maze[newPlayerX][newPlayerY] != 'X')								// 如果新的位置是可走的
 	{
 		player_X = newPlayerX;
 		player_Y = newPlayerY;
 		player->setScale(50.0f);  // 放大精灵
 		player->setPosition(player_X * TILE_SIZE, (MAZE_HEIGHT - player_Y) * TILE_SIZE);
 
-		// 将新的精灵添加到场景
-		this->addChild(player,11);
+																			// 将新的精灵添加到场景
+		this->addChild(player);
 
-		// 检查玩家是否到达终点
-		if (maze[player_X][player_Y] == 'E')  // 到达终点
+																			// 检查玩家是否到达终点
+		if (maze[player_X][player_Y] == 'E')								// 到达终点
 		{
-			// 显示胜利提示
-			auto winLabel = Label::createWithTTF("You Win!", "fonts/Marker Felt.ttf", 64);
-			winLabel->setPosition(Director::getInstance()->getVisibleSize() / 2); // 居中显示
+			auto winLabel = Label::createWithTTF("You Win!", "fonts/Marker Felt.ttf", 64); // 显示胜利提示
+			winLabel->setPosition(Director::getInstance()->getVisibleSize() / 2);		   // 居中显示
 			winLabel->setTextColor(Color4B::YELLOW);
-			this->addChild(winLabel, 999);  // 确保提示在最上层
-
-			// 停止游戏或其他操作
-			CCLOG("Player has won the game!");
+			this->addChild(winLabel);													   // 确保提示在最上层
+			CCLOG("Player has won the game!");											   // 停止游戏或其他操作
 			return;
 		}
 	}

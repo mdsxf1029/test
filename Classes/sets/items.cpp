@@ -1,52 +1,44 @@
 #include "items.h"
-#include"player.h" 
-//前置声明
-class Player;
+#include "player.h" 
+
+class Player;                               //前置声明
 
 //基类
-//拾取
-void Item::pick()
+void Item::pick()                           //拾取
 {
 	if (!inBag)								//如果不在背包中
 		inBag = true;						//拾取
 }
 
-//放下
-void  Item::drop()
+void  Item::drop()                          //放下
 {
 	if (!inBag)								//如果不在背包中
 		inBag = false;						//放下  不放入背包
 }
 
-//装备
-void Item::equip()
+void Item::equip()                          //装备
 {
 	if (inBag && isEquiped == false)		//如果在背包中
 		isEquiped = true;					//装备	
-
 }
 
-//卸下
-void Item::unequip()
+void Item::unequip()                        //卸下
 {
 	if (inBag && isEquiped)					//如果在背包中 且 装备
 		isEquiped = false;					//卸下	
-
 }
-//升级										//后面通过覆盖实现 对于武器和护具
-void Item::upgrade() {}
 
+void Item::upgrade() {}                     //升级，后面通过覆盖实现 对于武器和护具
 
-//丢弃
-void Item::discard()
+void Item::discard()                        //丢弃
 {
 	if (inBag)								//如果在背包中
 	{
 		inBag = false;						//丢弃
 		num = 0;							//数量为0
-		//不显示图像
 	}
 }
+
 bool Item::initwithFile(const std::string& filename)
 {
 	if (!Sprite::initWithFile(filename)) {
@@ -55,24 +47,19 @@ bool Item::initwithFile(const std::string& filename)
 	}
 	return true;
 }
-/*************************************************************************/
 
 //武器类 函数
-
-//装备
-void Weapon::equip()
+void Weapon::equip()                        //装备
 {
 	Item::equip();							//调用基类的装备函数 
 }
 
-//卸下
-void Weapon::unequip()
+void Weapon::unequip()                      //卸下
 {
 	Item::unequip();						//调用基类的卸下函数 
 }
 
-//升级
-void Weapon::upgrade()
+void Weapon::upgrade()                      //升级
 {
 	if (inBag && level <= 3)
 	{
@@ -81,30 +68,24 @@ void Weapon::upgrade()
 	}
 }
 
-
-/*************************************************************************/
-
 //装备类 函数
-//升级
-
-// 装备
-void Armor::equip()
+void Armor::equip()                         //装备
 {
 	if (inBag && !isEquiped)
 	{
 		isEquiped = true;					//装备
 	}
 }
-//卸下
-void Armor::unequip()
+
+void Armor::unequip()                       //卸下
 {
 	if (inBag && isEquiped)
 	{
 		isEquiped = false;					//卸下
 	}
 }
-//升级
-void Armor::upgrade()
+
+void Armor::upgrade()                       //升级
 {
 	if (inBag && level <= 3)				//如果在背包中 且 等级小于等于3
 	{
@@ -113,12 +94,8 @@ void Armor::upgrade()
 	}
 }
 
-/*************************************************************************/
-
 //食物类 函数
-
-//烹饪
-void Food::cook()
+void Food::cook()                           //烹饪
 {
 	if (inBag && !isCooked)
 	{
@@ -128,55 +105,33 @@ void Food::cook()
 	}
 }
 
-//食用
-void Food::eat()
+void Food::eat()                            //食用
 {
 	if (inBag && num != 0)
 	{
 		num--;								//数量减少
-		if (num == 0)
-		{
-			//不显示图像
-		}
-		//使用食物
+		if (num == 0){}                     //不显示图像
 	}
 }
-
-/*************************************************************************/
 
 //材料类
-
-//使用
-void GameMaterial::use()					//我想的是木头和石头可以用来生火  钻木取火吧，算是。
+void GameMaterial::use()					//使用
 {
-	if (inBag)
+	if (inBag)	
 	{
-		//使用  
-		num--;								//数量减少
-		if (num == 0)
-		{
-			//不显示图像
-		}
+		num--;						  	    //数量减少
+		if (num == 0) {}                    //不显示图像
 	}
 }
 
-
-/**************************************************************************/
-
 //任务物品类
-
-//完成任务
-void TaskItem::Finish()
+void TaskItem::Finish()                     //完成任务
 {
 	if (num == 5)							//如果数量为5
 	{
-		//完成任务
-		num = 0;							//数量清零
-		this->discard();					//丢弃 
-		//替换成另一个标志物
-		isFinished = true;//完成
-		//对话
-		//最终决战
+											//完成任务
+		num = 0;							//数量清零 
+		isFinished = true;					//完成 
 	}
 }
 

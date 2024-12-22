@@ -6,68 +6,100 @@
 #include <string>
 #include <string.h>
 
-const std::string MAIN_TASK = "LOOK FOR THE PRINCESS";//寻找公主
-const std::string MAIN_TASK_DESCRIPTION = "The princess is missing, you need to find her and bring her back to the castle";//公主失踪，你需要找到她并把她带回城堡
+const std::string MAIN_TASK = "LOOK FOR THE PRINCESS";																		//寻找公主
+const std::string MAIN_TASK_DESCRIPTION = "The princess is missing, you need to find her and bring her back to the castle"; //公主失踪，你需要找到她并把她带回城堡
 
 //副任务 一些可以采用的例子
-const std::string SIDE_TASK_ONE = "LOOK FOR THE TREASURE";//探索迷宫，找到宝藏
-const std::string SIDE_TASK_ONE_DESCRIPTION = "The treasure is hidden in the maze, you need to find it";//宝藏藏在迷宫中，你需要找到它
 
-const std::string SIDE_TASK_TWO = "DEFEAT THE MONSTER";//击败怪物
-const std::string SIDE_TASK_TWO_DESCRIPTION = "The monster is blocking the way, you need to defeat it";//怪物挡住了去路，你需要击败它
+const std::string SIDE_TASK_ONE = "GOLD TASK";																		//金
+const std::string SIDE_TASK_ONE_DESCRIPTION = "Explore the gold place";
+const std::string SIDE_TASK_ONE_REWARD = "you win the gold";
 
-const std::string SIDE_TASK_THREE = "HELP THE VILLAGERS";//帮助村民 
-const std::string SIDE_TASK_THREE_DESCRIPTION = "The villagers are in trouble, you need to help them";//村民们遇到了麻烦，你需要帮助他们
+const std::string SIDE_TASK_TWO = "WOOD TASK";																		//木 
+const std::string SIDE_TASK_TWO_DESCRIPTION = "Explore the wood place";
+const std::string SIDE_TASK_TWO_REWARD = "skill is update";
 
-const std::string SIDE_TASK_FOUR = "FIND THE WAY OUT";//找到出口
-const std::string SIDE_TASK_FOUR_DESCRIPTION = "There is a maze, you need to find the way out";//有一个迷宫，你需要找到出口
+const std::string SIDE_TASK_THREE = "EARTH TASK";				         											//土	
+const std::string SIDE_TASK_THREE_DESCRIPTION = "Explore the earth place";
+const std::string SIDE_TASK_THREE_REWARD = "skill is updated";
 
-const std::string SIDE_TASK_FIVE = "FIND THE SECRET";//找到秘密
-const std::string SIDE_TASK_FIVE_DESCRIPTION = "There is a secret hidden in the castle, you need to find it";//城堡中有一个秘密，你需要找到它
+const std::string SIDE_TASK_FOUR = "WATER TASK";																		//水
+const std::string SIDE_TASK_FOUR_DESCRIPTION = "Explore the water place";
+const std::string SIDE_TASK_FOUR_REWARD = "skill is updated";
 
-const std::string SIDE_TASK_SIX = "FIND THE TREASURE";//找到宝藏
-const std::string SIDE_TASK_SIX_DESCRIPTION = "The treasure is hidden in the forest, you need to find it";//宝藏藏在森林中，你需要找到它
 
-const std::string SIDE_TASK_SEVEN = "FIND THE KEY";//找到钥匙
-const std::string SIDE_TASK_SEVEN_DESCRIPTION = "The key is hidden in the cave, you need to find it";//钥匙藏在洞穴中，你需要找到它
+const std::string SIDE_TASK_FIVE = "FIRE TASK";																	//火
+const std::string SIDE_TASK_FIVE_DESCRIPTION = "Explore the fire place";
+const std::string SIDE_TASK_FIVE_REWARD = "skill is updated";
+
+const std::string SIDE_TASK_SIX = "QUIZ1 TASK";																	//火
+const std::string SIDE_TASK_SIX_DESCRIPTION = "answer the question";
+const std::string SIDE_TASK_SIX_REWARD = "you win gold";
+
+const std::string SIDE_TASK_SEVEN = "QUIZ2 TASK";																	//火
+const std::string SIDE_TASK_SEVEN_DESCRIPTION = "answer the question";
+const std::string SIDE_TASK_SEVEN_REWARD = "you win gold";
+
+const std::string SIDE_TASK_EIGHT = "GOLDENMINI TASK";																	//火
+const std::string SIDE_TASK_EIGHT_DESCRIPTION = "DEFEAT ME";
+const std::string SIDE_TASK_EIGHT_REWARD = "you can go";
+
+const std::string SIDE_TASK_NINE = "WOODMINI TASK";																	//火
+const std::string SIDE_TASK_NINE_DESCRIPTION = "DEFEAT ME";
+const std::string SIDE_TASK_NINE_REWARD = "you can go";
+
+const std::string SIDE_TASK_TEN = "EARTHMINI TASK";																	//火
+const std::string SIDE_TASK_TEN_DESCRIPTION = "DEFEAT ME";
+const std::string SIDE_TASK_TEN_REWARD = "you can go";
+
+const std::string SIDE_TASK_ELEVEN = "WATERMINI TASK";																	//火
+const std::string SIDE_TASK_ELEVEN_DESCRIPTION = "DEFEAT ME";
+const std::string SIDE_TASK_ELEVEN_REWARD = "you can go";
+
+const std::string SIDE_TASK_SHIER = "FIREMINI TASK";																	//火
+const std::string SIDE_TASK_SHIER_DESCRIPTION = "DEFEAT ME";
+const std::string SIDE_TASK_SHIER_REWARD = "you can go";
+
+const std::string SIDE_TASK_SHISAN = "APPLE TASK";																	//火
+const std::string SIDE_TASK_SHISAN_DESCRIPTION = "bring fish to me";
+const std::string SIDE_TASK_SHISAN_REWARD = "GREAT!";
+
+const std::string SIDE_TASK_SHISI = "TRAVEL TASK";																	//火
+const std::string SIDE_TASK_SHISI_DESCRIPTION = "Explore the whole place";
+const std::string SIDE_TASK_SHISI_REWARD = "GREAT!";
+
+const std::string SIDE_TASK_SHIWU = "FISH TASK";																	//火
+const std::string SIDE_TASK_SHIWU_DESCRIPTION = "bring fish to me";
+const std::string SIDE_TASK_SHIWU_REWARD = "GREAT!";
+
+const std::string SIDE_TASK_SHILIU = "ORE TASK";																	//火
+const std::string SIDE_TASK_SHILIU_DESCRIPTION = "bring ore to me";
+const std::string SIDE_TASK_SHILIU_REWARD = "GREAT!";
 
 const std::string NON_TASK = "NON_TASK";//无任务	
 const std::string NON_TASK_DESCRIPTION = "No task";//无任务描述
-
-const std::string MAIN_TASK_GOLD = "TASK_GOLD";//金任务
-const std::string MAIN_TASK_GOLD_DESCRIPTION = "TASK_GOLD";//待补充
-
-const std::string MAIN_TASK_WOOD = "TASK_WOOD";//木任务
-const std::string MAIN_TASK_WOOD_DESCRIPTION = "TASK_WOOD";//待补充
-
-const std::string MAIN_TASK_WATER = "TASK_WATER";//水任务
-const std::string MAIN_TASK_WATER_DESCRIPTION = "TASK_WATER";//待补充
-
-const std::string MAIN_TASK_FIRE = "TASK_FIRE";//火任务
-const std::string MAIN_TASK_FIRE_DESCRIPTION = "TASK_FIRE";//待补充
-
-const std::string MAIN_TASK_EARTH = "TASK_EARTH";//土任务
-const std::string MAIN_TASK_EARTH_DESCRIPTION = "TASK_EARTH";//待补充
-
 class Task {
 public:
 
-	Task() noexcept : name(NON_TASK), description(NON_TASK_DESCRIPTION), priority(0), isFinished(false) {};//默认构造函数
-	Task(const std::string name, const std::string description);//含参构造函数
-	void finish() noexcept;//完成任务
-	std::string getTaskName() const { return name; };
-	std::string getTaskDescription() const { return description; };
-	bool isTaskFinished() const { return isFinished; };
+	Task() noexcept : name(NON_TASK), description(NON_TASK_DESCRIPTION),reward("string"), priority(0) {};			//默认构造函数
+	Task(const std::string name, const std::string description ,const std::string reward);									//含参构造函数
 
-protected:
+	void setid(int id) { this->id = id; };															//设置任务id											
+	void finish() noexcept;																			//完成任务
+	std::string getTaskName() const { return name; };												//得到任务名字
+	std::string getTaskDescription() const { return description; };									//得到任务描述
+	std::string getTaskReward() const { return reward; };											//得到任务奖励
 
+	int getid() { return id; };																		//得到任务id
+	int state = -1;																					//任务状态
+	static int id;
 private:
-	std::string name;//任务名称
-	std::string description;//任务描述
-	int priority;//优先级
-	bool isFinished;//是否完成
+	std::string name;																				//任务名称
+	std::string description;																		//任务描述
+	std::string reward;																				//任务奖励
+
+	int priority;																					//优先级 
+																						//任务id
 };
-
-
 
 #endif

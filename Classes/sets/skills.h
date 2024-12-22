@@ -1,64 +1,48 @@
 #pragma once
 
-#ifndef SKILLS_H
 #define SKILLS_H
 
 #include <string>
-//一些技能 来自gpt
-/*
-元素冲击 (Elemental Surge)
-描述：释放元素的力量，对目标造成伤害。
+#include"cocos2d.h"
+#include "elements.h"
 
-奥术爆发 (Arcane Blast)
-描述：施放一种强大的奥术能量，造成范围伤害。
-
-能量漩涡 (Energy Vortex)
-描述：召唤一个能量漩涡，吸引并击中附近的敌人。
-混沌之光 (Chaos Light)
-描述：释放混沌的能量，造成随机元素伤害。
- 
-元素洪流 (Elemental Torrent)
-描述：释放一股强大的元素洪流，冲击目标。 */
 //技能类
-
-//基础技能  低中高
+ //名称
 const std::string ELEMENT_SURGE = "ELEMENT SURGE";//元素冲击
 const std::string Elemental_Torrent = "Elemental Torrent";//元素洪流
-const std::string Energy_Vortex = "Energy Vortex";//能量漩涡
-//组合技  先后调用先前的来触发
-const std::string Arcane_Blast = "Arcane Blast";//奥术爆发
+const std::string Energy_Vortex = "Energy Vortex";//能量漩涡 
 
+class SkillEffect;  // 前向声明
+
+//技能的基础信息
+struct SkillInfo {
+	std::string name;           //姓名
+	int attack;                 //攻击力
+	float degreerange;		    //攻击角度范围	
+	float range;                //攻击范围
+	std::string particleFile;   // 特效文件路径 
+};
 
 class Skill {
 public:
-	Skill(const std::string name);
+
+	Skill(const SkillInfo& info);
 	virtual ~Skill();
 
-	std::string name;//技能名称 
-};
+	void setColor(ElementType type);																// 设置技能颜色 
 
-class LowLevelSkill : public Skill {
-public:
-	LowLevelSkill(std::string name);
-	virtual ~LowLevelSkill();
+	const std::string& getName() const { return _info.name; }                                       //得到名字
+	int getAttack() const { return _info.attack; }												    //得到攻击力  
+	SkillInfo getInfo() { return _info; }															//得到技能信息
+	virtual float cast(cocos2d::Node* caster, const cocos2d::Vec2& targetPos);                      //得到释放技能的度数 
+	
+	bool isInRange(const cocos2d::Vec2& casterPos, const cocos2d::Vec2& targetPos, const cocos2d::Vec2& clickPos) const; // 检查目标是否在攻击范围内
+	bool isInRange(const cocos2d::Vec2& casterPos, const cocos2d::Vec2& targetPos) const;								 // 检查目标是否在攻击范围内						
+	 
+	SkillInfo _info;    																            //技能信息                                    
+	cocos2d::ParticleSystemQuad* _effect;                                                           //特效   
 
-	int attack;//伤害
-};
-
-class MidLevelSkill : public Skill {
-public:
-	MidLevelSkill(std::string name);
-	virtual ~MidLevelSkill();
-
-	int attack;//伤害
-};
-class HighLevelSkill : public Skill {
-public:
-	HighLevelSkill(std::string name);
-	virtual ~HighLevelSkill();
-
-	int attack;//伤害
 };
 
 
-#endif
+

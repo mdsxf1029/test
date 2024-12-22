@@ -21,7 +21,7 @@ public:
 private:
 	const int MAZE_WIDTH = 100;
 	const int MAZE_HEIGHT = 100;
-	const int TILE_SIZE = 40;
+	const int TILE_SIZE = 16.0f;
 
 	std::vector<std::vector<char>> maze;                                                // 迷宫数组
 	Sprite* player;                                                                     // 玩家精灵	

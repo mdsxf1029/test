@@ -1,17 +1,14 @@
 #include "tasks.h"
 
- 
-Task::Task(std::string name, std::string description) : name(name), description(description)
+int Task::id = 0;
+Task::Task(std::string name, std::string description, std::string reward) : name(name), description(description),reward(reward)
 {
-	//初始化任务状态
-	isFinished = false; //初始化为未完成
-
-	//初始化优先级
+	//初始化
 	if (name == "MAIN_TASK")
 		priority = 2;
 	else if (name == "nonTask")
 	{
-		isFinished = true;
+		state = true;
 		priority = 0;
 	}
 	else
@@ -19,11 +16,9 @@ Task::Task(std::string name, std::string description) : name(name), description(
 }
 
 //完成任务
-void Task::finish() noexcept
+void Task::finish() noexcept                               //完成任务时调用该函数
 {
 	//如果未完成， 状态改为完成
-	if (!isFinished)
-		isFinished = true;
-
-	//完成任务时调用该函数  具体调用条件 看游戏状态
+	if (state==0)
+		state = 1;
 }

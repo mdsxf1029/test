@@ -1,6 +1,6 @@
 #pragma once
-#ifndef INTERACTABLE_H
-#define INTERACTABLE_H
+#ifndef INTERACTION_H
+#define INTERACTION_H
 
 #include <string>
 #include <memory>
@@ -17,4 +17,4 @@ public:
     virtual string GetName() const = 0;       // 获取对象名称
 };
 
-#endif // INTERACTABLE_H
+#endif // INTERACTION_H

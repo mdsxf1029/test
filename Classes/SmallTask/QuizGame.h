@@ -14,6 +14,7 @@ public:
 	static QuizGame* create();
 
 	bool init() override;
+	void createExitButton();
 	bool displayQuestion();
 	void onAnswerSelected(int answerIndex);
 
@@ -28,6 +29,7 @@ public:
 	std::vector<Question> questions;          // 题库
 	int currentQuestion;                      // 当前问题索引
 	int totalQuestions;                       // 总问题数
+	int correctAnswersCount;
 
 private:
 	void shuffleQuestions();                  // 打乱问题顺序

@@ -2,19 +2,62 @@
 #include "tasks.h" 
 #include"skills.h"
 #include "npc.h"
-#include<manager/manager.h>
+#include "Sets/manager.h"
+
 //前置声明
 class Skill;
-class LowLevelSkill;
-class MidLevelSkill;
-class HighLevelSkill;
 
 //基类 NPC类
 //构造函数 传入名称
-NPC::NPC(const std::string name) : name(name){}
-//图像
+NPC::NPC(const std::string name) : name(name) {} 
 
-bool NPC::initWithFile(const std::string& filename)
+//子类
+//友方NPC
+//构造函数
+FriendNpc::FriendNpc(const std::string name) : name(name)
+{
+
+}
+
+void FriendNpc::GiveTask()
+{
+
+}
+
+//敌方NPC   
+//构造函数 传入元素类型和等级 
+EnemyNpc::EnemyNpc(ElementType element, int level, std::shared_ptr<Skill>skill, std::string afilename) :
+	element(element), level(level), isAlive(true), skill(skill), filename(afilename)
+{
+	hp = ENEMY_HP * level;														//初始化血量
+	maxHp = hp;																	//最大血量
+	basic_attack = ENEMY_ATTACK * level;										//初始化攻击力
+	attack = basic_attack + skill->getInfo().attack;							//攻击力
+};
+
+void EnemyNpc::TakeDamage(int damage)											//敌人受到伤害
+{
+	if ((hp - damage) > 0)														//如果血量-伤害大于0
+	{
+		hp -= damage;															//正常扣血
+	}
+	else																		//否则 hp=0
+	{
+		hp = 0;
+		isAlive = false;														//死亡
+	}
+}
+  
+
+
+void EnemyNpc::setPosition(Vec2 position)							//设置位置
+{
+	this->position = position;
+	Sprite::setPosition(position);
+};
+
+
+bool EnemyNpc::initWithFile()                                         //加载图像
 {
 	if (!Sprite::initWithFile(filename)) {
 		std::cerr << "无法加载文件：" << filename << std::endl;
@@ -22,98 +65,3 @@ bool NPC::initWithFile(const std::string& filename)
 	}
 	return true;
 }
-
-//子类
-//友方NPC
-//构造函数 传入task
-FriendNpc::FriendNpc(const std::string name) : name(name)
-{
-	/*
-	if (name == "KING")
-		task = mainTask; //主任务
-	//以下为副任务
-	//可以更换为其他任务 重新设定
-	else if (name == "FishStoreManager")						//鱼店
-		task = sideTaskThree;
-	else if (name == "WeaponStoreManager")						//武器店
-		task = sideTaskFour;
-	else if (name == "VegetableStoreManager")					//蔬菜店
-		task = sideTaskFive;
-	else if (name == "OreStoreManager")							//矿石店
-		task = sideTaskSix;
-	else
-		task = nonTask;
-	*/
-}
-
-void FriendNpc::GiveTask()
-{
-	//给任务
-//界面设置什么的。。
-}
-
-
-//敌方NPC   
-//构造函数 传入元素类型和等级
- 
-EnemyNpc::EnemyNpc(ElementType element, int level, std::shared_ptr<LowLevelSkill>skill) : element(element), level(level), isAlive(true), skill(skill)
-{
-	hp = ENEMY_HP * level;
-	maxHp = hp;
-	basic_attack = ENEMY_ATTACK * level;
-	attack = basic_attack + skill->attack;
-};
-
-EnemyNpc::EnemyNpc(ElementType element, int level, std::shared_ptr<MidLevelSkill> skill) : element(element), level(level), isAlive(true), skill(skill)
-{
-	hp = ENEMY_HP * level;
-	maxHp = hp;
-	basic_attack = ENEMY_ATTACK * level;
-	attack = basic_attack + skill->attack;
-};
-
-
-EnemyNpc::EnemyNpc(ElementType element, int level, std::shared_ptr<HighLevelSkill> skill) : element(element), level(level), isAlive(true), skill(skill)
-{
-	hp = ENEMY_HP * level;
-	maxHp = hp;
-	basic_attack = ENEMY_ATTACK * level;
-	attack = basic_attack + skill->attack;
-};
-
-//敌人受到伤害
-void EnemyNpc::TakeDamage(int damage)
-{
-	if ((hp - damage) > 0)
-	{
-		hp -= damage;
-	}
-	else
-	{
-		hp = 0;
-		isAlive = false;
-	}
-}
-
-//敌人半血 狂暴
-void EnemyNpc::Frenzy()
-{
-	if (hp <= maxHp * 0.5)
-	{
-		attack += 10;
-	}
-};//狂暴
-
-//敌人移动
-void EnemyNpc::Move()
-{
-	//移动
-}
-
-const Vec2& EnemyNpc::getPosition() const { return this->position; };
-const void EnemyNpc::setPosition(Vec2 position)
-{
-	this->position = position;
-	Sprite::setPosition(position);
-};
-

@@ -39,6 +39,8 @@ public:
 
     void menuItem1Callback1(Ref* pSender);
     
+    void switchToMiniMap();
+
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };

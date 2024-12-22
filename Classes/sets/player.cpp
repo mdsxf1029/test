@@ -14,25 +14,13 @@
 * level 初始化为0 hp初始化为50 attack初始化为10
 */
 
-constexpr int PLAYRT_BASE_HP = 50;//玩家初始血量
-constexpr int PLAYER_UPGRADE_HP = 25;//升级增加的血量
-constexpr int PLAYRR_BASE_ATTACK = 10;//玩家初始攻击力
-constexpr int PLAYER_UPGRADE_ATTACK = 5;//升级增加的攻击力
-constexpr int SPEED = 200;//移动速度
 
 //构造函数 初始化姓名 元素属性 等级血量攻击力等等
 Player::Player() : level(0), hp(PLAYRT_BASE_HP), attack(PLAYRR_BASE_ATTACK), isAlive(true)
 {
-	state = PlayerState::NORMAL;
-
-	std::cout << "为你的英雄起一个名字吧：";
-	std::cin >> name;
-	 
-	int elemnt = 0;
-	// 1金 2木 3水 4火 5土
-	//这里通过界面选择元素属性
-	std::cin >> elemnt;//暂且先用cin代替
-
+	state = PlayerState::NORMAL;												//初始化状态
+	name = "hero";																//初始化名字
+	int elemnt = 1;															    //初始化元素属性  开始界面时候，通过选择元素属性
 	switch (elemnt)
 	{
 		case 1:
@@ -55,146 +43,130 @@ Player::Player() : level(0), hp(PLAYRT_BASE_HP), attack(PLAYRR_BASE_ATTACK), isA
 			break;
 	}
 
-	//初始时 装备
-	my_armor = nullptr;//护甲
-	my_helmet = nullptr;//头盔
-	my_shoes = nullptr;//鞋子
-	//初始时 武器
-	weapon = nullptr;//武器为空
-
-	position = Vec2(0, 0);//初始位置
-	//初始化背包
-	bag = Inventory();
+	//初始化
+	my_armor = nullptr;																				//护甲
+	my_helmet = nullptr;																			//头盔
+	my_shoes = nullptr;																				//鞋子
+	weapon = nullptr;																				//武器
+	position = Vec2(0, 0);																			//初始位置
+	bag = Inventory();																				//背包		
 }
 /*
 * name:upgrade
 * level ++， hp+25， attack+5
 */
-void Player::Upgrade()
+//升级
+void Player::Upgrade()																				//升级
 {
-	level++;//等级加1
-	max_hp += PLAYER_UPGRADE_HP;//血量增加
-	hp = max_hp;//血量回复满
-	basic_attack += PLAYER_UPGRADE_ATTACK;//攻击力增加
+	level++;																						//等级加1
+	max_hp += PLAYER_UPGRADE_HP;																	//血量增加
+	hp = max_hp;																					//血量回复满
+	basic_attack += PLAYER_UPGRADE_ATTACK;															//攻击力增加
 }
-
-
-// 玩家攻击敌人
-void Player::AttackEnemy(EnemyNpc& enemy, EventKeyboard::KeyCode KEY)
-{//攻击敌人
-	switch (KEY)
-	{
-		case EventKeyboard::KeyCode::KEY_0:
-		//	Attack(enemy, elementSurge);
-			break;
-		case EventKeyboard::KeyCode::KEY_1:
-			//攻击
-	//		Attack(enemy, elementalTorrent);
-			break;
-		case EventKeyboard::KeyCode::KEY_2:
-			//攻击
-		//	Attack(enemy, energyVortex);
-			break;
-		default:
-			break;
-	}
-	int damage = attack;
-	if (damage > 0) {
-		enemy.hp -= damage;
-		// 显示攻击效果
-	}
-
-	enemy.TakeDamage(attack);
-}
-
-// 玩家受到伤害
-void Player::TakeDamage(int damage)
+//受伤
+void Player::TakeDamage(int damage)																	//玩家受到伤害											
 {
 	if ((hp - damage) > 0)
 	{
-		hp -= damage;
+		hp -= damage;																				//血量减少
 	}
 	else
 	{
-		hp = 0;
-		isAlive = false;
-		//玩家死亡
-//退出战斗场景
-	//游戏结束 或者 返回上一个存档点 或者退出战斗场景
+		hp = 0;																						//血量为0
+		isAlive = false;																			//玩家死亡								
 	}
 }
-
-// 玩家治疗  
-// heal_hp 治疗的血量
-void Player::Heal(int heal_hp)
+//治疗
+void Player::Heal(int heal_hp)																		//玩家治疗							
 {
-	if ((hp + heal_hp) <= max_hp)
-	{
-		hp += heal_hp;
-	}
-	else
-	{
-		hp = max_hp;
-	}
+	if(hp>0&&hp<max_hp)																				//如果血量不足，但不是0
+		hp += heal_hp;																				//血量增加
+	if (hp > max_hp)																				//如果血量大于最大血量
+		hp = max_hp;																				//血量回复满
 }
-
-
-// 获取玩家的当前血量
-int Player::GetHp() const
+//获取玩家的当前血量
+int Player::getHp() const																			//获取玩家的当前血量
 {
 	return this->hp;
 }
-
-// 获取玩家的名字
-std::string Player::GetName() const
+//获取玩家的攻击力
+int Player::getAttack() const																		// 获取玩家的攻击力
 {
-	return this->name;
+	return this->attack;
 }
 
-// 获取玩家的等级
-int Player::GetLevel() const
-{
-	return this->level;
-}
+std::string Player::GetName() const {return this->name;}											// 获取玩家的名字		
+int Player::getMaxHp() const {return max_hp; }														// 获取玩家的最大血量
+int Player::getSpeed() const {return SPEED; }														// 获取玩家的移动速度
+int Player::GetLevel() const {return this->level;}													// 获取玩家的等级
 
-// 移动 需要坐标
-Vec2 Player::Move(EventKeyboard::KeyCode keyCode)
+
+Vec2 Player::Move(EventKeyboard::KeyCode keyCode)													// 玩家移动
 {
-	Vec2 next_position = position;
-	if (isMoving)//如果正在移动
-	{
+	Vec2 next_position = position;																	// 下一个位置					
+	CCLOG("position:%f %f", position.x, position.y);
+	if (isMoving)																					//如果正在移动
+	{																								//获取下一个位置
 		switch (keyCode)
 		{
 			case EventKeyboard::KeyCode::KEY_UP_ARROW:
-				next_position.y += SPEED * Director::getInstance()->getDeltaTime()*level;
+				next_position.y += SPEED * Director::getInstance()->getDeltaTime();
+				isMoving = false;
 				break;
 			case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-				next_position.y -= SPEED * Director::getInstance()->getDeltaTime() * level;
+				next_position.y -= SPEED * Director::getInstance()->getDeltaTime();
+				isMoving = false;
 				break;
 			case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-				next_position.x -= SPEED * Director::getInstance()->getDeltaTime() * level;
+				next_position.x -= SPEED * Director::getInstance()->getDeltaTime();
+				isMoving = false;
 				break;
 			case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-				next_position.x += SPEED * Director::getInstance()->getDeltaTime() * level;
+				next_position.x += SPEED * Director::getInstance()->getDeltaTime();
+				isMoving = false;
 				break;
 			default:
 				break;
 		}
 	}
-	return next_position;
+	CCLOG("next_position:%f %f", next_position.x, next_position.y);
+	return next_position;																			//返回下一个位置
 }
+
 //设定坐标
-void Player::setPosition(const Vec2& newPosition){
-	position = newPosition;                 //更新坐标存储
-	Node::setPosition(position);            //更新地图上显示的坐标
+void Player::setPosition(const Vec2& newPosition) {
+	position = newPosition;																			// 更新坐标成员
 }
 
 //图像
-bool Player::initWithFile(const std::string& filename)
+bool Player::initWithFile(const std::string& filename)												//初始化图像文件							
 {
 	if (!Sprite::initWithFile(filename)) {
-		std::cerr << "无法加载文件：" << filename << std::endl;
+		;
 		return false;
 	}
 	return true;
+}
+
+void Player::clone(Player& hero)
+{ 
+	this->setHp(hero.getHp());																		//设置血量
+	this->setAttack(hero.getAttack());																//设置攻击力
+	this->setLevel(hero.GetLevel());																//设置等级
+	this->setName(hero.GetName());																	//设置名字
+	this->setElement(hero.getElement());															//设置元素属性
+	this->setMoney(hero.money);																		//设置金钱
+	this->setArmor(hero.my_armor);																    //设置护甲
+	this->setHelmet(hero.my_helmet);																//设置头盔
+	this->setShoes(hero.my_shoes);																	//设置鞋子
+	this->setWeapon(hero.weapon);																	//设置武器
+	this->setBag(hero.bag);																			//设置背包
+	this->setAlive(hero.isAlive);																	//设置是否存活
+	this->setState(hero.state);																		//设置状态
+	this->setMoving(hero.isMoving);																	//设置是否移动
+	this->setMovingUp(hero.isMovingUp);																//设置是否向上移动
+	this->setMovingDown(hero.isMovingDown);														    //设置是否向下移动
+	this->setMovingLeft(hero.isMovingLeft);														    //设置是否向左移动
+	this->setMovingRight(hero.isMovingRight);														//设置是否向右移动
+	this->setSpeed(hero.getSpeed());																//设置速度 
 }
