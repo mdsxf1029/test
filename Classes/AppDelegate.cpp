@@ -24,7 +24,6 @@
 
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
-#include "SmallTask/MazeGame.h"
 #include "BattleScene.h"
 #include"BossScene.h"
 
