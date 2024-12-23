@@ -1,0 +1,2 @@
+C:\Users\LENOVO\Projects\Bugs-Bugger-Off\MyGame1\proj.win32\Debug.win32\MyGame1.exe
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\proj.win32\Debug.win32\MyGame1.exe

@@ -1,0 +1,120 @@
+﻿  BattleScene.cpp
+  HelloWorldScene.cpp
+  MiniMapCreateScene.cpp
+  MiniMapMove.cpp
+  MiniMapSwitch.cpp
+  SettingScene.cpp
+  NicknameLayer.cpp
+  items.cpp
+  manager.cpp
+  npc.cpp
+  player.cpp
+  skills.cpp
+  TaskMenu.cpp
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\Sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Sets/player.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Sets/manager.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Sets/manager.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\Sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Sets/player.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\Sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Sets/items.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\Sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Sets/items.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/TaskMenu.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/TaskMenu.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Map/MiniMapCreateScene.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Map/MiniMapCreateScene.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Map/MiniMapMove.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Sets/skills.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Map/MiniMapMove.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Sets/skills.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Map/MiniMapSwitch.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Map/MiniMapSwitch.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Map/SettingScene.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Map/SettingScene.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/BattleScene.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/BattleScene.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\Sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Sets/npc.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\Sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/Sets/npc.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/HelloWorldScene.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/HelloWorldScene.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\player.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/NicknameLayer.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\elements.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+  (编译源文件“../Classes/NicknameLayer.cpp”)
+  
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\TaskMenu.cpp(54,34): warning C4305: “参数”: 从“int”到“GLubyte”截断
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\TaskMenu.cpp(54,34): warning C4309: “参数”: 截断常量值
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(104,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(125,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(147,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(175,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(194,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(71,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(125,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(104,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(147,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(175,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(194,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(71,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(104,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(125,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(147,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(175,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(194,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(71,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(104,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(125,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(147,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(175,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(194,1): warning C4172: 返回局部变量的地址或临时 
+D:\course_content\code-study\code_design\game\MyGame1\MyGame1\Classes\sets\items.h(71,1): warning C4172: 返回局部变量的地址或临时 
+  MyGame1.vcxproj -> D:\course_content\code-study\code_design\game\MyGame1\MyGame1\proj.win32\Debug.win32\MyGame1.exe
+  正在执行自定义生成步骤
+  复制了 0 个文件
